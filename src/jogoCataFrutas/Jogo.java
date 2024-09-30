@@ -9,7 +9,7 @@ public class Jogo {
     private int contadorRodada = 0;
     private String estado = "";
 
-    // Aqui era pra ser em outra classe de configuração mas
+    // Aqui era para ser em outra classe de configuração, mas
     // classes estaticas não funcionam do jeito
     // que a gente tava pensando
     private int[] quantFrutas = new int[5];
@@ -28,10 +28,10 @@ public class Jogo {
     }
 
     public boolean iniciarJogo() {
-
+        return false;
     }
 
     public boolean passarVez() {
-
+        return false;
     }
 }

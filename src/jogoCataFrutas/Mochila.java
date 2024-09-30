@@ -3,8 +3,8 @@ package jogoCataFrutas;
 import frutas.Fruta;
 
 public class Mochila {
-    private Fruta[] listaFrutas = new Fruta[capacidade];
     private int capacidade = 1;
+    private Fruta[] listaFrutas = new Fruta[capacidade];
     private int quantFrutas = 0;
 
     public Mochila() {  }
@@ -36,10 +36,10 @@ public class Mochila {
     }
 
     public boolean removerFruta(String nomeFruta) {
-
+        return false;
     }
 
     public boolean adicionarFruta(String nomeFruta) {
-
+        return false;
     }
 }

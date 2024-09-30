@@ -37,6 +37,6 @@ public class Terreno {
     }
 
     public boolean mudarPosicao(Elemento elemento, int X, int Y) {
-        
+        return false;
     }
 }
