@@ -5,7 +5,7 @@ public class Main {
 
     public static void main (String[] args){
 
-        GerenciadorArquivo gerenciador = new GerenciadorArquivo("arquivo.txt");
+        GerenciadorArquivo gerenciador = new GerenciadorArquivo("config.txt");
 
 
 
