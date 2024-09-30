@@ -24,7 +24,5 @@ public abstract class Fruta extends Elemento {
 
     public abstract boolean buffar(Jogador jogador);
 
-    public boolean nerfar(Jogador jogador) {
-        return false;
-    }
+    public boolean nerfar(Jogador jogador) { }
 }

@@ -8,12 +8,12 @@ public class Terreno {
     
     public Terreno() { }
 
-    // Para quando for gerar um terreno novo
+    // Pra quando for gerar um terreno novo
     public Terreno(int dimensao) {
         this.setDimensao(dimensao);
     }
 
-    // Para quando for pegar um terreno já feito
+    // Pra quando for pegar um terreno já feito
     public Terreno(Elemento[][] tabuleiro) {
         this.setTabuleiro(tabuleiro);
     }
@@ -37,6 +37,6 @@ public class Terreno {
     }
 
     public boolean mudarPosicao(Elemento elemento, int X, int Y) {
-        return false;
+        
     }
 }

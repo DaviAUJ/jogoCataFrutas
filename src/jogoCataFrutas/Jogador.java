@@ -67,31 +67,30 @@ public class Jogador extends Elemento{
 
     public boolean catarFruta(Fruta fruta) {
 
-        return false;
     }
 
     public boolean comerFruta(Fruta fruta) {
-        return false;
+
     }
 
     public boolean empurrar(Jogador alvo) {
-        return false;
+
     }
 
     public boolean moverCima() {
-        return false;
+
     }
 
     public boolean moverBaixo() {
-        return false;
+        
     }
 
     public boolean moverEsquerda() {
-        return false;
+        
     }
 
     public boolean moverDireita() {
-        return false;
+        
     }
 
     public void gerarPontos() {

@@ -13,6 +13,6 @@ public class Generica extends Fruta {
 
     @Override
     public boolean buffar(Jogador jogador) {
-        return false;
+        
     }
 }
