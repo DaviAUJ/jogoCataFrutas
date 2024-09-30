@@ -3,7 +3,7 @@ package cenario;
 import frutas.Fruta;
 
 public class Arvore extends ElementoEstatico {
-    // Talvez esteja meio errado isso aqui de Fruta talvez era pra ser uma string com o nome da fruta ao inves da classe dela
+    // Talvez esteja meio errado isso aqui de Fruta, talvez era para ser uma string com o nome da fruta ao inves da classe dela
     private Fruta tipo = null;
 
     public Arvore(Fruta tipo) {
@@ -15,6 +15,6 @@ public class Arvore extends ElementoEstatico {
     }
 
     public boolean derrubarFruta() {
-
+        return false;
     }
 }
