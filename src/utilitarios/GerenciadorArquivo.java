@@ -18,8 +18,14 @@ public class GerenciadorArquivo {
 
         this.arquivoAtual = new File(caminho);
 
-        if (!arquivoAtual.exists()){
-            System.err.println("Não existe nenhum arquivo de configuração!!!");
+        if (!this.arquivoAtual.exists()){
+            System.out.printf("Não existe um arquivo de configuração. Criando novo %s\n", this.arquivoAtual.getName());
+            try{
+                this.arquivoAtual.createNewFile();
+            }
+            catch (Exception e){
+                System.err.println("NÃO FOI POSSÍVEL CRIAR O ARQUIVO: ERRO: " + e);
+            }
         }
     }
 
@@ -102,4 +108,6 @@ public class GerenciadorArquivo {
     public int pegarEspacoMochila(){
         return this.pegarValAtributo(11);
     }
+
+
 }
