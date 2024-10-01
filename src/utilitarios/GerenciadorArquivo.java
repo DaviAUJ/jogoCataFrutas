@@ -2,13 +2,21 @@ package utilitarios;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.util.concurrent.ExecutionException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+
 
 public class GerenciadorArquivo {
     public File arquivoAtual;
+    private boolean configurado;
 
     private int QTD_TIPOS_DE_FRUTAS;
     private int INFO_POR_FRUTA;
+
+
+    public boolean estaConfigurado(){
+        return configurado;
+    }
 
     public GerenciadorArquivo(String caminho) {
         this.QTD_TIPOS_DE_FRUTAS = 7;
@@ -17,11 +25,13 @@ public class GerenciadorArquivo {
 
 
         this.arquivoAtual = new File(caminho);
+        this.configurado = true;
 
         if (!this.arquivoAtual.exists()){
             System.out.printf("Não existe um arquivo de configuração. Criando novo %s\n", this.arquivoAtual.getName());
             try{
                 this.arquivoAtual.createNewFile();
+                this.configurado = false;
             }
             catch (Exception e){
                 System.err.println("NÃO FOI POSSÍVEL CRIAR O ARQUIVO: ERRO: " + e);
@@ -43,6 +53,8 @@ public class GerenciadorArquivo {
             for (int c = 0; c < nLinha; c++) {
                 linha = paginacao.readLine();
                 if (c + 1 == nLinha){
+                    leitorDeArquivo.close();
+                    paginacao.close();
                     return linha;
                 }
                 if (linha == null) {
@@ -56,6 +68,7 @@ public class GerenciadorArquivo {
         catch (Exception e){
             System.err.println(e);
         }
+
 
         return null;
     }
@@ -101,12 +114,53 @@ public class GerenciadorArquivo {
         return null;
     }
 
-    public int pegarQtdBichadas(){
+    public int pegarChanceBichadas(){
         return this.pegarValAtributo(10);
     }
 
     public int pegarEspacoMochila(){
         return this.pegarValAtributo(11);
+    }
+
+    public boolean salvarNovasConfiguracoes(int dimensao, int qtdPedras, int[][] configFrutas, int chanceBichadas, int tamMochila){
+        try{
+            FileWriter arquivo = new FileWriter(this.arquivoAtual.getPath());
+            BufferedWriter arquivoEditado = new BufferedWriter(arquivo);
+
+            String textoAtual = String.format("dimensao %d", dimensao);
+            arquivoEditado.write(textoAtual);
+            arquivoEditado.newLine();
+
+            textoAtual = String.format("pedras %d", qtdPedras);
+            arquivoEditado.write(textoAtual);
+            arquivoEditado.newLine();
+
+            //Talvez seja interessante implementar essa parte utilizando dicionários no futuro
+            String[] frutas = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
+
+            for (int c = 0; c < configFrutas.length; c++){
+                textoAtual = String.format("%s %d %d", frutas[c], configFrutas[c][0], configFrutas[c][1]);
+                arquivoEditado.write(textoAtual);
+                arquivoEditado.newLine();
+            }
+
+            textoAtual = String.format("bichadas %d", chanceBichadas);
+            arquivoEditado.write(textoAtual);
+            arquivoEditado.newLine();
+
+            textoAtual = String.format("mochila %d", tamMochila);
+            arquivoEditado.write(textoAtual);
+
+            arquivoEditado.flush();
+            arquivoEditado.close();
+            arquivo.close();
+            return true;
+
+        }
+        catch (Exception e){
+            System.err.println(e);
+            return false;
+        }
     }
 
 
