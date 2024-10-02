@@ -52,4 +52,5 @@ Este projeto não possui uma licença definida.
 ## Referências
 - **[Java Language Specification: Switch Statement](https://docs.oracle.com/javase/specs/jls/se8/html/jls-14.html#jls-14.11)**
 - **[Repositório GitHub do Jogo Cata-Frutas](https://github.com/DaviAUJ/jogoCataFrutas)**
+- **[Relatório do Jogo Cata-Frutas (FASE 2)](https://docs.google.com/document/d/1eM5peHkvaT7f6K6dXj9mAdj6X6pDrXhco0JL1q3umXg)**
 
