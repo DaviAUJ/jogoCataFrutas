@@ -116,7 +116,7 @@ public class Terreno {
       for (int i = 0; i < dimensao; i++) {
         for (int j = 0; j < dimensao; j++) {
           if (tabuleiro[i][j] != null) {
-            System.out.print(" " + tabuleiro[i][j].toString() + " ");
+            System.out.print(" " + tabuleiro[i][j].getNome() + " ");
           } else {
             System.out.print(" . ");
           }

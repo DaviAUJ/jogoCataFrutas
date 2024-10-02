@@ -1,13 +1,15 @@
 package jogoCataFrutas;
-import utilitarios.GerenciadorArquivo;
+import cenario.*;
 
 public class Main {
 
     public static void main (String[] args){
 
-        Jogo jogoAtual = new Jogo();
+        Terreno teste = new Terreno(7);
 
-
+        teste.gerarElementosAleatorios(5, "Abacate");
+        teste.gerarElementosAleatorios(10, "Arvore");
+        teste.gerarTerreno();
     }
 
 }
