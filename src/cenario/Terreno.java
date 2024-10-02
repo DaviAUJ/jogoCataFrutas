@@ -1,7 +1,9 @@
 package cenario;
 
 import java.util.Random;
+import frutas.*;
 import jogoCataFrutas.Elemento;
+import jogoCataFrutas.Jogador;
 
 public class Terreno {
 	private int dimensao = 3;
@@ -41,13 +43,14 @@ public class Terreno {
       return false;
   }
 
-  public void gerarElementosAleatorios(int quantidade) {
+  public boolean gerarElementosAleatorios(int quantidade, String classe) {
+    Random gerador = new Random();
 
     // verifica se a quantidade de elementos e maior q as posicoes disponiveis
     if (quantidade > dimensao * dimensao) {
       System.out.println("Nao e possivel gerar " + quantidade + " elementos. Apenas " + (dimensao * dimensao)
           + " posicoes disponiveis...");
-      return;
+      return false;
     }
 
     // array q armazena as posicoes disponiveis
@@ -64,7 +67,7 @@ public class Terreno {
     // gera os elementos nas posicoes disponiveis
     for (int i = 0; i < quantidade; i++) {
       // seleciona uma posicao aleatoria
-      int randomIndex = random.nextInt(index);
+      int randomIndex = gerador.nextInt(index);
       int x = posicoesDisponiveis[randomIndex][0];
       int y = posicoesDisponiveis[randomIndex][1];
 
@@ -74,8 +77,35 @@ public class Terreno {
       index--; // reduz o indice para posicoes validas
 
       // adiciona um novo elemento na posicao
-      tabuleiro[x][y] = new Elemento("E" + (i + 1), x, y); // nome do elemento
+      if(classe.equals("Jogador")) {
+        tabuleiro[x][y] = new Jogador("Jo" + (i + 1), x, y);
+      }
+      else if(classe.equals("Arvore")) {
+        tabuleiro[x][y] = new Arvore("Ar" + (i + 1), x, y, null);
+      }
+      else if(classe.equals("Pedra")) {
+        tabuleiro[x][y] = new Pedra("Pe" + (i + 1), x, y);
+      }
+      else if(classe.equals("Abacate")) {
+        tabuleiro[x][y] = new Abacate("Ab" + (i + 1), x, y, false);
+      }
+      else if(classe.equals("Coco")) {
+        tabuleiro[x][y] = new Coco("Co" + (i + 1), x, y, false);
+      }
+      else if(classe.equals("Generica")) {
+        tabuleiro[x][y] = new Generica("Ge" + (i + 1), x, y, false);
+      }
+      else if(classe.equals("Laranja")) {
+        tabuleiro[x][y] = new Laranja("La" + (i + 1), x, y, false);
+      }
+      else if(classe.equals("Maracauja")) {
+        tabuleiro[x][y] = new Maracuja("Ma" + (i + 1), x, y, false);
+      }
+      else {
+        return false;
+      }
     }
+    return true;
   }
 
   public void gerarTerreno() {
