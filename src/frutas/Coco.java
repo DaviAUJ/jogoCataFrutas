@@ -7,8 +7,8 @@ public class Coco extends Fruta {
         
     }
 
-    public Coco(String nome, int posicaoX, int posicaoY, boolean bichada) {
-        super(nome, posicaoX, posicaoY, bichada);
+    public Coco(String nome, int posicaoX, int posicaoY) {
+        super(nome, posicaoX, posicaoY);
     }
 
     @Override

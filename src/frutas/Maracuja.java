@@ -7,8 +7,8 @@ public class Maracuja extends Fruta {
         
     }
 
-    public Maracuja(String nome, int posicaoX, int posicaoY, boolean bichada) {
-        super(nome, posicaoX, posicaoY, bichada);
+    public Maracuja(String nome, int posicaoX, int posicaoY) {
+        super(nome, posicaoX, posicaoY);
     }
 
     @Override

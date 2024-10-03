@@ -86,7 +86,7 @@ public class Terreno {
 	    return posicoesDisponiveis;
   }
 
-  public boolean gerarElementosAleatorios(int quantidade, String classe) {
+  public boolean gerarElementosAleatorios(int quantidade, String classe, String FrutaArvore) {
     Random gerador = new Random();
 
     // verifica se a quantidade de elementos e maior q as posicoes disponiveis
@@ -122,19 +122,19 @@ public class Terreno {
         tabuleiro[x][y] = new Pedra("Pe" + (i + 1), x, y);
       }
       else if(classe.equals("Abacate")) {
-        tabuleiro[x][y] = new Abacate("Ab" + (i + 1), x, y, false);
+        tabuleiro[x][y] = new Abacate("Ab" + (i + 1), x, y);
       }
       else if(classe.equals("Coco")) {
-        tabuleiro[x][y] = new Coco("Co" + (i + 1), x, y, false);
+        tabuleiro[x][y] = new Coco("Co" + (i + 1), x, y);
       }
       else if(classe.equals("Generica")) {
-        tabuleiro[x][y] = new Generica("Ge" + (i + 1), x, y, false);
+        tabuleiro[x][y] = new Generica("Ge" + (i + 1), x, y);
       }
       else if(classe.equals("Laranja")) {
-        tabuleiro[x][y] = new Laranja("La" + (i + 1), x, y, false);
+        tabuleiro[x][y] = new Laranja("La" + (i + 1), x, y);
       }
       else if(classe.equals("Maracauja")) {
-        tabuleiro[x][y] = new Maracuja("Ma" + (i + 1), x, y, false);
+        tabuleiro[x][y] = new Maracuja("Ma" + (i + 1), x, y);
       }
       else {
         return false;
@@ -145,6 +145,10 @@ public class Terreno {
 
   public void gerarTerreno() {
 	  GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
+	  
+	  this.gerarElementosAleatorios(quant, null)
+	  
+	  for
   }
   
   public void imprimirTerreno() {

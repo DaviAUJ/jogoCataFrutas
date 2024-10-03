@@ -1,11 +1,11 @@
 package frutas;
 
+import java.util.Random;
 import jogoCataFrutas.Elemento;
 import jogoCataFrutas.Jogador;
 import utilitarios.GerenciadorArquivo;
 
 public abstract class Fruta extends Elemento {
-	private float chanceBichada = 0.25f;
     private boolean bichada = false;
 
     public Fruta() {
@@ -13,9 +13,13 @@ public abstract class Fruta extends Elemento {
 
     public Fruta(String nome, int posicaoX, int posicaoY) {
         super(nome, posicaoX, posicaoY);
+        
     	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
+    	Random gerador = new Random();
     	
-    	chanceBichada = (float) arquivo.pegarChanceBichadas() / 100;
+    	if(gerador.nextInt(100) + 1 <= arquivo.pegarChanceBichadas()) {
+    		bichada = true;
+    	}
     }
 
     public boolean isBichada() {

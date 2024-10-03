@@ -14,7 +14,6 @@ public class Jogo {
     public Jogo() {
     	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
     	
-    	chanceBichada = (float) arquivo.pegarChanceBichadas() / 100;
     	espacoMochila = arquivo.pegarEspacoMochila();
     }
 
