@@ -70,6 +70,21 @@ public class Terreno {
   public boolean mudarPosicao(Elemento elemento, int X, int Y) {
       return false;
   }
+  
+  private int[][] PegarPosDiposniveis() {
+	// array q armazena as posicoes disponiveis
+	    int[][] posicoesDisponiveis = new int[dimensao * dimensao][2];
+	    int index = 0;
+
+	    // preenche o array de posicoes disponiveis
+	    for (int i = 0; i < dimensao; i++) {
+	      for (int j = 0; j < dimensao; j++) {
+	        posicoesDisponiveis[index++] = new int[] { i, j };
+	      }
+	    }
+	    
+	    return posicoesDisponiveis;
+  }
 
   public boolean gerarElementosAleatorios(int quantidade, String classe) {
     Random gerador = new Random();
@@ -81,16 +96,8 @@ public class Terreno {
       return false;
     }
 
-    // array q armazena as posicoes disponiveis
-    int[][] posicoesDisponiveis = new int[dimensao * dimensao][2];
-    int index = 0;
-
-    // preenche o array de posicoes disponiveis
-    for (int i = 0; i < dimensao; i++) {
-      for (int j = 0; j < dimensao; j++) {
-        posicoesDisponiveis[index++] = new int[] { i, j };
-      }
-    }
+    int[][] posicoesDisponiveis = this.PegarPosDiposniveis();
+    int index = posicoesDisponiveis.length - 1;
 
     // gera os elementos nas posicoes disponiveis
     for (int i = 0; i < quantidade; i++) {
@@ -137,7 +144,7 @@ public class Terreno {
   }
 
   public void gerarTerreno() {
-	  
+	  GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
   }
   
   public void imprimirTerreno() {

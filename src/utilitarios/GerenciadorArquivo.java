@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 
 
 public class GerenciadorArquivo {
+	public static final String caminhoPadrao = "config.txt";
     public File arquivoAtual;
 
     private int QTD_TIPOS_DE_FRUTAS;
@@ -21,8 +22,6 @@ public class GerenciadorArquivo {
         int chanceBichadas;
         int espacoMochila;
         int[][] configFrutas;
-
-
 
         this.arquivoAtual = new File(caminho);
 
@@ -186,6 +185,4 @@ public class GerenciadorArquivo {
             return false;
         }
     }
-
-
 }

@@ -9,11 +9,10 @@ public class Jogo {
     private Jogador jogador2 = new Jogador();
     private int contadorRodada = 0;
     private String estado = "";
-    private float chanceBichada = 0.25f;
     private int espacoMochila = 1;
     
     public Jogo() {
-    	GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
+    	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
     	
     	chanceBichada = (float) arquivo.pegarChanceBichadas() / 100;
     	espacoMochila = arquivo.pegarEspacoMochila();
