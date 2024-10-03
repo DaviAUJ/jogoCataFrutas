@@ -1,15 +1,14 @@
 package jogoCataFrutas;
 import cenario.*;
+import utilitarios.GerenciadorArquivo;
 
 public class Main {
 
     public static void main (String[] args){
-
-        Terreno teste = new Terreno(7);
-
-        teste.gerarElementosAleatorios(5, "Abacate");
-        teste.gerarElementosAleatorios(10, "Arvore");
-        teste.gerarTerreno();
+    	Jogo jogo = new Jogo();
+    
+        jogo.floresta.imprimirTerreno();
+        System.out.println(jogo.floresta.getDimensao());
     }
 
 }

@@ -4,22 +4,50 @@ import java.util.Random;
 import frutas.*;
 import jogoCataFrutas.Elemento;
 import jogoCataFrutas.Jogador;
+import utilitarios.GerenciadorArquivo;
 
 public class Terreno {
 	private int dimensao = 3;
-  private Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
+	private Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
+	
+	// Aqui era para ser em outra classe de configuração, mas
+    // classes estaticas não funcionam do jeito
+    // que a gente tava pensando
+    public int[] quantArvores = new int[7];
+    public int[] quantFrutasChao = new int[7];
+    public int quantPedras = 0;
+
+    /*
+    * quantArvores {
+    *   0 - Quantidade de árvores de maracujá
+    *   1 - Quantidade de árvores de laranja
+    *   2 - Quantidade de árvores de abacate
+    *   3 - Quantidade de árvores de coco
+    *   4 - Quantidade de árvores de acerola
+    *   5 - Quantidade de árvores de amora
+    *   6 - Quantidade de árvores de goiaba
+    *}
+    *
+    *
+    *
+    *
+    *
+    * */
   
-  public Terreno() { }
+	public Terreno() {
+      GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
+     
+      dimensao = arquivo.pegarDimensao();
+      quantPedras = arquivo.pegarQtdPedras();
 
-  // Pra quando for gerar um terreno novo
-  public Terreno(int dimensao) {
-      this.setDimensao(dimensao);
-  }
+      for (int c = 0; c < quantFrutasChao.length; c++){
+          quantFrutasChao[c] = arquivo.pegarFrutas()[c][1];
+          quantArvores[c] = arquivo.pegarFrutas()[c][0];
+      }
 
-  // Pra quando for pegar um terreno já feito
-  public Terreno(Elemento[][] tabuleiro) {
-      this.setTabuleiro(tabuleiro);
-  }
+      quantArvores[0] = 0; //Maracujás não podem ter árvores específicas (ainda).
+      tabuleiro = new Elemento[dimensao][dimensao];
+	}
 
   public int getDimensao() {
       return dimensao;
@@ -109,6 +137,10 @@ public class Terreno {
   }
 
   public void gerarTerreno() {
+	  
+  }
+  
+  public void imprimirTerreno() {
     if (dimensao < 3) {
       System.out.println("Erro ao gerar o terreno, as dimensoes precisam ser maiores ou iguais a 3...");
     } else {
@@ -118,7 +150,7 @@ public class Terreno {
           if (tabuleiro[i][j] != null) {
             System.out.print(" " + tabuleiro[i][j].getNome() + " ");
           } else {
-            System.out.print(" . ");
+            System.out.print("  .  ");
           }
         }
         System.out.println();
