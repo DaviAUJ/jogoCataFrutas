@@ -1,6 +1,6 @@
 package frutas;
 
-import jogoCataFrutas.Jogador;
+import elementos.Jogador;
 
 public class Maracuja extends Fruta {
 	public Maracuja() {

@@ -1,6 +1,7 @@
 package jogoCataFrutas;
 
-import cenario.Terreno;
+import elementos.Jogador;
+import elementos.Terreno;
 import utilitarios.GerenciadorArquivo;
 
 public class Jogo {

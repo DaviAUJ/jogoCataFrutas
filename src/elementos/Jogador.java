@@ -1,4 +1,4 @@
-package jogoCataFrutas;
+package elementos;
 import frutas.Fruta;
 
 

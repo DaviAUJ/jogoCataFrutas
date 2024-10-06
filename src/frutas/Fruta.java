@@ -1,8 +1,9 @@
 package frutas;
 
 import java.util.Random;
-import jogoCataFrutas.Elemento;
-import jogoCataFrutas.Jogador;
+
+import elementos.Elemento;
+import elementos.Jogador;
 import utilitarios.GerenciadorArquivo;
 
 public abstract class Fruta extends Elemento {
