@@ -1,21 +1,19 @@
 package cenario;
 
+import java.util.Arrays;
 import java.util.Random;
 import frutas.*;
 import jogoCataFrutas.Elemento;
 import jogoCataFrutas.Jogador;
+import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
 
 public class Terreno {
 	private int dimensao = 3;
 	private Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
-	
-	// Aqui era para ser em outra classe de configuração, mas
-    // classes estaticas não funcionam do jeito
-    // que a gente tava pensando
-    public int[] quantArvores = new int[7];
-    public int[] quantFrutasChao = new int[7];
-    public int quantPedras = 0;
+	private int[] quantArvores = new int[6];
+    private int[] quantFrutasChao = new int[7];
+    private int quantPedras = 0;
 
     /*
     * quantArvores {
@@ -36,17 +34,13 @@ public class Terreno {
   
 	public Terreno() {
       GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
-     
+      
       dimensao = arquivo.pegarDimensao();
       quantPedras = arquivo.pegarQtdPedras();
-
-      for (int c = 0; c < quantFrutasChao.length; c++){
-          quantFrutasChao[c] = arquivo.pegarFrutas()[c][1];
-          quantArvores[c] = arquivo.pegarFrutas()[c][0];
-      }
-
-      quantArvores[0] = 0; //Maracujás não podem ter árvores específicas (ainda).
       tabuleiro = new Elemento[dimensao][dimensao];
+      
+      quantArvores = Arrays.copyOfRange(Extras.colunaMatriz(arquivo.pegarFrutas(), 0), 1, 7);
+      quantFrutasChao = Extras.colunaMatriz(arquivo.pegarFrutas(), 1);
 	}
 
   public int getDimensao() {
@@ -71,22 +65,7 @@ public class Terreno {
       return false;
   }
   
-  private int[][] PegarPosDiposniveis() {
-	// array q armazena as posicoes disponiveis
-	    int[][] posicoesDisponiveis = new int[dimensao * dimensao][2];
-	    int index = 0;
-
-	    // preenche o array de posicoes disponiveis
-	    for (int i = 0; i < dimensao; i++) {
-	      for (int j = 0; j < dimensao; j++) {
-	        posicoesDisponiveis[index++] = new int[] { i, j };
-	      }
-	    }
-	    
-	    return posicoesDisponiveis;
-  }
-
-  public boolean gerarElementosAleatorios(int quantidade, String classe, String FrutaArvore) {
+  public boolean gerarElementosAleatorios(String classe, int quantidade) {
     Random gerador = new Random();
 
     // verifica se a quantidade de elementos e maior q as posicoes disponiveis
@@ -96,8 +75,18 @@ public class Terreno {
       return false;
     }
 
-    int[][] posicoesDisponiveis = this.PegarPosDiposniveis();
-    int index = posicoesDisponiveis.length - 1;
+    // array q armazena as posicoes disponiveis
+    int[][] posicoesDisponiveis = new int[dimensao * dimensao][2];
+    int index = 0;
+
+    // preenche o array de posicoes disponiveis
+    for (int i = 0; i < dimensao; i++) {
+      for (int j = 0; j < dimensao; j++) {
+    	  if(tabuleiro[i][j] == null ) {
+    		  posicoesDisponiveis[index++] = new int[] { i, j };
+    	  }
+      }
+    }
 
     // gera os elementos nas posicoes disponiveis
     for (int i = 0; i < quantidade; i++) {
@@ -115,11 +104,17 @@ public class Terreno {
       if(classe.equals("Jogador")) {
         tabuleiro[x][y] = new Jogador("Jo" + (i + 1), x, y);
       }
-      else if(classe.equals("Arvore")) {
+      else if(classe.equals("Arvore")) {    		
         tabuleiro[x][y] = new Arvore("Ar" + (i + 1), x, y, null);
       }
       else if(classe.equals("Pedra")) {
         tabuleiro[x][y] = new Pedra("Pe" + (i + 1), x, y);
+      }
+      else if(classe.equals("Maracuja")) {
+    	  tabuleiro[x][y] = new Maracuja("Ma" + (i + 1), x, y);
+      }
+      else if(classe.equals("Laranja")) {
+    	  tabuleiro[x][y] = new Laranja("La" + (i + 1), x, y);
       }
       else if(classe.equals("Abacate")) {
         tabuleiro[x][y] = new Abacate("Ab" + (i + 1), x, y);
@@ -129,12 +124,6 @@ public class Terreno {
       }
       else if(classe.equals("Generica")) {
         tabuleiro[x][y] = new Generica("Ge" + (i + 1), x, y);
-      }
-      else if(classe.equals("Laranja")) {
-        tabuleiro[x][y] = new Laranja("La" + (i + 1), x, y);
-      }
-      else if(classe.equals("Maracauja")) {
-        tabuleiro[x][y] = new Maracuja("Ma" + (i + 1), x, y);
       }
       else {
         return false;
@@ -146,9 +135,21 @@ public class Terreno {
   public void gerarTerreno() {
 	  GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 	  
-	  this.gerarElementosAleatorios(quant, null)
-	  
-	  for
+	  this.gerarElementosAleatorios("Jogador", 2);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Arvore", Extras.somarVetor(quantArvores));
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Pedra", quantPedras);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Maracuja", quantFrutasChao[0]);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Laranja", quantFrutasChao[1]);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Abacate", quantFrutasChao[2]);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Coco", quantFrutasChao[3]);
+	  this.imprimirTerreno();
+	  this.gerarElementosAleatorios("Generica", Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 4, 7)));
   }
   
   public void imprimirTerreno() {

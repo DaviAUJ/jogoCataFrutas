@@ -1,18 +1,12 @@
 package cenario;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import frutas.Fruta;
-import utilitarios.*;
-
 public class Arvore extends ElementoEstatico {
-    private static ArrayList<Integer> faltando = new ArrayList<Integer>(Arrays.asList(Extras.colunaMatriz(new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao).pegarFrutas(), 1)));
     private String tipo;
-
-    public Arvore(String nome, int posX, int posY) {
+    
+    public Arvore(String nome, int posX, int posY, String tipo) {
         super(nome, posX, posY);
         
-        
+        this.tipo = tipo;
     }
 
     public String getTipo() {
@@ -22,4 +16,6 @@ public class Arvore extends ElementoEstatico {
     public boolean derrubarFruta() {
         return false;
     }
+    
+
 }

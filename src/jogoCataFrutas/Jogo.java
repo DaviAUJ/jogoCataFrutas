@@ -9,13 +9,8 @@ public class Jogo {
     private Jogador jogador2 = new Jogador();
     private int contadorRodada = 0;
     private String estado = "";
-    private int espacoMochila = 1;
     
-    public Jogo() {
-    	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
-    	
-    	espacoMochila = arquivo.pegarEspacoMochila();
-    }
+    public Jogo() {  }
 
     public String getEstado() {
         return estado;
