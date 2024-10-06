@@ -1,4 +1,4 @@
-package jogoCataFrutas;
+package elementos;
 
 public abstract class Elemento {
 	private String nome = "";

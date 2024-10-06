@@ -1,4 +1,4 @@
-package cenario;
+package elementos;
 
 public class Grama extends ElementoEstatico {
     public Grama(String nome, int posX, int posY) {

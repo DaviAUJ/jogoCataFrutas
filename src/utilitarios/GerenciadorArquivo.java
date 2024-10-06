@@ -7,31 +7,56 @@ import java.io.BufferedWriter;
 
 
 public class GerenciadorArquivo {
+	public static final String caminhoPadrao = "config.txt";
     public File arquivoAtual;
-    private boolean configurado;
 
     private int QTD_TIPOS_DE_FRUTAS;
     private int INFO_POR_FRUTA;
 
-
-    public boolean estaConfigurado(){
-        return configurado;
-    }
-
     public GerenciadorArquivo(String caminho) {
         this.QTD_TIPOS_DE_FRUTAS = 7;
         this.INFO_POR_FRUTA = 2;
-
-
+        
+        int dimensao;
+        int qtdPedras;
+        int chanceBichadas;
+        int espacoMochila;
+        int[][] configFrutas;
 
         this.arquivoAtual = new File(caminho);
-        this.configurado = true;
 
         if (!this.arquivoAtual.exists()){
             System.out.printf("Não existe um arquivo de configuração. Criando novo %s\n", this.arquivoAtual.getName());
             try{
                 this.arquivoAtual.createNewFile();
-                this.configurado = false;
+                
+                //Código para construir baseado no novo arquivo.
+                //Essas informações devem vir do front-end futuramente.
+                dimensao = 6;
+                qtdPedras = 7;
+                int[] maracuja = {3, 1};
+                int[] laranja = {2, 1};
+                int[] abacate = {2, 3};
+                int[] coco = {2, 1};
+                int[] acerola = {1, 2};
+                int[] amora = {1, 1};
+                int[] goiaba = {1, 1};
+
+                configFrutas = new int[7][];
+                configFrutas[0] = maracuja;
+                configFrutas[1] = laranja;
+                configFrutas[2] = abacate;
+                configFrutas[3] = coco;
+                configFrutas[4] = acerola;
+                configFrutas[5] = amora;
+                configFrutas[6] = goiaba;
+
+                chanceBichadas = 25;
+                espacoMochila = 10;
+
+
+                //É interessante que essa função só seja chamada caso o botão de salvar for pressionado.
+                this.salvarNovasConfiguracoes(dimensao, qtdPedras, configFrutas, chanceBichadas, espacoMochila);
             }
             catch (Exception e){
                 System.err.println("NÃO FOI POSSÍVEL CRIAR O ARQUIVO: ERRO: " + e);
@@ -40,8 +65,6 @@ public class GerenciadorArquivo {
     }
 
     private String pegarLinha(int nLinha) {
-
-
         FileReader leitorDeArquivo;
         BufferedReader paginacao;
 
@@ -162,6 +185,4 @@ public class GerenciadorArquivo {
             return false;
         }
     }
-
-
 }

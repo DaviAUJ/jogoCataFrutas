@@ -1,14 +1,14 @@
 package frutas;
 
-import jogoCataFrutas.Jogador;
+import elementos.Jogador;
 
 public class Generica extends Fruta {
     public Generica() {
         
     }
 
-    public Generica(String nome, int posicaoX, int posicaoY, boolean bichada) {
-        super(nome, posicaoX, posicaoY, bichada);
+    public Generica(String nome, int posicaoX, int posicaoY) {
+        super(nome, posicaoX, posicaoY);
     }
 
     @Override

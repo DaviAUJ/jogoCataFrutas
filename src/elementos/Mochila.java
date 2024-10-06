@@ -1,17 +1,17 @@
-package jogoCataFrutas;
+package elementos;
 
 import frutas.Fruta;
+import utilitarios.GerenciadorArquivo;
 
 public class Mochila {
     private int capacidade = 1;
     private Fruta[] listaFrutas = new Fruta[capacidade];
     private int quantFrutas = 0;
 
-    public Mochila() {  }
-
-    public Mochila(int capacidade) {
-        this.capacidade = capacidade;
-        listaFrutas = new Fruta[capacidade];
+    public Mochila() {
+    	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
+    	
+    	capacidade = arquivo.pegarEspacoMochila();
     }
 
     public int getCapacidade() {
