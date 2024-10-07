@@ -113,19 +113,18 @@ public class Terreno {
 		this.gerarElementosAleatorios(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 4, 7)));
 		
 		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
+		int contadorGrama = 0;
 		
 		// Pegando todas as árvores
 		for (int i = 0; i < dimensao; i++) {
 			for (int j = 0; j < dimensao; j++) {
-				// tirar esse trycatch depois de implementar a funcionalidade de preencher espaços vazios com grama
-				// .getclass da erro quando é null
-				try {
-					if (tabuleiro[i][j].getClass() == Arvore.class) {
-						arvores.add((Arvore) tabuleiro[i][j]);
-					}
+				if (tabuleiro[i][j] == null) {
+					tabuleiro[i][j] = new Grama("Gr" + contadorGrama,i,j);
+					contadorGrama++;
 				}
-				catch(Exception e) {
-					System.out.println("null");
+				
+				else if(tabuleiro[i][j] instanceof Arvore) {
+					arvores.add((Arvore) tabuleiro[i][j]);
 				}
 			}
 		}
