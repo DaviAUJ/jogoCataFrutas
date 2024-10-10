@@ -21,6 +21,10 @@ public class Jogo {
         this.estado = estado;
     }
 
+    public Terreno getFloresta() {
+        return this.floresta;
+    }
+
     public boolean iniciarJogo() {
         return false;
     }
