@@ -14,6 +14,7 @@ public class Maracuja extends Fruta {
     	this.posicaoX = posX;
     	this.posicaoY = posY;
     }
+	
     @Override
     public boolean buffar(Jogador jogador) {
         return false;

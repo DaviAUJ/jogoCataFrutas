@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+
+import excecoes.elementosDemaisException;
 import frutas.*;
 import utilitarios.*;
 
@@ -20,12 +22,19 @@ public class Terreno {
 		GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
 
 		dimensao = arquivo.pegarDimensao();
+		
+		if(dimensao < 3) {
+			dimensao = 3;
+		}
+		
 		quantPedras = arquivo.pegarQtdPedras();
 		tabuleiro = new Elemento[dimensao][dimensao];
 
 		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(arquivo.pegarFrutas(), 0), 1, 7);
 		quantFrutasChao = Extras.colunaMatriz(arquivo.pegarFrutas(), 1);
 	}
+	
+	
 
 	public int getDimensao() {
 		return dimensao;
@@ -49,15 +58,8 @@ public class Terreno {
 		return false;
 	}
 
-	public <T extends Elemento> boolean gerarElementosAleatorios(Class<T> classe, int quantidade) {
+	public <T extends Elemento> boolean gerarElementosAleatorios(Class<T> classe, int quantidade) throws elementosDemaisException {
 		Random gerador = new Random();
-
-		// verifica se a quantidade de elementos e maior q as posicoes disponiveis
-		if (quantidade > dimensao * dimensao) {
-			System.out.println("Nao e possivel gerar " + quantidade + " elementos. Apenas " + (dimensao * dimensao)
-					+ " posicoes disponiveis...");
-			return false;
-		}
 
 		// array q armazena as posicoes disponiveis
 		int[][] posicoesDisponiveis = new int[dimensao * dimensao][2];
@@ -70,6 +72,11 @@ public class Terreno {
 					posicoesDisponiveis[index++] = new int[] { i, j };
 				}
 			}
+		}
+		
+		// Verificando se a quantidade de elementos passada como argumento vai estourar a matriz do tabuleiro
+		if(index + 1 < quantidade) {
+			throw new elementosDemaisException("ERRO - tentando colocar elementos de mais no tabuleiro");
 		}
 		
 		// gera os elementos nas posicoes disponiveis
@@ -103,14 +110,20 @@ public class Terreno {
 	public void gerarTerreno() {
 		int totalArvores = Extras.somarVetor(quantTipoArvores);
 		
-		this.gerarElementosAleatorios(Jogador.class, 2);
-		this.gerarElementosAleatorios(Arvore.class, totalArvores);
-		this.gerarElementosAleatorios(Pedra.class, quantPedras);
-		this.gerarElementosAleatorios(Maracuja.class, quantFrutasChao[0]);
-		this.gerarElementosAleatorios(Laranja.class, quantFrutasChao[1]);
-		this.gerarElementosAleatorios(Abacate.class, quantFrutasChao[2]);
-		this.gerarElementosAleatorios(Coco.class, quantFrutasChao[3]);
-		this.gerarElementosAleatorios(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 4, 7)));
+		try {
+			this.gerarElementosAleatorios(Jogador.class, 2);
+			this.gerarElementosAleatorios(Arvore.class, totalArvores);
+			this.gerarElementosAleatorios(Pedra.class, quantPedras);
+			this.gerarElementosAleatorios(Maracuja.class, quantFrutasChao[0]);
+			this.gerarElementosAleatorios(Laranja.class, quantFrutasChao[1]);
+			this.gerarElementosAleatorios(Abacate.class, quantFrutasChao[2]);
+			this.gerarElementosAleatorios(Coco.class, quantFrutasChao[3]);
+			this.gerarElementosAleatorios(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 4, 7)));
+		}
+		catch(Exception e) {
+			System.err.println("não foi possivel criar o terreno - Erro:" + e);
+		}
+		
 		
 		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
 		int contadorGrama = 0;
@@ -122,7 +135,6 @@ public class Terreno {
 					tabuleiro[i][j] = new Grama("Gr" + contadorGrama,i,j);
 					contadorGrama++;
 				}
-				
 				else if(tabuleiro[i][j] instanceof Arvore) {
 					arvores.add((Arvore) tabuleiro[i][j]);
 				}
@@ -137,10 +149,12 @@ public class Terreno {
 		tipoFaltando.put(Coco.class, quantTipoArvores[2]);
 		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantTipoArvores, 3, 6)));
 		
-		for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
-			for(int i = 0; i < tipoFaltando.get(classe); i++) {
-				arvores.getFirst().setTipo(classe);
-				arvores.removeFirst();
+		if(arvores.size() > 0 ) {
+			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
+				for(int i = 0; i < tipoFaltando.get(classe); i++) {
+					arvores.getFirst().setTipo(classe);
+					arvores.removeFirst();
+				}
 			}
 		}
 	}

@@ -17,6 +17,10 @@ public abstract class Fruta extends Elemento {
     		bichada = true;
     	}
     }
+    
+    public void setBichada(boolean bichada) {
+    	this.bichada = bichada;
+    }
 
     public boolean isBichada() {
         return bichada;
