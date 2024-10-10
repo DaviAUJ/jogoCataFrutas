@@ -7,8 +7,12 @@ public class Abacate extends Fruta {
         
     }
 
-    public Abacate(String nome, int posicaoX, int posicaoY) {
-        super(nome, posicaoX, posicaoY);
+    public Abacate(String nome, int posX, int posY) {
+        super();
+        
+        this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
 
     @Override

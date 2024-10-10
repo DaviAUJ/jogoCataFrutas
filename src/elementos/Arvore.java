@@ -8,12 +8,15 @@ public class Arvore extends ElementoEstatico {
     public Arvore() {  }
     
     public Arvore(String nome, int posX, int posY) {
-    	super(nome, posX, posY);
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
     
     public Arvore(String nome, int posX, int posY, Class<? extends Fruta> tipo) {
-        super(nome, posX, posY);
-        
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
         this.tipo = tipo;
     }
 

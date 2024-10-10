@@ -16,7 +16,9 @@ public class Jogador extends Elemento{
     }
 
     public Jogador(String nome, int posX, int posY) {
-        super(nome, posX, posY);
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
 
     public int getPontosMovimento() {

@@ -7,10 +7,14 @@ public class Coco extends Fruta {
         
     }
 
-    public Coco(String nome, int posicaoX, int posicaoY) {
-        super(nome, posicaoX, posicaoY);
+    public Coco(String nome, int posX, int posY) {
+        super();
+        
+        this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
-
+    
     @Override
     public boolean buffar(Jogador jogador) {
         return false;

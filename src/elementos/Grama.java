@@ -2,6 +2,8 @@ package elementos;
 
 public class Grama extends ElementoEstatico {
     public Grama(String nome, int posX, int posY) {
-        super(nome, posX, posY);
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
 }

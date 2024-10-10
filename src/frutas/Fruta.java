@@ -7,14 +7,9 @@ import elementos.Jogador;
 import utilitarios.GerenciadorArquivo;
 
 public abstract class Fruta extends Elemento {
-    private boolean bichada = false;
+    protected boolean bichada = false;
 
     public Fruta() {
-    }
-
-    public Fruta(String nome, int posicaoX, int posicaoY) {
-        super(nome, posicaoX, posicaoY);
-        
     	GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
     	Random gerador = new Random();
     	
