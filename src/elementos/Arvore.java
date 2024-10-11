@@ -1,10 +1,11 @@
 package elementos;
 
-/**
- * Esta classe representa uma árvore no terreno, que pode ter um tipo específico de fruta associada.
- */
-
 import frutas.Fruta;
+
+/**
+ * Esta classe representa uma árvore no terreno, que pode ter um tipo específico
+ * de fruta associada.
+ */
 
 public class Arvore extends ElementoEstatico {
     private Class<? extends Fruta> tipo;
