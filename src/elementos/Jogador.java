@@ -45,7 +45,7 @@ public class Jogador extends Elemento{
         this.estado = estado;
     }
 
-    public boolean isBuffForca() {
+    public boolean getBuffForca() {
         return buffForca;
     }
 
@@ -53,7 +53,7 @@ public class Jogador extends Elemento{
         this.buffForca = buffForca;
     }
 
-    public boolean isBuffAgilidade() {
+    public boolean getBuffAgilidade() {
         return buffAgilidade;
     }
 
@@ -61,7 +61,7 @@ public class Jogador extends Elemento{
         this.buffAgilidade = buffAgilidade;
     }
 
-    public boolean isNerfBichada() {
+    public boolean getNerfBichada() {
         return nerfBichada;
     }
 

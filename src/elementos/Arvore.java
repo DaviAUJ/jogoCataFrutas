@@ -27,4 +27,8 @@ public class Arvore extends ElementoEstatico {
     public void setTipo(Class<? extends Fruta> classe) {
     	tipo = classe;
     }
+    
+    public boolean derrubarFruta() {
+    	return false;
+    }
 }
