@@ -1,19 +1,10 @@
 package elementos;
 
 public abstract class Elemento {
-	private String nome = "";
-	private int posicaoX = 0;
-	private int posicaoY = 0;
-
-	public Elemento() {
-	}
-
-	public Elemento(String nome, int posicaoX, int posicaoY) {
-		this.nome = nome;
-		this.posicaoX = posicaoX;
-		this.posicaoY = posicaoY;
-	}
-
+	protected String nome = "";
+	protected int posicaoX = 0;
+	protected int posicaoY = 0;
+	
 	public String getNome() {
 		return nome;
 	}

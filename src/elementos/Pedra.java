@@ -4,6 +4,8 @@ public class Pedra extends ElementoEstatico {
 	public Pedra() {  }
 	
     public Pedra(String nome, int posX, int posY) {
-        super(nome, posX, posY);
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
 }

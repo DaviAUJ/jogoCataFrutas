@@ -16,7 +16,9 @@ public class Jogador extends Elemento{
     }
 
     public Jogador(String nome, int posX, int posY) {
-        super(nome, posX, posY);
+    	this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
 
     public int getPontosMovimento() {
@@ -43,7 +45,7 @@ public class Jogador extends Elemento{
         this.estado = estado;
     }
 
-    public boolean isBuffForca() {
+    public boolean getBuffForca() {
         return buffForca;
     }
 
@@ -51,7 +53,7 @@ public class Jogador extends Elemento{
         this.buffForca = buffForca;
     }
 
-    public boolean isBuffAgilidade() {
+    public boolean getBuffAgilidade() {
         return buffAgilidade;
     }
 
@@ -59,7 +61,7 @@ public class Jogador extends Elemento{
         this.buffAgilidade = buffAgilidade;
     }
 
-    public boolean isNerfBichada() {
+    public boolean getNerfBichada() {
         return nerfBichada;
     }
 

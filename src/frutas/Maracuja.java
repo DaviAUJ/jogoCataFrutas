@@ -7,10 +7,14 @@ public class Maracuja extends Fruta {
         
     }
 
-    public Maracuja(String nome, int posicaoX, int posicaoY) {
-        super(nome, posicaoX, posicaoY);
+	public Maracuja(String nome, int posX, int posY) {
+        super();
+        
+        this.nome = nome;
+    	this.posicaoX = posX;
+    	this.posicaoY = posY;
     }
-
+	
     @Override
     public boolean buffar(Jogador jogador) {
         return false;
