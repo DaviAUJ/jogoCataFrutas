@@ -164,6 +164,8 @@ public class Terreno {
 	/**
 	 * Gera o terreno, colocando árvores, pedras, frutas e gramas nas posições
 	 * disponíveis.
+	 * @return true se o terreno foi gerado com sucesso ou false caso contrário.
+	 *
 	 */
 
 	public boolean gerarTerreno() {
