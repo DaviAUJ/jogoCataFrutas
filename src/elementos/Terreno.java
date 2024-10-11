@@ -107,7 +107,7 @@ public class Terreno {
 		return true;
 	}
 
-	public void gerarTerreno() {
+	public boolean gerarTerreno() {
 		int totalArvores = Extras.somarVetor(quantTipoArvores);
 		
 		try {
@@ -122,6 +122,7 @@ public class Terreno {
 		}
 		catch(Exception e) {
 			System.err.println("não foi possivel criar o terreno - Erro:" + e);
+			return false;
 		}
 		
 		
@@ -149,7 +150,7 @@ public class Terreno {
 		tipoFaltando.put(Coco.class, quantTipoArvores[2]);
 		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantTipoArvores, 3, 6)));
 		
-		if(arvores.size() > 0 ) {
+		if(!arvores.isEmpty()) {
 			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
 				for(int i = 0; i < tipoFaltando.get(classe); i++) {
 					arvores.getFirst().setTipo(classe);
@@ -157,6 +158,8 @@ public class Terreno {
 				}
 			}
 		}
+
+		return true;
 	}
 
 	public void imprimirTerreno() {
