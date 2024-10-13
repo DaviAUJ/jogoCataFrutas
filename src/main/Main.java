@@ -1,9 +1,12 @@
 package main;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import visao.*;
 import jogoCataFrutas.*;
 
 import javax.swing.*;
+
+
 
 /**
  * Classe principal do jogo Cata Frutas.
@@ -21,6 +24,10 @@ public class Main {
     public static void main(String[] args) {
         Jogo novoJogo = new Jogo();
         final int SIZE = 800;
+
+        FlatDarkLaf.setup();
+
+
 
         boolean conseguiuGerar = novoJogo.getFloresta().gerarTerreno();
         if (!conseguiuGerar) {
