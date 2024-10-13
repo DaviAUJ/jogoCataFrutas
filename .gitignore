@@ -1,2 +1,6 @@
 /bin/
 *.txt
+.idea/
+*.iml
+src/out/
+src/META-INF
