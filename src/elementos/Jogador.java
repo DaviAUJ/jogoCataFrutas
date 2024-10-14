@@ -11,7 +11,7 @@ public class Jogador extends Elemento {
     private Mochila mochila = new Mochila();
     private Terreno local;
 
-    private int pontosMovimento = 0;
+    private int pontosMovimento = 3;
     private int pontosOuro = 0;
     private String estado = "";
 
@@ -182,18 +182,29 @@ public class Jogador extends Elemento {
         return false;
     }
 
-    public boolean moverLivre(int posX, int posY) {
-        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
-            return false;
+    public char moverLivre(int posX, int posY) {
+    	try {
+	        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
+	            return 'p';
+	        }
+	        
+	        if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
+	        	return 'j';
+	        }
+	        
+        	// Trocando a posição do jogador
+        	((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
+        	((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
+        	this.posicaoX = posX;
+        	this.posicaoY = posY;
+        	
+        	return 's';	
         }
-
-        // Trocando a posição do jogador
-        ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
-        ((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
-        this.posicaoX = posX;
-        this.posicaoY = posY;
-
-        return true;
+        catch(Exception e) {
+        	System.out.println("Tentando mover o jogador fora do campo: " + e);
+        	
+        	return 'n';
+        }
     }
 
     /**
@@ -203,7 +214,30 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverCima() {
-        return this.moverLivre(this.posicaoX - 1, this.posicaoY);
+    	char tentativa = 'n';
+    	
+    	if(1 <= this.pontosMovimento) {
+    		tentativa = this.moverLivre(this.posicaoX - 1, this.posicaoY);
+    	}
+    	
+    	if(tentativa == 'j') {
+    		// empurrar
+    		return false;
+    	}
+    	
+    	if(this.pontosMovimento < 3) {
+    		return false;
+    	}
+    	
+        if(tentativa == 'p') {
+        	tentativa = this.moverLivre(this.posicaoX - 2, this.posicaoY);
+        }
+        
+        if(tentativa == 'n' || tentativa == 'p') {
+        	return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -213,7 +247,30 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverBaixo() {
-        return this.moverLivre(this.posicaoX + 1, this.posicaoY);
+    	char tentativa = 'n';
+    	
+    	if(1 <= this.pontosMovimento) {
+    		tentativa = this.moverLivre(this.posicaoX + 1, this.posicaoY);
+    	}
+    	
+    	if(tentativa == 'j') {
+    		// empurrar
+    		return false;
+    	}
+    	
+    	if(this.pontosMovimento < 3) {
+    		return false;
+    	}
+    	
+        if(tentativa == 'p') {
+        	tentativa = this.moverLivre(this.posicaoX + 2, this.posicaoY);
+        }
+        
+        if(tentativa == 'n' || tentativa == 'p') {
+        	return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -223,7 +280,30 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverEsquerda() {
-        return this.moverLivre(this.posicaoX, this.posicaoY - 1);
+    	char tentativa = 'n';
+    	
+    	if(1 <= this.pontosMovimento) {
+    		tentativa = this.moverLivre(this.posicaoX, this.posicaoY - 1);
+    	}
+    	
+    	if(tentativa == 'j') {
+    		// empurrar
+    		return false;
+    	}
+    	
+    	if(this.pontosMovimento < 3) {
+    		return false;
+    	}
+    	
+        if(tentativa == 'p') {
+        	tentativa = this.moverLivre(this.posicaoX, this.posicaoY - 2);
+        }
+        
+        if(tentativa == 'n' || tentativa == 'p') {
+        	return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -233,7 +313,30 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverDireita() {
-        return this.moverLivre(this.posicaoX, this.posicaoY + 1);
+    	char tentativa = 'n';
+    	
+    	if(1 <= this.pontosMovimento) {
+    		tentativa = this.moverLivre(this.posicaoX, this.posicaoY + 1);
+    	}
+    	
+    	if(tentativa == 'j') {
+    		// empurrar
+    		return false;
+    	}
+    	
+    	if(this.pontosMovimento < 3) {
+    		return false;
+    	}
+    	
+        if(tentativa == 'p') {
+        	tentativa = this.moverLivre(this.posicaoX , this.posicaoY + 2);
+        }
+        
+        if(tentativa == 'n' || tentativa == 'p') {
+        	return false;
+        }
+        
+        return true;
     }
 
     /** Gera pontos para o jogador (a implementação ainda não existe). */

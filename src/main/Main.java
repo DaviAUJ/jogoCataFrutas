@@ -40,32 +40,37 @@ public class Main {
         visaoPrincipal.setLocationRelativeTo(null);
 
         while(true) {
+        	novoJogo.contarRodada();
+        	System.out.println("Rodada: " + novoJogo.getContadorRodada());
+        	
             char input;
+            boolean deuCerto = false;
 
             // Gambiarra temporaria
             visaoTerreno = new VisaoTerreno(novoJogo.getFloresta(), SIZE);
 
             visaoPrincipal.add(visaoTerreno);
             visaoPrincipal.setVisible(true);
-            visaoPrincipal.setLocationRelativeTo(null);
+            
+            while(!deuCerto) {
+            	Scanner scanner = new Scanner(System.in);
+                System.out.println("Comando: ");
+                input = scanner.next().charAt(0);
 
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Comando: ");
-            input = scanner.next().charAt(0);
-
-            switch (input) {
-                case 'd':
-                    jogador1.moverDireita();
-                    break;
-                case 'e':
-                    jogador1.moverEsquerda();
-                    break;
-                case 'c':
-                    jogador1.moverCima();
-                    break;
-                case 'b':
-                    jogador1.moverBaixo();
-                    break;
+                switch (input) {
+                    case 'd':
+                        deuCerto = jogador1.moverDireita();
+                        break;
+                    case 'a':
+                        deuCerto = jogador1.moverEsquerda();
+                        break;
+                    case 'w':
+                        deuCerto = jogador1.moverCima();
+                        break;
+                    case 's':
+                        deuCerto = jogador1.moverBaixo();
+                        break;
+                }
             }
         }
     }
