@@ -27,7 +27,26 @@ public class Main {
 
         FlatDarkLaf.setup();
 
+        VisaoPrincipal principal = new VisaoPrincipal();
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
 
+        VisaoInicio inicio = new VisaoInicio();
+
+
+        gerenciadorDeTelas.adicionarNovaTela("INICIO", inicio);
+        gerenciadorDeTelas.mostrarTela("INICIO");
+
+        principal.predefInicio();
+        principal.setVisible(true);
+
+
+
+
+
+
+
+        /*
 
         boolean conseguiuGerar = novoJogo.getFloresta().gerarTerreno();
         if (!conseguiuGerar) {
@@ -36,12 +55,17 @@ public class Main {
 
         }
 
+
+
         VisaoPrincipal visaoPrincipal = new VisaoPrincipal(SIZE);
         VisaoTerreno visaoTerreno = new VisaoTerreno(novoJogo.getFloresta(), SIZE);
 
         visaoPrincipal.add(visaoTerreno);
         visaoPrincipal.setVisible(true);
         visaoPrincipal.setLocationRelativeTo(null);
+
+
+        */
 
 
     }
