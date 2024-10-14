@@ -10,11 +10,10 @@ import utilitarios.GerenciadorArquivo;
  */
 
 public class Jogo {
-    protected Terreno floresta = new Terreno();
-    private Jogador jogador1 = new Jogador();
-    private Jogador jogador2 = new Jogador();
     private int contadorRodada = 0;
     private String estado = "";
+
+    protected Terreno floresta = new Terreno();
 
     /**
      * Construtor da classe Jogo.

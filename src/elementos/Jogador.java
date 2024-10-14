@@ -8,10 +8,13 @@ import frutas.Fruta;
  */
 
 public class Jogador extends Elemento {
-    private int pontosMovimento = 0;
     private Mochila mochila = new Mochila();
+    private Terreno local;
+
+    private int pontosMovimento = 0;
     private int pontosOuro = 0;
     private String estado = "";
+
     private boolean buffForca = false;
     private boolean buffAgilidade = false;
     private boolean nerfBichada = false;
@@ -22,18 +25,8 @@ public class Jogador extends Elemento {
 
     }
 
-    /**
-     * Construtor da classe Jogador que define o nome e a posição do jogador.
-     *
-     * @param nome O nome do jogador.
-     * @param posX A coordenada x da posição do jogador.
-     * @param posY A coordenada y da posição do jogador.
-     */
-
-    public Jogador(String nome, int posX, int posY) {
-    	this.nome = nome;
-    	this.posicaoX = posX;
-    	this.posicaoY = posY;
+    public Jogador(Terreno local) {
+        this.local = local;
     }
 
     /**
@@ -189,6 +182,20 @@ public class Jogador extends Elemento {
         return false;
     }
 
+    public boolean moverLivre(int posX, int posY) {
+        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
+            return false;
+        }
+
+        // Trocando a posição do jogador
+        ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
+        ((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
+        this.posicaoX = posX;
+        this.posicaoY = posY;
+
+        return true;
+    }
+
     /**
      * Move o jogador para cima.
      *
@@ -196,7 +203,7 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverCima() {
-        return false;
+        return this.moverLivre(this.posicaoX - 1, this.posicaoY);
     }
 
     /**
@@ -206,7 +213,7 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverBaixo() {
-        return false;
+        return this.moverLivre(this.posicaoX + 1, this.posicaoY);
     }
 
     /**
@@ -216,7 +223,7 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverEsquerda() {
-        return false;
+        return this.moverLivre(this.posicaoX, this.posicaoY - 1);
     }
 
     /**
@@ -226,7 +233,7 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverDireita() {
-        return false;
+        return this.moverLivre(this.posicaoX, this.posicaoY + 1);
     }
 
     /** Gera pontos para o jogador (a implementação ainda não existe). */

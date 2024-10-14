@@ -7,7 +7,7 @@ import frutas.Fruta;
  * de fruta associada.
  */
 
-public class Arvore extends ElementoEstatico {
+public class Arvore extends ElementoEstaticoPisavel {
     private Class<? extends Fruta> tipo;
  
     public Arvore() {  }

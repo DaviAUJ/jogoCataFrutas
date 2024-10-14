@@ -20,16 +20,12 @@ public class Generica extends Fruta {
      * Construtor da classe Generica que define o nome e a posição da fruta.
      *
      * @param nome     O nome da fruta genérica.
-     * @param posicaoX A coordenada x da posição da fruta.
-     * @param posicaoY A coordenada y da posição da fruta.
      */
 
-    public Generica(String nome, int posicaoX, int posicaoY) {
+    public Generica(String nome) {
         super();
         
         this.nome = nome;
-    	this.posicaoX = posicaoX;
-    	this.posicaoY = posicaoY;
     }
 
     /**

@@ -20,16 +20,12 @@ public class Laranja extends Fruta {
      * Construtor da classe Laranja que define o nome e a posição da fruta.
      *
      * @param nome     O nome da fruta Laranja.
-     * @param posicaoX A coordenada x da posição da fruta.
-     * @param posicaoY A coordenada y da posição da fruta.
      */
 
-    public Laranja(String nome, int posicaoX, int posicaoY) {
+    public Laranja(String nome) {
         super();
         
         this.nome = nome;
-    	this.posicaoX = posicaoX;
-    	this.posicaoY = posicaoY;
     }
 
     /**

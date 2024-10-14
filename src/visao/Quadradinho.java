@@ -32,18 +32,23 @@ public class Quadradinho extends JButton {
         switch (elemento.getNome().substring(0, 2)) {
             case "Gr":
                 setBackground(Color.GREEN);
+                if(((Grama) elemento).temJogador()) {
+                    setBackground(Color.RED);
+                }
+
                 break;
             case "Ar":
                 setBackground(Color.CYAN);
+                if(((Arvore) elemento).temJogador()) {
+                    setBackground(Color.RED);
+                }
+
                 break;
             case "Pe":
                 setBackground(Color.GRAY);
                 break;
             case "Ma":
                 setBackground(Color.YELLOW);
-                break;
-            case "Jo":
-                setBackground(Color.RED);
                 break;
             default:
                 setBackground(Color.WHITE);
