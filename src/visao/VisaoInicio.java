@@ -18,7 +18,7 @@ public class VisaoInicio extends JPanel {
     public JLabel conteudoFundo;
 
 
-    public VisaoInicio(){
+    public VisaoInicio(GerenciadorDeTelas gerenciador) {
 
         this.painelPrincipal = new JPanel();
         this.painelDeConteudo = new JPanel();
@@ -30,6 +30,7 @@ public class VisaoInicio extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(painelDeConteudo, "Iniciando Jogo");
+                gerenciador.mostrarTela("NOVO JOGO");
             }
         });
 

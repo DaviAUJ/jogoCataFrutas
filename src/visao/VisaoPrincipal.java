@@ -10,13 +10,18 @@ import javax.swing.*;
  */
 
 public class VisaoPrincipal extends JFrame {
+    private GerenciadorDeTelas gerenciador;
 
     public VisaoPrincipal() {
         setLocationRelativeTo(null);
+        this.gerenciador = null;
     }
 
+    public void setGerenciador(GerenciadorDeTelas gerenciador) {
+        this.gerenciador = gerenciador;
+    }
 
-    public void predefInicio(){
-        Estilos.principal(this);
+    public GerenciadorDeTelas getGerenciador() {
+        return gerenciador;
     }
 }

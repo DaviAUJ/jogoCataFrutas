@@ -3,6 +3,7 @@ package main;
 import com.formdev.flatlaf.FlatDarkLaf;
 import visao.*;
 import jogoCataFrutas.*;
+import visao.estilos.Estilos;
 
 import javax.swing.*;
 
@@ -30,14 +31,18 @@ public class Main {
         VisaoPrincipal principal = new VisaoPrincipal();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
+        principal.setGerenciador(gerenciadorDeTelas);
 
-        VisaoInicio inicio = new VisaoInicio();
+        VisaoInicio telaInicio = new VisaoInicio(gerenciadorDeTelas);
+        VisaoNovoJogo telaNovoJogo = new VisaoNovoJogo(gerenciadorDeTelas);
 
 
-        gerenciadorDeTelas.adicionarNovaTela("INICIO", inicio);
+        gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
+        gerenciadorDeTelas.adicionarNovaTela("NOVO JOGO", telaNovoJogo);
+
         gerenciadorDeTelas.mostrarTela("INICIO");
 
-        principal.predefInicio();
+        Estilos.visaoPrincipal(principal);
         principal.setVisible(true);
 
 

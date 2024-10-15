@@ -1,4 +1,6 @@
 package visao;
+import visao.estilos.Estilos;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -23,19 +25,30 @@ public class GerenciadorDeTelas {
     public void adicionarNovaTela(String nomeTela, JPanel tela) {
         telasGerenciadas.put(nomeTela, tela);
         telaPrincipal.add(tela, nomeTela);
-        System.out.println(telasGerenciadas.toString());
+
     }
 
     public void mostrarTela(String nomeTela) {
         if (telasGerenciadas.containsKey(nomeTela)) {
+            this.nomeTelaAtual = nomeTela;
+            ajustarFramePrincipal(telasGerenciadas.get(nomeTela));
             layout.show(this.telaPrincipal, nomeTela);
             return;
         }
         System.out.println("Tela não encontrada!");
     }
 
+    private void ajustarFramePrincipal(JPanel tela) {
+        Estilos.visaoPrincipal((VisaoPrincipal) this.framePrincipal);
+        this.framePrincipal.setLocationRelativeTo(null);
+    }
+
     public JFrame getFramePrincipal() {
         return framePrincipal;
+    }
+
+    public String getNomeTelaAtual() {
+        return nomeTelaAtual;
     }
 
 

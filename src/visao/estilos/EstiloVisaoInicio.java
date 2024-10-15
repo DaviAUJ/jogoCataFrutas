@@ -17,7 +17,6 @@ public abstract class EstiloVisaoInicio {
         imagemFundoIcon.setImage(
                 imagemFundoIcon.getImage().getScaledInstance(LARGURA, ALTURA, Image.SCALE_SMOOTH)
         );
-        System.out.println(imagemFundoIcon.toString());
 
         visaoInicio.conteudoFundo = new JLabel(imagemFundoIcon);
         JLabel conteudoFundo = visaoInicio.conteudoFundo;
