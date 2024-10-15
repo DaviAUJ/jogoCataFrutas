@@ -15,6 +15,7 @@ public abstract class Estilos {
             }
             case "NOVO JOGO":{
                 principal.setBounds(0, 0, 1280, 720);
+
                 break;
             }
 
