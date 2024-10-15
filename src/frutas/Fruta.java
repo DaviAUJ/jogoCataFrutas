@@ -10,26 +10,11 @@ import utilitarios.GerenciadorArquivo;
  * Esta classe abstrata representa uma fruta, que é um tipo de Elemento.
  */
 
-public abstract class Fruta extends Elemento {
+public abstract class Fruta {
     protected boolean bichada = false;
-
-    /**
-     * Construtor padrão da classe Fruta.
-     */
+    protected String nome;
 
     public Fruta() {
-    }
-
-    /**
-     * Construtor da classe Fruta que define o nome e a posição da fruta.
-     * Verifica aleatoriamente se a fruta está bichada com base na configuração.
-     *
-     * @param nome     O nome da fruta.
-     * @param posicaoX A coordenada x da posição da fruta.
-     * @param posicaoY A coordenada y da posição da fruta.
-     */
-
-    public Fruta(String nome, int posicaoX, int posicaoY) {
 
         GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
         Random gerador = new Random();
@@ -38,7 +23,11 @@ public abstract class Fruta extends Elemento {
             bichada = true;
         }
     }
-    
+
+    public String getNome() {
+        return nome;
+    }
+
     public void setBichada(boolean bichada) {
     	this.bichada = bichada;
     }

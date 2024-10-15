@@ -1,8 +1,6 @@
 package jogoCataFrutas;
 
-import elementos.Jogador;
 import elementos.Terreno;
-import utilitarios.GerenciadorArquivo;
 
 /**
  * Representa o jogo Cata Frutas.
@@ -10,11 +8,10 @@ import utilitarios.GerenciadorArquivo;
  */
 
 public class Jogo {
-    protected Terreno floresta = new Terreno();
-    private Jogador jogador1 = new Jogador();
-    private Jogador jogador2 = new Jogador();
     private int contadorRodada = 0;
     private String estado = "";
+
+    protected Terreno floresta = new Terreno();
 
     /**
      * Construtor da classe Jogo.
@@ -22,6 +19,14 @@ public class Jogo {
      */
 
     public Jogo() {
+    }
+    
+    public int getContadorRodada() {
+		return contadorRodada;
+	}
+
+    public void contarRodada() {
+        contadorRodada++;
     }
 
     /**
@@ -61,16 +66,6 @@ public class Jogo {
      */
 
     public boolean iniciarJogo() {
-        return false;
-    }
-
-    /**
-     * Passa a vez para o próximo jogador.
-     *
-     * @return true se a vez foi passada com sucesso, false caso contrário.
-     */
-
-    public boolean passarVez() {
         return false;
     }
 }

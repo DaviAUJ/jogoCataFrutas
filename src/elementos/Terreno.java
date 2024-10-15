@@ -1,14 +1,14 @@
 package elementos;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
-import excecoes.elementosDemaisException;
+import excecoes.*;
 import frutas.*;
+import jogoCataFrutas.Jogo;
 import utilitarios.*;
 
 /**
@@ -17,11 +17,15 @@ import utilitarios.*;
  */
 
 public class Terreno {
+	private Jogador jogador1 = new Jogador(this);
+	private Jogador jogador2 = new Jogador(this);
+
 	private int dimensao = 3;
-	private Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
 	private int[] quantTipoArvores = new int[6];
 	private int[] quantFrutasChao = new int[7];
 	private int quantPedras = 0;
+
+	protected Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
 
 	/**
 	 * Construtor da classe Terreno. Inicializa o terreno com as dimensões e
@@ -44,8 +48,14 @@ public class Terreno {
 		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(arquivo.pegarFrutas(), 0), 1, 7);
 		quantFrutasChao = Extras.colunaMatriz(arquivo.pegarFrutas(), 1);
 	}
-	
-	
+
+	public Jogador getJogador1() {
+		return jogador1;
+	}
+
+	public Jogador getJogador2() {
+		return jogador2;
+	}
 
 	/**
 	 * Retorna a dimensão do terreno.
@@ -89,18 +99,25 @@ public class Terreno {
 		dimensao = tabuleiro.length;
 	}
 
-	/**
-	 * Muda a posição de um elemento no tabuleiro. O método ainda não está
-	 * implementado.
-	 *
-	 * @param elemento O elemento a ser movido.
-	 * @param X        A nova coordenada da posição x.
-	 * @param Y        A nova coordenada da posição y.
-	 * @return false, já que a funcionalidade ainda não está implementada.
-	 */
+	private void posicionarJogadores() {
+		Random gerador = new Random();
 
-	public boolean mudarPosicao(Elemento elemento, int X, int Y) {
-		return false;
+		jogador1.setNome("Jo1");
+		jogador2.setNome("Jo2");
+
+		// Enquanto a posição deles forem iguais
+		while(jogador1.posicaoX == jogador2.posicaoX && jogador1.posicaoY == jogador2.posicaoY) {
+			// Não é a melhor solução do mundo mas serve
+			jogador1.posicaoX = gerador.nextInt(dimensao);
+			jogador1.posicaoY = gerador.nextInt(dimensao);
+			jogador2.posicaoX = gerador.nextInt(dimensao);
+			jogador2.posicaoY = gerador.nextInt(dimensao);
+		}
+
+		tabuleiro[jogador1.posicaoX][jogador1.posicaoY] =
+				new Grama("Gr0", jogador1.posicaoX, jogador1.posicaoY, jogador1);
+		tabuleiro[jogador2.posicaoX][jogador2.posicaoY] =
+				new Grama("Gr1", jogador2.posicaoX, jogador2.posicaoY, jogador2);
 	}
 
 	/**
@@ -109,10 +126,10 @@ public class Terreno {
 	 *
 	 * @param classe     A classe dos elementos a serem gerados.
 	 * @param quantidade A quantidade de elementos a serem gerados.
-	 * @return true se os elementos foram gerados com sucesso, false caso contrário.
 	 */
 
-	public <T extends Elemento> boolean gerarElementosAleatorios(Class<T> classe, int quantidade) throws elementosDemaisException {
+	private <T extends ElementoEstatico> void gerarElementosEstaticos(Class<T> classe, int quantidade)
+			throws elementosDemaisException {
 		Random gerador = new Random();
 
 		// array q armazena as posicoes disponiveis
@@ -130,7 +147,7 @@ public class Terreno {
 		
 		// Verificando se a quantidade de elementos passada como argumento vai estourar a matriz do tabuleiro
 		if(index + 1 < quantidade) {
-			throw new elementosDemaisException("ERRO - tentando colocar elementos de mais no tabuleiro");
+			throw new elementosDemaisException("ERRO - tentando colocar elementos estáticos de mais no tabuleiro");
 		}
 		
 		// gera os elementos nas posicoes disponiveis
@@ -153,12 +170,89 @@ public class Terreno {
 				tabuleiro[x][y] = novo;
 			} catch (Exception e) {
 				System.out.println("Não foi possível instanciar a classe: " + e);
+			}
+		}
+	}
 
-				return false;
+	private void distribuirFrutasNaGrama() throws frutasDemaisException {
+		ArrayList<Grama> gramas = new ArrayList<Grama>();
+
+		for(int x = 0; x < dimensao; x++) {
+			for(int y = 0; y < dimensao; y++) {
+				if(tabuleiro[x][y] instanceof Grama) {
+					gramas.add((Grama) tabuleiro[x][y]);
+				}
 			}
 		}
 
-		return true;
+		if(gramas.size() < Extras.somarVetor(quantFrutasChao)) {
+			throw new frutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
+		}
+
+		Collections.shuffle(gramas);
+
+		HashMap<Class<? extends Fruta>, Integer> tipoFaltando = new HashMap<Class<? extends Fruta>, Integer>();
+		tipoFaltando.put(Maracuja.class, quantFrutasChao[0]);
+		tipoFaltando.put(Laranja.class, quantFrutasChao[1]);
+		tipoFaltando.put(Abacate.class, quantFrutasChao[2]);
+		tipoFaltando.put(Coco.class, quantFrutasChao[3]);
+		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 3, 6)));
+
+		if(!gramas.isEmpty()) {
+			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
+				for(int i = 0; i < tipoFaltando.get(classe); i++) {
+					// Isso aqui tudo é pra colocar a fruta na grama
+					// Deus salve nossas criança do java
+					try {
+						gramas
+						.getFirst()
+						.setEspacoFruta(
+							classe
+							.getDeclaredConstructor(String.class)
+							.newInstance(classe.getSimpleName().substring(0, 2) + i)
+						);
+					}
+					catch (Exception e) {
+						System.out.println("Não foi possível instanciar a classe: " + e);
+					}
+
+					gramas.removeFirst();
+				}
+			}
+		}
+	}
+
+	private void distribuirFrutasNasArvores() throws frutasDemaisException {
+		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
+
+		for(int x = 0; x < dimensao; x++) {
+			for(int y = 0; y < dimensao; y++) {
+				if(tabuleiro[x][y] instanceof Arvore) {
+					arvores.add((Arvore) tabuleiro[x][y]);
+				}
+			}
+		}
+
+		if(arvores.size() < Extras.somarVetor(quantTipoArvores)) {
+			throw new frutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
+		}
+
+		Collections.shuffle(arvores);
+
+		HashMap<Class<? extends Fruta>, Integer> tipoFaltando = new HashMap<Class<? extends Fruta>, Integer>();
+		tipoFaltando.put(Laranja.class, quantTipoArvores[0]);
+		tipoFaltando.put(Abacate.class, quantTipoArvores[1]);
+		tipoFaltando.put(Coco.class, quantTipoArvores[2]);
+		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantTipoArvores, 3, 6)));
+
+		if(!arvores.isEmpty()) {
+			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
+				for(int i = 0; i < tipoFaltando.get(classe); i++) {
+					arvores.getFirst().setTipo(classe);
+					arvores.removeFirst();
+				}
+			}
+		}
 	}
 
 	/**
@@ -170,54 +264,32 @@ public class Terreno {
 
 	public boolean gerarTerreno() {
 		int totalArvores = Extras.somarVetor(quantTipoArvores);
-		
+
+		this.posicionarJogadores();
+
 		try {
-			this.gerarElementosAleatorios(Jogador.class, 2);
-			this.gerarElementosAleatorios(Arvore.class, totalArvores);
-			this.gerarElementosAleatorios(Pedra.class, quantPedras);
-			this.gerarElementosAleatorios(Maracuja.class, quantFrutasChao[0]);
-			this.gerarElementosAleatorios(Laranja.class, quantFrutasChao[1]);
-			this.gerarElementosAleatorios(Abacate.class, quantFrutasChao[2]);
-			this.gerarElementosAleatorios(Coco.class, quantFrutasChao[3]);
-			this.gerarElementosAleatorios(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 4, 7)));
+			this.gerarElementosEstaticos(Arvore.class, totalArvores);
+			this.gerarElementosEstaticos(Pedra.class, quantPedras);
+
+			int contadorGrama = 2;
+
+			// preenchendo com grama
+			// Se for jogador colocar ele dentro da grama
+			for (int i = 0; i < dimensao; i++) {
+				for (int j = 0; j < dimensao; j++) {
+					if (tabuleiro[i][j] == null) {
+						tabuleiro[i][j] = new Grama("Gr" + contadorGrama, i, j);
+						contadorGrama++;
+					}
+				}
+			}
+
+			this.distribuirFrutasNaGrama();
+			this.distribuirFrutasNasArvores();
 		}
 		catch(Exception e) {
 			System.err.println("não foi possivel criar o terreno - Erro:" + e);
 			return false;
-		}
-		
-		
-		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
-		int contadorGrama = 0;
-
-		// Pegando todas as árvores
-		for (int i = 0; i < dimensao; i++) {
-			for (int j = 0; j < dimensao; j++) {
-				if (tabuleiro[i][j] == null) {
-					tabuleiro[i][j] = new Grama("Gr" + contadorGrama, i, j);
-					contadorGrama++;
-				}
-				else if(tabuleiro[i][j] instanceof Arvore) {
-					arvores.add((Arvore) tabuleiro[i][j]);
-				}
-			}
-		}
-
-		Collections.shuffle(arvores);
-
-		HashMap<Class<? extends Fruta>, Integer> tipoFaltando = new HashMap<Class<? extends Fruta>, Integer>();
-		tipoFaltando.put(Laranja.class, quantTipoArvores[0]);
-		tipoFaltando.put(Abacate.class, quantTipoArvores[1]);
-		tipoFaltando.put(Coco.class, quantTipoArvores[2]);
-		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantTipoArvores, 3, 6)));
-		
-		if(!arvores.isEmpty()) {
-			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
-				for(int i = 0; i < tipoFaltando.get(classe); i++) {
-					arvores.getFirst().setTipo(classe);
-					arvores.removeFirst();
-				}
-			}
 		}
 
 		return true;

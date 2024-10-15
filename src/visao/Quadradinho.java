@@ -26,15 +26,30 @@ public class Quadradinho extends JButton {
         this.elemento = elemento;
         this.tamanho = tamanho;
 
-        setText(elemento.getNome());
+        String texto = elemento.getNome().substring(0, 2);
+
         setSize(tamanho, tamanho);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         switch (elemento.getNome().substring(0, 2)) {
             case "Gr":
                 setBackground(Color.GREEN);
+                if(((Grama) elemento).temJogador()) {
+                    setBackground(Color.RED);
+
+
+                }
+
+                if(((Grama) elemento).temFruta()) {
+                    texto += " - " + ((Grama) elemento).getEspacoFruta().getNome();
+                }
+
                 break;
             case "Ar":
                 setBackground(Color.CYAN);
+                if(((Arvore) elemento).temJogador()) {
+                    setBackground(Color.RED);
+                }
+
                 break;
             case "Pe":
                 setBackground(Color.GRAY);
@@ -42,14 +57,13 @@ public class Quadradinho extends JButton {
             case "Ma":
                 setBackground(Color.YELLOW);
                 break;
-            case "Jo":
-                setBackground(Color.RED);
-                break;
             default:
                 setBackground(Color.WHITE);
                 break;
 
         }
-    }
 
+        setText(texto);
+
+    }
 }

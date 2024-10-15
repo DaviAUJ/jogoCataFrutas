@@ -20,16 +20,12 @@ public class Coco extends Fruta {
      * Construtor da classe Coco que define o nome e a posição da fruta.
      *
      * @param nome     O nome da fruta Coco.
-     * @param posicaoX A coordenada x da posição da fruta.
-     * @param posicaoY A coordenada y da posição da fruta.
      */
 
-    public Coco(String nome, int posicaoX, int posicaoY) {
+    public Coco(String nome) {
         super();
         
         this.nome = nome;
-    	this.posicaoX = posicaoX;
-    	this.posicaoY = posicaoY;
     }
 
     /**

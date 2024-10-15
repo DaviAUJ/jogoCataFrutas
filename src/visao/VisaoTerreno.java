@@ -32,6 +32,5 @@ public class VisaoTerreno extends JPanel {
                 add(this.grade[i][j]);
             }
         }
-
     }
 }

@@ -20,16 +20,12 @@ public class Maracuja extends Fruta {
      * Construtor da classe Maracuja que define o nome e a posição da fruta.
      *
      * @param nome     O nome da fruta Maracujá.
-     * @param posicaoX A coordenada x da posição da fruta.
-     * @param posicaoY A coordenada y da posição da fruta.
      */
 
-    public Maracuja(String nome, int posicaoX, int posicaoY) {
+    public Maracuja(String nome) {
         super();
         
         this.nome = nome;
-    	this.posicaoX = posicaoX;
-    	this.posicaoY = posicaoY;
     }
 
     /**

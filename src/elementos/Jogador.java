@@ -1,6 +1,10 @@
 package elementos;
 
 import frutas.Fruta;
+import utilitarios.FixedStack;
+import utilitarios.GerenciadorArquivo;
+
+import java.util.Random;
 
 /**
  * Esta classe representa um jogador no jogo, contendo informações sobre sua
@@ -8,10 +12,13 @@ import frutas.Fruta;
  */
 
 public class Jogador extends Elemento {
-    private int pontosMovimento = 0;
-    private Mochila mochila = new Mochila();
+    private FixedStack<Fruta> mochila;
+    private Terreno local;
+
+    private int pontosMovimento = 3;
     private int pontosOuro = 0;
     private String estado = "";
+
     private boolean buffForca = false;
     private boolean buffAgilidade = false;
     private boolean nerfBichada = false;
@@ -22,18 +29,12 @@ public class Jogador extends Elemento {
 
     }
 
-    /**
-     * Construtor da classe Jogador que define o nome e a posição do jogador.
-     *
-     * @param nome O nome do jogador.
-     * @param posX A coordenada x da posição do jogador.
-     * @param posY A coordenada y da posição do jogador.
-     */
+    public Jogador(Terreno local) {
+        GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 
-    public Jogador(String nome, int posX, int posY) {
-    	this.nome = nome;
-    	this.posicaoX = posX;
-    	this.posicaoY = posY;
+        this.local = local;
+
+        mochila = new FixedStack<Fruta>(arquivo.pegarEspacoMochila());
     }
 
     /**
@@ -159,23 +160,53 @@ public class Jogador extends Elemento {
     /**
      * Tenta catar uma fruta.
      *
-     * @param fruta A fruta a ser catada.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean catarFruta(Fruta fruta) {
-        return false;
+    public boolean catarFruta() {
+        if(pontosMovimento <=  0 || mochila.isFull()) {
+            return false;
+        }
+
+        Grama quadradinho;
+
+        // Testando se é grama ou não
+        try {
+            quadradinho = (Grama) local.tabuleiro[posicaoX][posicaoY];
+        }
+        catch(Exception e) {
+            return false;
+        }
+
+        if(!quadradinho.temFruta()){
+            return false;
+        }
+
+        pontosMovimento--;
+        mochila.push(quadradinho.getEspacoFruta());
+        quadradinho.setEspacoFruta(null);
+
+        return true;
     }
 
     /**
      * Tenta comer uma fruta.
      *
-     * @param fruta A fruta a ser comida.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean comerFruta(Fruta fruta) {
-        return false;
+    public boolean comerFruta() {
+        try {
+            Fruta frutaComida = mochila.pop();
+
+            frutaComida.buffar(this);
+            frutaComida.nerfar(this);
+        }
+        catch(Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -184,9 +215,33 @@ public class Jogador extends Elemento {
      * @param alvo O jogador a ser empurrado.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
-
     public boolean empurrar(Jogador alvo) {
         return false;
+    }
+
+    public char moverLivre(int posX, int posY) {
+    	try {
+	        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
+	            return 'p';
+	        }
+	        
+	        if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
+	        	return 'j';
+	        }
+	        
+        	// Trocando a posição do jogador
+        	((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
+        	((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
+        	this.posicaoX = posX;
+        	this.posicaoY = posY;
+        	
+        	return 's';	
+        }
+        catch(Exception e) {
+        	System.out.println("Tentando mover o jogador fora do campo: " + e);
+        	
+        	return 'n';
+        }
     }
 
     /**
@@ -196,7 +251,33 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverCima() {
-        return false;
+    	char tentativa = 'n';
+
+        if(pontosMovimento == 0) {
+            return false;
+        }
+
+        tentativa = moverLivre(posicaoX - 1, posicaoY);
+
+    	switch (tentativa) {
+            case 's':
+                pontosMovimento--;
+                return true;
+            case 'j':
+                //empurrar
+                return false;
+            case 'p':
+                if(pontosMovimento < 3) {
+                    return false;
+                }
+                tentativa = moverLivre(posicaoX - 2, posicaoY);
+        }
+
+        if(tentativa == 's') {
+            pontosMovimento -= 3;
+        }
+
+        return tentativa == 's';
     }
 
     /**
@@ -206,7 +287,33 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverBaixo() {
-        return false;
+        char tentativa = 'n';
+
+        if(pontosMovimento == 0) {
+            return false;
+        }
+
+        tentativa = moverLivre(posicaoX + 1, posicaoY);
+
+        switch (tentativa) {
+            case 's':
+                pontosMovimento--;
+                return true;
+            case 'j':
+                //empurrar
+                return false;
+            case 'p':
+                if(pontosMovimento < 3) {
+                    return false;
+                }
+                tentativa = moverLivre(posicaoX + 2, posicaoY);
+        }
+
+        if(tentativa == 's') {
+            pontosMovimento -= 3;
+        }
+
+        return tentativa == 's';
     }
 
     /**
@@ -216,7 +323,33 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverEsquerda() {
-        return false;
+        char tentativa = 'n';
+
+        if(pontosMovimento == 0) {
+            return false;
+        }
+
+        tentativa = moverLivre(posicaoX, posicaoY - 1);
+
+        switch (tentativa) {
+            case 's':
+                pontosMovimento--;
+                return true;
+            case 'j':
+                //empurrar
+                return false;
+            case 'p':
+                if(pontosMovimento < 3) {
+                    return false;
+                }
+                tentativa = moverLivre(posicaoX, posicaoY - 2);
+        }
+
+        if(tentativa == 's') {
+            pontosMovimento -= 3;
+        }
+
+        return tentativa == 's';
     }
 
     /**
@@ -226,11 +359,40 @@ public class Jogador extends Elemento {
      */
 
     public boolean moverDireita() {
-        return false;
+        char tentativa = 'n';
+
+        if(pontosMovimento == 0) {
+            return false;
+        }
+
+        tentativa = moverLivre(posicaoX, posicaoY + 1);
+
+        switch (tentativa) {
+            case 's':
+                pontosMovimento--;
+                return true;
+            case 'j':
+                //empurrar
+                return false;
+            case 'p':
+                if(pontosMovimento < 3) {
+                    return false;
+                }
+                tentativa = moverLivre(posicaoX, posicaoY + 2);
+        }
+
+        if(tentativa == 's') {
+            pontosMovimento -= 3;
+        }
+
+        return tentativa == 's';
     }
 
     /** Gera pontos para o jogador (a implementação ainda não existe). */
 
     public void gerarPontos() {
+        Random gerador = new Random();
+
+        pontosMovimento = gerador.nextInt(6) + gerador.nextInt(6) + 2;
     }
 }
