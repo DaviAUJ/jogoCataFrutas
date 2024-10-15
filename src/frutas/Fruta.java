@@ -23,7 +23,11 @@ public abstract class Fruta {
             bichada = true;
         }
     }
-    
+
+    public String getNome() {
+        return nome;
+    }
+
     public void setBichada(boolean bichada) {
     	this.bichada = bichada;
     }

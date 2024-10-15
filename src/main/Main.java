@@ -5,6 +5,7 @@ import visao.*;
 import jogoCataFrutas.*;
 
 import javax.swing.*;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -22,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         Jogo novoJogo = new Jogo();
-        Jogador jogador1 = novoJogo.getFloresta().getJogador1();
+
         final int SIZE = 800;
 
         boolean conseguiuGerar = novoJogo.getFloresta().gerarTerreno();
@@ -39,36 +40,58 @@ public class Main {
         visaoPrincipal.setVisible(true);
         visaoPrincipal.setLocationRelativeTo(null);
 
+        // Gambiarra temporaria
+        char input;
+        boolean podeContinuar = false;
+        Jogador jogadorDaVez;
+
         while(true) {
         	novoJogo.contarRodada();
-        	System.out.println("Rodada: " + novoJogo.getContadorRodada());
-        	
-            char input;
-            boolean deuCerto = false;
 
-            // Gambiarra temporaria
-            visaoTerreno = new VisaoTerreno(novoJogo.getFloresta(), SIZE);
+            if(novoJogo.getContadorRodada() % 2 == 0) {
+                jogadorDaVez = novoJogo.getFloresta().getJogador2();
+            }
+            else {
+                jogadorDaVez = novoJogo.getFloresta().getJogador1();
+            }
 
-            visaoPrincipal.add(visaoTerreno);
-            visaoPrincipal.setVisible(true);
-            
-            while(!deuCerto) {
+            jogadorDaVez.gerarPontos();
+
+            while(jogadorDaVez.getPontosMovimento() != 0) {
+                System.out.println(
+                        "Rodada: "
+                                + (novoJogo.getContadorRodada() + 1) / 2 + " - "
+                                + jogadorDaVez.getNome() + ": "
+                                + jogadorDaVez.getPontosMovimento()
+                );
+
+                visaoTerreno = new VisaoTerreno(novoJogo.getFloresta(), SIZE);
+
+                visaoPrincipal.add(visaoTerreno);
+                visaoPrincipal.setVisible(true);
+
             	Scanner scanner = new Scanner(System.in);
                 System.out.println("Comando: ");
                 input = scanner.next().charAt(0);
 
                 switch (input) {
                     case 'd':
-                        deuCerto = jogador1.moverDireita();
+                        jogadorDaVez.moverDireita();
                         break;
                     case 'a':
-                        deuCerto = jogador1.moverEsquerda();
+                        jogadorDaVez.moverEsquerda();
                         break;
                     case 'w':
-                        deuCerto = jogador1.moverCima();
+                        jogadorDaVez.moverCima();
                         break;
                     case 's':
-                        deuCerto = jogador1.moverBaixo();
+                        jogadorDaVez.moverBaixo();
+                        break;
+                    case 'p':
+                        jogadorDaVez.setPontosMovimento(0);
+                        break;
+                    case 'f':
+                        jogadorDaVez.catarFruta();
                         break;
                 }
             }

@@ -14,14 +14,14 @@ public class Grama extends ElementoEstaticoPisavel {
      * Construtor da classe Grama que define o nome e a posição da grama.
      *
      * @param nome O nome do elemento de grama.
-     * @param posX A coordenada x da posição da grama.
-     * @param posY A coordenada y da posição da grama.
+     * @param posicaoX A coordenada x da posição da grama.
+     * @param posicaoY A coordenada y da posição da grama.
      */
 
-    public Grama(String nome, int posX, int posY) {
+    public Grama(String nome, int posicaoX, int posicaoY) {
     	this.nome = nome;
-    	this.posicaoX = posX;
-    	this.posicaoY = posY;
+    	this.posicaoX = posicaoX;
+    	this.posicaoY = posicaoY;
     }
 
     public Grama(String nome, int posicaoX, int posicaoY, Jogador espaJogador) {
@@ -37,5 +37,9 @@ public class Grama extends ElementoEstaticoPisavel {
 
     public void setEspacoFruta(Fruta espacoFruta) {
         this.espacoFruta = espacoFruta;
+    }
+
+    public boolean temFruta() {
+        return espacoFruta != null;
     }
 }
