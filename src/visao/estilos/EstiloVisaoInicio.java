@@ -1,73 +1,127 @@
 package visao.estilos;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import visao.*;
 
 public abstract class EstiloVisaoInicio {
     public static final int LARGURA = 800;
-    public static final int ALTURA = 300;
+    public static final int ALTURA = 450;
 
 
     public static void aplicarEstilo(VisaoInicio visaoInicio){
 
         visaoInicio.setBounds(0, 0, LARGURA, ALTURA);
+        visaoInicio.setLayout(null);
+
+        visaoInicio.tituloJogo = new JLabel();
+        visaoInicio.iniciarJogo = new JButton();
+        visaoInicio.tituloJogoAnimacao = 0;
 
 
-        ImageIcon imagemFundoIcon = new ImageIcon("./assets/imgs/inicio-background.jpg");
-        imagemFundoIcon.setImage(
-                imagemFundoIcon.getImage().getScaledInstance(LARGURA, ALTURA, Image.SCALE_SMOOTH)
-        );
+        JLabel conteudo = construirFundo(visaoInicio);
 
-        visaoInicio.conteudoFundo = new JLabel(imagemFundoIcon);
-        JLabel conteudoFundo = visaoInicio.conteudoFundo;
-        conteudoFundo.setBounds(0, 0, LARGURA, ALTURA);
+        estiloTitulo(visaoInicio.tituloJogo, visaoInicio);
+        estiloBotao(visaoInicio.iniciarJogo);
 
+        conteudo.add(visaoInicio.tituloJogo);
+        conteudo.add(visaoInicio.iniciarJogo);
 
-        JPanel painelPrincipal = visaoInicio.painelPrincipal;
-        JPanel painelConteudo = visaoInicio.painelDeConteudo;
-        JButton btnInicio = visaoInicio.btnIniciar;
-        JButton btnCarregar = visaoInicio.btnCarregar;
+    }
 
-        painelPrincipal.setBounds(0, 0, LARGURA, ALTURA);
+    public static JLabel construirFundo(VisaoInicio inicio){
+        ImageIcon imagemDeFundoFloresta = new ImageIcon("./assets/imgs/inicio/fundoFloresta.png");
+        ImageIcon bordaFundo = new ImageIcon("./assets/imgs/inicio/borda.png");
 
-        painelPrincipal.setLayout(new GridBagLayout());
-        GridBagConstraints configGrid = new GridBagConstraints();
+        JLabel fundo = new JLabel(imagemDeFundoFloresta);
+        fundo.setBounds(0, 0, LARGURA, ALTURA);
 
-        painelConteudo.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        painelPrincipal.setOpaque(false);
-        painelConteudo.setOpaque(false);
+        JLabel borda = new JLabel(bordaFundo);
+        borda.setBounds(0, 0, LARGURA, ALTURA);
 
-        //btnInicio.setPreferredSize(new Dimension(200, 50));
-        //btnCarregar.setPreferredSize(new Dimension(200, 50));
-        botoes(btnInicio);
-        botoes(btnCarregar);
+        fundo.add(borda);
+        inicio.add(fundo);
+        return borda;
+    }
 
-        botoes(btnCarregar);
-        painelConteudo.add(btnInicio);
-        painelConteudo.add(btnCarregar);
-        painelConteudo.setPreferredSize(new Dimension(410, 110));
+    public static void estiloTitulo(JLabel titulo, VisaoInicio tela){
+        ImageIcon spriteTitulo = new ImageIcon("./assets/imgs/inicio/cata-frutas.png");
+        titulo.setIcon(spriteTitulo);
 
-        configGrid.gridx = 0;
-        configGrid.gridy = 0;
-        painelPrincipal.add(painelConteudo, configGrid);
+        titulo.setBounds(0, 0, LARGURA, ALTURA);
 
-        conteudoFundo.add(painelPrincipal);
-        visaoInicio.add(conteudoFundo);
+        ActionListener acaoDoTimer = new ActionListener() {
+            private int estadoAnimacaoAtual = 0;
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Timer contadorAtual = (Timer) e.getSource();
 
+                switch (estadoAnimacaoAtual){
+                    case 0:{
+                        estadoAnimacaoAtual = 1;
+                        titulo.setBounds(0, -5, LARGURA, ALTURA);
+                        contadorAtual.setDelay(2000);
+                        System.out.println(contadorAtual.getDelay());
+                        break;
+                    }
+                    case 1:{
+                        estadoAnimacaoAtual = 0;
+                        titulo.setBounds(0, 0, LARGURA, ALTURA);
+                        contadorAtual.setDelay(3000);
+                        System.out.println(contadorAtual.getDelay());
+                        break;
+                    }
+                }
+            }
+        };
 
+        Timer contador = new Timer(3000, acaoDoTimer);
+        contador.start();
 
 
 
 
     }
 
-    public static void botoes(JButton botao){
-        botao.setBackground(new Color(0, 0, 0, 150));
-        botao.setPreferredSize(new Dimension(200, 50));
-        botao.setFont(new Font("Arial", Font.BOLD, 20));
+    public static void estiloBotao(JButton botao){
+        ImageIcon spriteTexto = new ImageIcon("./assets/imgs/inicio/btnIniciarJogo.png");
+        botao.setIcon(spriteTexto);
+        botao.setBackground(new Color(0, 0, 0, 0));
+        botao.setFocusPainted(false);
+        botao.setBorder(null);
+        botao.setBounds(400-114, 325-33, 228, 65);
+
+        botao.addMouseListener(new MouseAdapter() {
+            private ImageIcon icon = (ImageIcon) botao.getIcon();
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                System.out.println("Mouse entrou!");
+                Image imagem = icon.getImage();
+                imagem = imagem.getScaledInstance(230, 70, Image.SCALE_SMOOTH);
+
+                botao.setBounds(400-115, 325-35, 230, 70);
+                botao.setIcon(new ImageIcon(imagem));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                System.out.println("Mouse saiu!");
+                Image imagem = icon.getImage();
+                imagem = imagem.getScaledInstance(228, 65, Image.SCALE_SMOOTH);
+
+                botao.setBounds(400-114, 325-33, 228, 65);
+                botao.setIcon(new ImageIcon(imagem));
+            }
 
 
-
+        });
     }
+
+
 }

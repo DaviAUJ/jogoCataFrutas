@@ -10,7 +10,7 @@ public abstract class Estilos {
         System.out.println(principal.getGerenciador().getNomeTelaAtual());
         switch (principal.getGerenciador().getNomeTelaAtual()){
             case "INICIO":{
-                principal.setBounds(0, 0, 800, 300);
+                principal.setBounds(0, 0, 800, 490);
                 break;
             }
             case "NOVO JOGO":{
