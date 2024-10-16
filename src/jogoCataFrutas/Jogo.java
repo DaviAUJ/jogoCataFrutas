@@ -1,6 +1,11 @@
 package jogoCataFrutas;
 
+import java.util.Scanner;
+
+import elementos.Jogador;
 import elementos.Terreno;
+import visao.VisaoPrincipal;
+import visao.VisaoTerreno;
 
 /**
  * Representa o jogo Cata Frutas.
@@ -8,10 +13,15 @@ import elementos.Terreno;
  */
 
 public class Jogo {
-    private int contadorRodada = 0;
+    private int contadorRodada = 1;
     private String estado = "";
 
     protected Terreno floresta = new Terreno();
+    
+    //ESSES ATRIBUTOS AQUI SE TORNARAM INUTEIS
+    //APAGAR DEPOIS
+    VisaoPrincipal visaoPrincipal;
+    VisaoTerreno visaoTerreno;
 
     /**
      * Construtor da classe Jogo.
@@ -19,6 +29,7 @@ public class Jogo {
      */
 
     public Jogo() {
+    	estado = "NoMenuInicial";
     }
     
     public int getContadorRodada() {
@@ -58,6 +69,34 @@ public class Jogo {
     public Terreno getFloresta() {
         return this.floresta;
     }
+    
+    // ESSAS TRÊS FUNÇÕES ABAIXO SERÃO INUTEIS NO FUTURO
+    // LEMBRETE PARA NÃO FAZER JAVADOC A TOA. DEPOIS APAGAR
+    private void criarJanela() {
+    	visaoPrincipal = new VisaoPrincipal(800);
+        visaoTerreno = new VisaoTerreno(floresta, 800);
+        
+        visaoPrincipal.add(visaoTerreno);
+        visaoPrincipal.setVisible(true);
+        visaoPrincipal.setLocationRelativeTo(null);
+    }
+    
+    private void atualizarJanela() {
+    	visaoTerreno = new VisaoTerreno(getFloresta(), 800);
+
+    	visaoPrincipal.add(visaoTerreno);
+    	visaoPrincipal.setVisible(true);
+    }
+    
+    private char pegarInput() {
+    	char input;
+    	
+    	Scanner scanner = new Scanner(System.in);
+        System.out.println("Comando: ");
+        input = scanner.next().charAt(0);
+        
+        return input;
+    }
 
     /**
      * Inicia o jogo.
@@ -65,7 +104,64 @@ public class Jogo {
      * @return true se o jogo foi iniciado com sucesso, false caso contrário.
      */
 
-    public boolean iniciarJogo() {
-        return false;
+    public void iniciarPartida() {   	        
+    	Jogador jogadorDaVez = floresta.getJogador1();
+    	
+    	estado = "EmPartida";
+    	
+    	criarJanela();
+        
+        while(estado.equals("EmPartida")) {
+        	if(jogadorDaVez == floresta.getJogador2()) {
+        		contarRodada();
+        		jogadorDaVez = floresta.getJogador1();
+        	}
+        	
+        	jogadorDaVez.gerarPontos();
+        	
+        	System.out.println(
+                    "Rodada: "
+                            + contadorRodada + " - "
+                            + jogadorDaVez.getNome() + ": "
+                            + jogadorDaVez.getPontosMovimento()
+            );
+        	
+           	while(jogadorDaVez.getPontosMovimento() != 0) {
+                switch (pegarInput()) {
+                    case 'd':
+                        jogadorDaVez.moverDireita();
+                        break;
+                    case 'a':
+                        jogadorDaVez.moverEsquerda();
+                        break;
+                    case 'w':
+                        jogadorDaVez.moverCima();
+                        break;
+                    case 's':
+                        jogadorDaVez.moverBaixo();
+                        break;
+                    case 'p':
+                        jogadorDaVez.setPontosMovimento(0);
+                        break;
+                    case 'f':
+                        jogadorDaVez.catarFruta();
+                        break;
+                }
+                
+               	atualizarJanela();
+           	}
+           	
+           	if(jogadorDaVez == floresta.getJogador1()) {
+           		jogadorDaVez = floresta.getJogador2();
+           	}
+           	else {
+           		jogadorDaVez = getFloresta().getJogador1();
+           	}
+           	
+           	// Vendo se o jogador ganhou
+           	if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
+           		estado = "Vitoria" + jogadorDaVez.getNome();
+           	}
+        }
     }
 }
