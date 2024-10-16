@@ -25,7 +25,7 @@ public abstract class EstiloVisaoInicio {
 
         JLabel conteudo = construirFundo(visaoInicio);
 
-        estiloTitulo(visaoInicio.tituloJogo, visaoInicio);
+        estiloTitulo(visaoInicio.tituloJogo);
         estiloBotao(visaoInicio.iniciarJogo);
 
         conteudo.add(visaoInicio.tituloJogo);
@@ -48,7 +48,7 @@ public abstract class EstiloVisaoInicio {
         return borda;
     }
 
-    public static void estiloTitulo(JLabel titulo, VisaoInicio tela){
+    public static void estiloTitulo(JLabel titulo){
         ImageIcon spriteTitulo = new ImageIcon("./assets/imgs/inicio/cata-frutas.png");
         titulo.setIcon(spriteTitulo);
 
@@ -66,14 +66,14 @@ public abstract class EstiloVisaoInicio {
                         estadoAnimacaoAtual = 1;
                         titulo.setBounds(0, -5, LARGURA, ALTURA);
                         contadorAtual.setDelay(2000);
-                        System.out.println(contadorAtual.getDelay());
+
                         break;
                     }
                     case 1:{
                         estadoAnimacaoAtual = 0;
                         titulo.setBounds(0, 0, LARGURA, ALTURA);
                         contadorAtual.setDelay(3000);
-                        System.out.println(contadorAtual.getDelay());
+
                         break;
                     }
                 }
@@ -101,7 +101,6 @@ public abstract class EstiloVisaoInicio {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                System.out.println("Mouse entrou!");
                 Image imagem = icon.getImage();
                 imagem = imagem.getScaledInstance(230, 70, Image.SCALE_SMOOTH);
 
@@ -111,7 +110,6 @@ public abstract class EstiloVisaoInicio {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                System.out.println("Mouse saiu!");
                 Image imagem = icon.getImage();
                 imagem = imagem.getScaledInstance(228, 65, Image.SCALE_SMOOTH);
 
