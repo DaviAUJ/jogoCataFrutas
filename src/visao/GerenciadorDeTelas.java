@@ -20,6 +20,9 @@ public class GerenciadorDeTelas {
         this.telaPrincipal = new JPanel(layout);
 
         this.framePrincipal.setContentPane(telaPrincipal);
+        this.framePrincipal.setResizable(false);
+
+
     }
 
     public void adicionarNovaTela(String nomeTela, JPanel tela) {
@@ -33,6 +36,7 @@ public class GerenciadorDeTelas {
             this.nomeTelaAtual = nomeTela;
             ajustarFramePrincipal(telasGerenciadas.get(nomeTela));
             layout.show(this.telaPrincipal, nomeTela);
+
             return;
         }
         System.out.println("Tela não encontrada!");
@@ -40,7 +44,7 @@ public class GerenciadorDeTelas {
 
     private void ajustarFramePrincipal(JPanel tela) {
         Estilos.visaoPrincipal((VisaoPrincipal) this.framePrincipal);
-        this.framePrincipal.setLocationRelativeTo(null);
+
     }
 
     public JFrame getFramePrincipal() {

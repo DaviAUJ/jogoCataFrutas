@@ -34,16 +34,18 @@ public class Main {
         principal.setGerenciador(gerenciadorDeTelas);
 
         VisaoInicio telaInicio = new VisaoInicio(gerenciadorDeTelas);
-        VisaoNovoJogo telaNovoJogo = new VisaoNovoJogo(gerenciadorDeTelas);
+        VisaoInicialOpcoes telaOpcoes = new VisaoInicialOpcoes(gerenciadorDeTelas);
 
 
         gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
-        gerenciadorDeTelas.adicionarNovaTela("NOVO JOGO", telaNovoJogo);
+        gerenciadorDeTelas.adicionarNovaTela("OPCOES INICIAIS", telaOpcoes);
 
         gerenciadorDeTelas.mostrarTela("INICIO");
 
         Estilos.visaoPrincipal(principal);
         principal.setVisible(true);
+
+
 
 
 

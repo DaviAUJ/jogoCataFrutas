@@ -65,14 +65,14 @@ public abstract class EstiloVisaoInicio {
                     case 0:{
                         estadoAnimacaoAtual = 1;
                         titulo.setBounds(0, -5, LARGURA, ALTURA);
-                        contadorAtual.setDelay(2000);
+                        contadorAtual.setDelay(700);
 
                         break;
                     }
                     case 1:{
                         estadoAnimacaoAtual = 0;
                         titulo.setBounds(0, 0, LARGURA, ALTURA);
-                        contadorAtual.setDelay(3000);
+                        contadorAtual.setDelay(700);
 
                         break;
                     }
@@ -80,7 +80,7 @@ public abstract class EstiloVisaoInicio {
             }
         };
 
-        Timer contador = new Timer(3000, acaoDoTimer);
+        Timer contador = new Timer(700, acaoDoTimer);
         contador.start();
 
 
@@ -116,8 +116,6 @@ public abstract class EstiloVisaoInicio {
                 botao.setBounds(400-114, 325-33, 228, 65);
                 botao.setIcon(new ImageIcon(imagem));
             }
-
-
         });
     }
 

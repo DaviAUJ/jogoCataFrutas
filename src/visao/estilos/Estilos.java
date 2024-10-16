@@ -1,8 +1,5 @@
 package visao.estilos;
-import visao.VisaoNovoJogo;
 import visao.VisaoPrincipal;
-
-import javax.swing.*;
 
 public abstract class Estilos {
 
@@ -13,9 +10,8 @@ public abstract class Estilos {
                 principal.setBounds(0, 0, 800, 490);
                 break;
             }
-            case "NOVO JOGO":{
-                principal.setBounds(0, 0, 1280, 720);
-
+            case "OPCOES INICIAIS":{
+                principal.setBounds(0, 0, 800, 490);
                 break;
             }
 
@@ -25,12 +21,6 @@ public abstract class Estilos {
             }
         }
 
-        principal.setResizable(false);
-        principal.setLocationRelativeTo(null);
-    }
-
-    public static void visaoNovoJogo(VisaoNovoJogo tela) {
-        tela.setBounds(0, 0, 1280, 720);
 
     }
 }
