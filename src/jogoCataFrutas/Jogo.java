@@ -112,11 +112,6 @@ public class Jogo {
     	criarJanela();
         
         while(estado.equals("EmPartida")) {
-        	if(jogadorDaVez == floresta.getJogador2()) {
-        		contarRodada();
-        		jogadorDaVez = floresta.getJogador1();
-        	}
-        	
         	jogadorDaVez.gerarPontos();
         	
         	System.out.println(
@@ -147,15 +142,17 @@ public class Jogo {
                         jogadorDaVez.catarFruta();
                         break;
                 }
-                
-               	atualizarJanela();
-           	}
-           	
+
+                atualizarJanela();
+            }
+
+            // Trocando os jogadores
            	if(jogadorDaVez == floresta.getJogador1()) {
            		jogadorDaVez = floresta.getJogador2();
            	}
            	else {
            		jogadorDaVez = getFloresta().getJogador1();
+                contarRodada();
            	}
            	
            	// Vendo se o jogador ganhou
