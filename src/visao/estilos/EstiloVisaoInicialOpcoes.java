@@ -17,15 +17,18 @@ public abstract class EstiloVisaoInicialOpcoes {
         tela.btnCarregarJogo = new JButton();
         tela.btnJogarDoInicio = new JButton();
         tela.btnVoltar = new JButton();
+        tela.btnOk = new JButton();
 
         JLabel fundo = configurarFundo(tela);
         estiloBotaoCarregar(tela.btnCarregarJogo);
         estiloBotaoNovoJogo(tela.btnJogarDoInicio);
-        estiloBtnVoltar(tela.btnVoltar);
+
+        estiloBotoesSelecao(tela.btnVoltar, tela.btnOk);
 
         fundo.add(tela.btnCarregarJogo);
         fundo.add(tela.btnJogarDoInicio);
         fundo.add(tela.btnVoltar);
+        fundo.add(tela.btnOk);
 
 
 
@@ -65,6 +68,24 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    private static void estiloBotoesSelecao(JButton botaoVoltar, JButton botaoOk){
+        int botaoVoltarAltura = 34;
+        int botaoVoltarLargura = 138;
+
+        int botaoOkAltura = 34;
+        int botaoOkLargura = 70;
+
+        estiloBtnVoltar(botaoVoltar);
+        botaoVoltar.setBounds(LARGURA - botaoVoltarLargura - 100, ALTURA - botaoVoltarAltura - 20, botaoVoltarLargura, botaoVoltarAltura);
+
+
+        estiloBtnOk(botaoOk);
+        botaoOk.setBounds(LARGURA - botaoVoltarLargura - botaoOkLargura - 120, ALTURA - botaoOkAltura - 21, botaoOkLargura, botaoOkAltura);
+
+
+
+    }
+
     private static void estiloBotaoNovoJogo(JButton botao){
         int botaoAltura = 45;
         int botaoLargura = 244;
@@ -81,16 +102,20 @@ public abstract class EstiloVisaoInicialOpcoes {
     }
 
     private static void estiloBtnVoltar(JButton botao){
-        int botaoAltura = 34;
-        int botaoLargura = 138;
 
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/voltar.png");
         botao.setIcon(spriteBotao);
         botao.setBackground(new Color(0, 0, 0, 0));
         botao.setFocusPainted(false);
         botao.setBorderPainted(false);
+    }
 
-        botao.setBounds(LARGURA - botaoLargura - 100, ALTURA - botaoAltura - 20, botaoLargura, botaoAltura);
+    private static void estiloBtnOk(JButton botao){
+        ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/ok.png");
+        botao.setIcon(spriteBotao);
+        botao.setBackground(new Color(0, 0, 0, 0));
+        botao.setFocusPainted(false);
+        botao.setBorderPainted(false);
     }
 
 

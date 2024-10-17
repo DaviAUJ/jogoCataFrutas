@@ -40,7 +40,7 @@ public class Main {
         gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
         gerenciadorDeTelas.adicionarNovaTela("OPCOES INICIAIS", telaOpcoes);
 
-        gerenciadorDeTelas.mostrarTela("INICIO");
+        gerenciadorDeTelas.irParaTela("INICIO");
 
         Estilos.visaoPrincipal(principal);
         principal.setVisible(true);

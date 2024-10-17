@@ -9,13 +9,13 @@ import java.awt.event.MouseEvent;
 import visao.*;
 
 public abstract class EstiloVisaoInicio {
-    public static final int LARGURA = 800;
-    public static final int ALTURA = 450;
+    private static final int LARGURA_TELA = 1280;
+    private static final int ALTURA_TELA = 720;
 
 
     public static void aplicarEstilo(VisaoInicio visaoInicio){
 
-        visaoInicio.setBounds(0, 0, LARGURA, ALTURA);
+        visaoInicio.setBounds(0, 0, LARGURA_TELA, ALTURA_TELA);
         visaoInicio.setLayout(null);
 
         visaoInicio.tituloJogo = new JLabel();
@@ -33,26 +33,69 @@ public abstract class EstiloVisaoInicio {
 
     }
 
-    public static JLabel construirFundo(VisaoInicio inicio){
+    private static JLabel construirFundo(VisaoInicio inicio){
         ImageIcon imagemDeFundoFloresta = new ImageIcon("./assets/imgs/inicio/fundoFloresta.png");
+        Image imagemFundo = imagemDeFundoFloresta.getImage();
+
         ImageIcon bordaFundo = new ImageIcon("./assets/imgs/inicio/borda.png");
 
-        JLabel fundo = new JLabel(imagemDeFundoFloresta);
-        fundo.setBounds(0, 0, LARGURA, ALTURA);
+        final int[] FUNDO_POSX = {-800};
+        int FUNDO_POSY = 0;
+
+        int BORDA_POSX = 0;
+        int BORDA_POSY = 0;
+
+
+
+        JLabel fundo = new JLabel(){
+            @Override
+            public void paintComponent(Graphics g){
+                super.paintComponent(g);
+                g.drawImage(imagemFundo, FUNDO_POSX[0], FUNDO_POSY, this);
+            }
+        };
+
+        fundo.setBounds(0, FUNDO_POSY, 2506, ALTURA_TELA);
+
 
         JLabel borda = new JLabel(bordaFundo);
-        borda.setBounds(0, 0, LARGURA, ALTURA);
+        borda.setBounds(BORDA_POSX, BORDA_POSY, LARGURA_TELA, ALTURA_TELA);
+
+        ActionListener acaoDoContador = new ActionListener() {
+            int velocidadeMovimento = 1;
+            char estado = 'I';
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Timer contadorUsado = (Timer) e.getSource();
+                if (FUNDO_POSX[0] == 0 || FUNDO_POSX[0] == -2506+1280){
+                    velocidadeMovimento *= -1;
+
+
+                }
+                System.out.println(FUNDO_POSX[0]);
+                FUNDO_POSX[0] = FUNDO_POSX[0] + velocidadeMovimento;
+                fundo.repaint();
+
+            }
+        };
+
+        Timer contador = new Timer(50, acaoDoContador);
+        contador.start();
 
         fundo.add(borda);
         inicio.add(fundo);
         return borda;
     }
 
-    public static void estiloTitulo(JLabel titulo){
+    private static void estiloTitulo(JLabel titulo){
         ImageIcon spriteTitulo = new ImageIcon("./assets/imgs/inicio/cata-frutas.png");
         titulo.setIcon(spriteTitulo);
+        int TITULO_LARGURA = 800;
+        int TITULO_ALTURA = 450;
+        int TITULO_POSX = (LARGURA_TELA - TITULO_LARGURA)/2;
+        int TITULO_POSY = (ALTURA_TELA - TITULO_ALTURA)/2;
 
-        titulo.setBounds(0, 0, LARGURA, ALTURA);
+        titulo.setBounds(TITULO_POSX, TITULO_POSY, TITULO_LARGURA, TITULO_ALTURA);
 
         ActionListener acaoDoTimer = new ActionListener() {
             private int estadoAnimacaoAtual = 0;
@@ -64,14 +107,14 @@ public abstract class EstiloVisaoInicio {
                 switch (estadoAnimacaoAtual){
                     case 0:{
                         estadoAnimacaoAtual = 1;
-                        titulo.setBounds(0, -5, LARGURA, ALTURA);
+                        titulo.setBounds(TITULO_POSX, TITULO_POSY-5, TITULO_LARGURA, TITULO_ALTURA);
                         contadorAtual.setDelay(700);
 
                         break;
                     }
                     case 1:{
                         estadoAnimacaoAtual = 0;
-                        titulo.setBounds(0, 0, LARGURA, ALTURA);
+                        titulo.setBounds(TITULO_POSX, TITULO_POSY, TITULO_LARGURA, TITULO_ALTURA);
                         contadorAtual.setDelay(700);
 
                         break;
@@ -88,33 +131,29 @@ public abstract class EstiloVisaoInicio {
 
     }
 
-    public static void estiloBotao(JButton botao){
+    private static void estiloBotao(JButton botao){
         ImageIcon spriteTexto = new ImageIcon("./assets/imgs/inicio/btnIniciarJogo.png");
+        int BOTAO_LARGURA = 228;
+        int BOTAO_ALTURA = 65;
+        int BOTAO_POSX = (LARGURA_TELA - BOTAO_LARGURA)/2;
+        int BOTAO_POSY = (ALTURA_TELA - BOTAO_ALTURA)/2 + 100;
+
         botao.setIcon(spriteTexto);
         botao.setBackground(new Color(0, 0, 0, 0));
         botao.setFocusPainted(false);
         botao.setBorder(null);
-        botao.setBounds(400-114, 325-33, 228, 65);
+        botao.setBounds(BOTAO_POSX, BOTAO_POSY, BOTAO_LARGURA, BOTAO_ALTURA);
 
         botao.addMouseListener(new MouseAdapter() {
-            private ImageIcon icon = (ImageIcon) botao.getIcon();
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                Image imagem = icon.getImage();
-                imagem = imagem.getScaledInstance(230, 70, Image.SCALE_SMOOTH);
-
-                botao.setBounds(400-115, 325-35, 230, 70);
-                botao.setIcon(new ImageIcon(imagem));
+                botao.setBounds(BOTAO_POSX, BOTAO_POSY-5, BOTAO_LARGURA, BOTAO_ALTURA);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                Image imagem = icon.getImage();
-                imagem = imagem.getScaledInstance(228, 65, Image.SCALE_SMOOTH);
-
-                botao.setBounds(400-114, 325-33, 228, 65);
-                botao.setIcon(new ImageIcon(imagem));
+                botao.setBounds(BOTAO_POSX, BOTAO_POSY, BOTAO_LARGURA, BOTAO_ALTURA);
             }
         });
     }

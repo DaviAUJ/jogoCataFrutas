@@ -25,7 +25,7 @@ public class VisaoInicio extends JPanel {
         this.iniciarJogo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gerenciador.mostrarTela("OPCOES INICIAIS");
+                gerenciador.irParaTela("OPCOES INICIAIS");
             }
         });
 

@@ -3,6 +3,8 @@ package visao;
 import visao.estilos.EstiloVisaoInicialOpcoes;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VisaoInicialOpcoes extends JPanel {
 
@@ -15,5 +17,12 @@ public class VisaoInicialOpcoes extends JPanel {
     public VisaoInicialOpcoes(GerenciadorDeTelas gerenciadorDeTelas) {
 
         EstiloVisaoInicialOpcoes.aplicarEstilo(this);
+
+        btnVoltar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gerenciadorDeTelas.voltarTela();
+            }
+        });
     }
 }

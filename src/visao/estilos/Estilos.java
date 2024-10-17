@@ -7,7 +7,7 @@ public abstract class Estilos {
         System.out.println(principal.getGerenciador().getNomeTelaAtual());
         switch (principal.getGerenciador().getNomeTelaAtual()){
             case "INICIO":{
-                principal.setBounds(0, 0, 800, 490);
+                principal.setBounds(0, 0, 1280, 740);
                 break;
             }
             case "OPCOES INICIAIS":{
