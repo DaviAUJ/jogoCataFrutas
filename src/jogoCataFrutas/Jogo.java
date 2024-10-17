@@ -14,7 +14,7 @@ import visao.VisaoTerreno;
 
 public class Jogo {
     private int contadorRodada = 1;
-    private String estado = "";
+    private String estado;
 
     protected Terreno floresta = new Terreno();
     
@@ -100,8 +100,6 @@ public class Jogo {
 
     /**
      * Inicia o jogo.
-     *
-     * @return true se o jogo foi iniciado com sucesso, false caso contrário.
      */
 
     public void iniciarPartida() {   	        
@@ -141,6 +139,9 @@ public class Jogo {
                     case 'f':
                         jogadorDaVez.catarFruta();
                         break;
+                    case 'c':
+                        jogadorDaVez.comerFruta();
+                        break;
                 }
 
                 atualizarJanela();
@@ -156,7 +157,7 @@ public class Jogo {
            	}
            	
            	// Vendo se o jogador ganhou
-           	if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
+           	if(jogadorDaVez.getMochila().getNumeroMaracujas() > floresta.getTotalMaracujas() / 2) {
            		estado = "Vitoria" + jogadorDaVez.getNome();
            	}
         }

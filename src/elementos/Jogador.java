@@ -1,7 +1,6 @@
 package elementos;
 
 import frutas.Fruta;
-import utilitarios.FixedStack;
 import utilitarios.GerenciadorArquivo;
 
 import java.util.Random;
@@ -12,15 +11,13 @@ import java.util.Random;
  */
 
 public class Jogador extends Elemento {
-    private FixedStack<Fruta> mochila;
+    private Mochila mochila;
     private Terreno local;
 
-    private int pontosMovimento = 3;
-    private int pontosOuro = 0;
+    private int pontosMovimento = 0;
     private String estado = "";
 
     private boolean buffForca = false;
-    private boolean buffAgilidade = false;
     private boolean nerfBichada = false;
 
     /** Construtor padrão da classe Jogador. */
@@ -34,7 +31,7 @@ public class Jogador extends Elemento {
 
         this.local = local;
 
-        mochila = new FixedStack<Fruta>(arquivo.pegarEspacoMochila());
+        mochila = new Mochila();
     }
 
     /**
@@ -55,26 +52,6 @@ public class Jogador extends Elemento {
 
     public void setPontosMovimento(int pontosMovimento) {
         this.pontosMovimento = pontosMovimento;
-    }
-
-    /**
-     * Retorna os pontos de ouro do jogador.
-     *
-     * @return Os pontos de ouro.
-     */
-
-    public int getPontosOuro() {
-        return pontosOuro;
-    }
-
-    /**
-     * Define os pontos de ouro do jogador.
-     *
-     * @param pontosOuro Os novos pontos de ouro.
-     */
-
-    public void setPontosOuro(int pontosOuro) {
-        this.pontosOuro = pontosOuro;
     }
 
     /**
@@ -137,6 +114,10 @@ public class Jogador extends Elemento {
         this.nerfBichada = nerfBichada;
     }
 
+    public Mochila getMochila() {
+        return mochila;
+    }
+
     /**
      * Tenta catar uma fruta.
      *
@@ -144,7 +125,7 @@ public class Jogador extends Elemento {
      */
 
     public boolean catarFruta() {
-        if(pontosMovimento <=  0 || mochila.isFull()) {
+        if(pontosMovimento <=  0 || mochila.taCheia()) {
             return false;
         }
 
@@ -163,8 +144,11 @@ public class Jogador extends Elemento {
         }
 
         pontosMovimento--;
-        mochila.push(quadradinho.getEspacoFruta());
+        mochila.colocar(quadradinho.getEspacoFruta());
         quadradinho.setEspacoFruta(null);
+
+        // Tenta nerfar o jogador
+        mochila.bizoiar().nerfar(this);
 
         return true;
     }
@@ -177,12 +161,12 @@ public class Jogador extends Elemento {
 
     public boolean comerFruta() {
         try {
-            Fruta frutaComida = mochila.pop();
+            Fruta frutaComida = mochila.tirarFrutaNormal();
 
             frutaComida.buffar(this);
-            frutaComida.nerfar(this);
         }
         catch(Exception e) {
+            System.out.println(e + "");
             return false;
         }
 

@@ -8,7 +8,6 @@ import java.util.Random;
 
 import excecoes.*;
 import frutas.*;
-import jogoCataFrutas.Jogo;
 import utilitarios.*;
 
 /**
@@ -26,7 +25,7 @@ public class Terreno {
 	private int quantPedras = 0;
 	private int totalMaracujas = 1;
 
-	protected Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
+	protected ElementoEstatico[][] tabuleiro = new ElementoEstatico[dimensao][dimensao];
 
 	/**
 	 * Construtor da classe Terreno. Inicializa o terreno com as dimensões e
@@ -45,7 +44,7 @@ public class Terreno {
 		}
 		
 		quantPedras = arquivo.pegarQtdPedras();
-		tabuleiro = new Elemento[dimensao][dimensao];
+		tabuleiro = new ElementoEstatico[dimensao][dimensao];
 
 		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(configFrutas, 0), 1, 7);
 		quantFrutasChao = Extras.colunaMatriz(configFrutas, 1);
@@ -71,17 +70,6 @@ public class Terreno {
 	}
 
 	/**
-	 * Define a dimensão do terreno do jogo.
-	 *
-	 * @param dimensao A nova dimensão do tabuleiro.
-	 */
-
-	public void setDimensao(int dimensao) {
-		this.dimensao = dimensao;
-		tabuleiro = new Elemento[dimensao][dimensao];
-	}
-
-	/**
 	 * Retorna o tabuleiro do jogo.
 	 *
 	 * @return O tabuleiro de elementos.
@@ -89,17 +77,6 @@ public class Terreno {
 
 	public Elemento[][] getTabuleiro() {
 		return tabuleiro;
-	}
-
-	/**
-	 * Define um novo tabuleiro para o jogo.
-	 *
-	 * @param tabuleiro O novo tabuleiro de elementos.
-	 */
-
-	public void setTabuleiro(Elemento[][] tabuleiro) {
-		this.tabuleiro = tabuleiro;
-		dimensao = tabuleiro.length;
 	}
 	
 	public int getTotalMaracujas() {
@@ -136,7 +113,7 @@ public class Terreno {
 	 */
 
 	private <T extends ElementoEstatico> void gerarElementosEstaticos(Class<T> classe, int quantidade)
-			throws elementosDemaisException {
+			throws ElementosDemaisException {
 		Random gerador = new Random();
 
 		// array q armazena as posicoes disponiveis
@@ -154,7 +131,7 @@ public class Terreno {
 		
 		// Verificando se a quantidade de elementos passada como argumento vai estourar a matriz do tabuleiro
 		if(index + 1 < quantidade) {
-			throw new elementosDemaisException("ERRO - tentando colocar elementos estáticos de mais no tabuleiro");
+			throw new ElementosDemaisException("ERRO - tentando colocar elementos estáticos de mais no tabuleiro");
 		}
 		
 		// gera os elementos nas posicoes disponiveis
@@ -181,7 +158,7 @@ public class Terreno {
 		}
 	}
 
-	private void distribuirFrutasNaGrama() throws frutasDemaisException {
+	private void distribuirFrutasNaGrama() throws FrutasDemaisException {
 		ArrayList<Grama> gramas = new ArrayList<Grama>();
 
 		for(int x = 0; x < dimensao; x++) {
@@ -193,7 +170,7 @@ public class Terreno {
 		}
 
 		if(gramas.size() < Extras.somarVetor(quantFrutasChao)) {
-			throw new frutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
+			throw new FrutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
 		}
 
 		Collections.shuffle(gramas);
@@ -229,7 +206,7 @@ public class Terreno {
 		}
 	}
 
-	private void distribuirFrutasNasArvores() throws frutasDemaisException {
+	private void distribuirFrutasNasArvores() throws FrutasDemaisException {
 		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
 
 		for(int x = 0; x < dimensao; x++) {
@@ -241,7 +218,7 @@ public class Terreno {
 		}
 
 		if(arvores.size() < Extras.somarVetor(quantTipoArvores)) {
-			throw new frutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
+			throw new FrutasDemaisException("Muitas frutas estão tentando ser colocadas na grama");
 		}
 
 		Collections.shuffle(arvores);
