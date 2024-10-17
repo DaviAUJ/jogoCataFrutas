@@ -24,6 +24,7 @@ public class Terreno {
 	private int[] quantTipoArvores = new int[6];
 	private int[] quantFrutasChao = new int[7];
 	private int quantPedras = 0;
+	private int totalMaracujas = 1;
 
 	protected Elemento[][] tabuleiro = new Elemento[dimensao][dimensao];
 
@@ -35,6 +36,7 @@ public class Terreno {
 
 	public Terreno() {
 		GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
+		int[][] configFrutas = arquivo.pegarFrutas();
 
 		dimensao = arquivo.pegarDimensao();
 		
@@ -45,8 +47,9 @@ public class Terreno {
 		quantPedras = arquivo.pegarQtdPedras();
 		tabuleiro = new Elemento[dimensao][dimensao];
 
-		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(arquivo.pegarFrutas(), 0), 1, 7);
-		quantFrutasChao = Extras.colunaMatriz(arquivo.pegarFrutas(), 1);
+		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(configFrutas, 0), 1, 7);
+		quantFrutasChao = Extras.colunaMatriz(configFrutas, 1);
+		totalMaracujas = configFrutas[0][0];
 	}
 
 	public Jogador getJogador1() {
@@ -97,6 +100,10 @@ public class Terreno {
 	public void setTabuleiro(Elemento[][] tabuleiro) {
 		this.tabuleiro = tabuleiro;
 		dimensao = tabuleiro.length;
+	}
+	
+	public int getTotalMaracujas() {
+		return totalMaracujas;
 	}
 
 	private void posicionarJogadores() {
