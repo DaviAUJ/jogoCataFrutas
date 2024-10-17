@@ -37,6 +37,10 @@ public class Abacate extends Fruta {
 
     @Override
     public boolean buffar(Jogador jogador) {
+    	if (jogador != null) {
+    		jogador.setBuffForca(true);
+    		return true;
+    	}
         return false;
     }
 }

@@ -118,26 +118,6 @@ public class Jogador extends Elemento {
     }
 
     /**
-     * Verifica se o jogador possui o buff de agilidade.
-     *
-     * @return True se o buff de agilidade estiver ativo, false caso contrário.
-     */
-
-    public boolean getBuffAgilidade() {
-        return buffAgilidade;
-    }
-
-    /**
-     * Define se o buff de agilidade está ativo.
-     *
-     * @param buffAgilidade O novo estado do buff de agilidade.
-     */
-
-    public void setBuffAgilidade(boolean buffAgilidade) {
-        this.buffAgilidade = buffAgilidade;
-    }
-
-    /**
      * Verifica se o jogador está sob o nerf de bichada.
      *
      * @return True se o nerf de bichada estiver ativo, false caso contrário.

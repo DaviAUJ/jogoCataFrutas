@@ -37,6 +37,10 @@ public class Laranja extends Fruta {
 
     @Override
     public boolean buffar(Jogador jogador) {
+    	if (jogador != null) {
+    		jogador.setNerfBichada(false);
+    		return true;
+    	}
         return false;
     }
 }
