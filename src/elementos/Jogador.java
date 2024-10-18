@@ -228,7 +228,7 @@ public class Jogador extends Elemento {
         // Cria uma nova instância da fruta do tipo da árvore
         Fruta novaFruta;
         try {
-            novaFruta = tipoFruta.getDeclaredConstructor(String.class).newInstance(tipoFruta.getSimpleName() + " " + (mochila.getNumeroMaracujas() + 1));
+            novaFruta = tipoFruta.getDeclaredConstructor(String.class).newInstance(tipoFruta.getSimpleName() + " " + (mochila.quantidadeFrutas() + 1));
         } catch (Exception e) {
             System.out.println("Não foi possível instanciar a fruta: " + e.getMessage());
             return false;
@@ -271,7 +271,8 @@ public class Jogador extends Elemento {
         	((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
         	this.posicaoX = posX;
         	this.posicaoY = posY;
-        	
+
+            setJaSeMoveu(true);
         	return 's';	
         }
         catch(Exception e) {

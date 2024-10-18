@@ -21,6 +21,10 @@ public class Mochila {
         bolso = new ArrayList<Fruta>();
     }
 
+    public int quantidadeFrutas() {
+        return bolso.size();
+    }
+
     public int getNumeroMaracujas() {
         return numeroMaracujas;
     }

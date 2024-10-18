@@ -111,6 +111,7 @@ public class Jogo {
         
         while(estado.equals("EmPartida")) {
         	jogadorDaVez.gerarPontos();
+            jogadorDaVez.resetarMovimento();
         	
         	System.out.println(
                     "Rodada: "
@@ -135,6 +136,7 @@ public class Jogo {
                         break;
                     case 'p':
                         jogadorDaVez.setPontosMovimento(0);
+                        jogadorDaVez.pegarFrutaArvore();
                         break;
                     case 'f':
                         jogadorDaVez.catarFruta();
