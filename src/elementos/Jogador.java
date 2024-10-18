@@ -2,6 +2,7 @@ package elementos;
 
 import frutas.Fruta;
 import utilitarios.GerenciadorArquivo;
+import excecoes.MochilaCheiaException;
 
 import java.util.Random;
 
@@ -19,6 +20,7 @@ public class Jogador extends Elemento {
 
     private boolean buffForca = false;
     private boolean nerfBichada = false;
+    private boolean jaSeMoveu = false;
 
     /** Construtor padrão da classe Jogador. */
 
@@ -119,6 +121,33 @@ public class Jogador extends Elemento {
     }
 
     /**
+     * Verifica se o jogador já se moveu.
+     *
+     * @return True se o jogador já se moveu, false caso contrário.
+     */
+    
+    public boolean getJaSeMoveu() {
+        return jaSeMoveu;
+    }
+    
+    /**
+     * Define se o jogador já se moveu.
+     *
+     * @param jaSeMoveu O novo estado de movimento do jogador.
+     */
+    
+    public void setJaSeMoveu(boolean jaSeMoveu) {
+        this.jaSeMoveu = jaSeMoveu;
+    }
+    
+    /**
+     * Reseta o estado de movimento do jogador para o início de uma nova rodada.
+     */
+    
+    public void resetarMovimento() {
+        setJaSeMoveu(false);
+    }
+    /**
      * Tenta catar uma fruta.
      *
      * @return True se a ação for bem-sucedida, false caso contrário.
@@ -171,6 +200,50 @@ public class Jogador extends Elemento {
         }
 
         return true;
+    }
+    
+    public boolean pegarFrutaArvore() {
+        // Verifica se o jogador já se moveu
+        if (jaSeMoveu) {
+            System.out.println("Você já se moveu e não pode pegar a fruta da árvore.");
+            return false;
+        }
+
+        // Verifica se o jogador está em uma posição de árvore
+        ElementoEstatico elementoAtual = local.tabuleiro[posicaoX][posicaoY];
+        if (!(elementoAtual instanceof Arvore)) {
+            System.out.println("Você não está em uma árvore.");
+            return false;
+        }
+
+        Arvore arvore = (Arvore) elementoAtual;
+
+        // Pega o tipo da fruta da árvore
+        Class<? extends Fruta> tipoFruta = arvore.getTipo();
+        if (tipoFruta == null) { // Essa verficação me aparenta ser meio inutil agora que vi, mas eu acho q ta massa e ta compilando...
+            System.out.println("A árvore não possui frutas.");
+            return false;
+        }
+
+        // Cria uma nova instância da fruta do tipo da árvore
+        Fruta novaFruta;
+        try {
+            novaFruta = tipoFruta.getDeclaredConstructor(String.class).newInstance(tipoFruta.getSimpleName() + " " + (mochila.getNumeroMaracujas() + 1));
+        } catch (Exception e) {
+            System.out.println("Não foi possível instanciar a fruta: " + e.getMessage());
+            return false;
+        }
+
+        // Adiciona a nova fruta à mochila
+        try {
+            mochila.colocar(novaFruta);
+            System.out.println("Você pegou uma " + novaFruta.getNome() + "!");
+        } catch (MochilaCheiaException e) {
+            System.out.println("A mochila está cheia: " + e.getMessage());
+            return false;
+        }
+
+        return true; // Retorna true se a fruta foi pegada com sucesso
     }
 
     /**
