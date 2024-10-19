@@ -201,7 +201,8 @@ public abstract class EstiloNovoJogo {
 
         for (int i = 1; i < 5; i++){
             ImageIcon imagem = new ImageIcon(listaImagens.get(i));
-            BarrinhaConfiguracoes barrinha = new BarrinhaConfiguracoes(imagem,false);
+            BarrinhaConfiguracoes barrinha = new BarrinhaConfiguracoes(imagem,i == 2);
+            if (i==2) campos.add(barrinha.valor2);
             campos.add(barrinha.valor);
             configuracoes.add(barrinha);
             configuracoes.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -217,9 +218,9 @@ public abstract class EstiloNovoJogo {
 
         for (int i = 6; i < listaImagens.size(); i++){
             ImageIcon imagem = new ImageIcon(listaImagens.get(i));
-            BarrinhaConfiguracoes barrinha = new BarrinhaConfiguracoes(imagem,true);
+            BarrinhaConfiguracoes barrinha = new BarrinhaConfiguracoes(imagem,i!=6);
             campos.add(barrinha.valor);
-            campos.add(barrinha.valor2);
+            if (i != 6) campos.add(barrinha.valor2);
             configuracoes.add(barrinha);
             configuracoes.add(Box.createRigidArea(new Dimension(0, 20)));
         }

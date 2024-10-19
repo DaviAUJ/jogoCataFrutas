@@ -55,11 +55,13 @@ public class Main {
         telaOpcoes.setDoubleBuffered(true);
         VisaoNovoJogo telaNovoJogo = new VisaoNovoJogo(gerenciadorDeTelas);
         telaNovoJogo.setDoubleBuffered(true);
+        VisaoNomesJogadores telaNomes = new VisaoNomesJogadores(gerenciadorDeTelas);
 
 
         gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
         gerenciadorDeTelas.adicionarNovaTela("OPCOES INICIAIS", telaOpcoes);
         gerenciadorDeTelas.adicionarNovaTela("NOVO JOGO", telaNovoJogo);
+        gerenciadorDeTelas.adicionarNovaTela("NOMES DOS JOGADORES", telaNomes);
 
         gerenciadorDeTelas.irParaTela("INICIO");
 

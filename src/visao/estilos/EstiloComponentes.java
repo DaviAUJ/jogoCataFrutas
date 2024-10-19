@@ -6,9 +6,8 @@ import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
 import java.awt.*;
-import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.text.ParsePosition;
+
 
 public abstract class EstiloComponentes {
     private static int BARRINHA_LARGURA = 506;
@@ -34,6 +33,7 @@ public abstract class EstiloComponentes {
         barrinha.valor.setBounds(BARRINHA_LARGURA-56, 0, 56, BARRINHA_ALTURA);
         barrinha.texto.setOpaque(false);
         barrinha.valor.setOpaque(false);
+        barrinha.valor.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
         barrinha.valor.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255, 110)));
@@ -76,6 +76,8 @@ public abstract class EstiloComponentes {
         barrinha.valor2.setBounds(BARRINHA_LARGURA-56, 0, 56, BARRINHA_ALTURA);
         barrinha.valor.setOpaque(false);
         barrinha.valor2.setOpaque(false);
+        barrinha.valor.setFont(new Font("Arial", Font.PLAIN, 20));
+        barrinha.valor2.setFont(new Font("Arial", Font.PLAIN, 20));
 
 
         barrinha.texto.setIcon(textoBarrinha);

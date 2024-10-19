@@ -83,10 +83,13 @@ public abstract class EstiloVisaoInicialOpcoes {
         botaoVoltar.setBounds(LARGURA - botaoVoltarLargura - 120, ALTURA - botaoVoltarAltura - 50, botaoVoltarLargura, botaoVoltarAltura);
         Estilos.animacaoClicavel(botaoVoltar);
 
-
+        /*
         estiloBtnOk(botaoOk);
         botaoOk.setBounds(LARGURA - botaoVoltarLargura - botaoOkLargura - 140, ALTURA - botaoOkAltura - 51, botaoOkLargura, botaoOkAltura);
         Estilos.animacaoClicavel(botaoOk);
+
+
+         */
 
 
 

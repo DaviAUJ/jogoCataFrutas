@@ -28,7 +28,7 @@ public class VisaoInicialOpcoes extends JPanel {
         btnJogarDoInicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gerenciadorDeTelas.irParaTela("NOVO JOGO");
+                gerenciadorDeTelas.irParaTela("NOMES DOS JOGADORES");
             }
         });
     }

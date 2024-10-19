@@ -3,7 +3,9 @@ import visao.estilos.Estilos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Stack;
 
 public class GerenciadorDeTelas {
@@ -14,12 +16,15 @@ public class GerenciadorDeTelas {
     private String nomeTelaAtual;
     private Stack<String> caminhoAtual;
 
+    private HashMap <String, Object> CACHE;
+
     public GerenciadorDeTelas(JFrame framePrincipal) {
         this.framePrincipal = framePrincipal;
         this.telasGerenciadas = new HashMap<>();
         this.layout = new CardLayout();
         this.nomeTelaAtual = "raiz";
         this.telaPrincipal = new JPanel(layout);
+        this.CACHE = new HashMap<>();
         framePrincipal.setLayout(null);
 
         this.framePrincipal.setContentPane(telaPrincipal);
@@ -80,6 +85,55 @@ public class GerenciadorDeTelas {
 
     public String getNomeTelaAtual() {
         return nomeTelaAtual;
+    }
+
+    public void addNoCache(String chave, Object info){
+        this.CACHE.put(chave, info);
+    }
+
+    public Object pegarInformacaoCache(String chave){
+        return this.CACHE.get(chave);
+    }
+
+    public HashMap<String, Object> constroiHashValidavel(JTextField nomeJogador1,
+                                                         JTextField nomeJogador2,
+                                                         ArrayList <JFormattedTextField> camposDeEntrada
+                                                         ) {
+
+        HashMap <String, Object> hash = new HashMap<>();
+
+        hash.put("nomeJogador1", nomeJogador1.getText());
+        hash.put("nomeJogador2", nomeJogador2.getText());
+        hash.put("dimensao", Integer.parseInt(Objects.equals(camposDeEntrada.getFirst().getText(), "") ? "0" : camposDeEntrada.getFirst().getText()));
+        hash.put("totalMaracujas", Integer.parseInt(Objects.equals(camposDeEntrada.get(2).getText(), "") ? "0" : camposDeEntrada.get(2).getText()));
+        hash.put("espacoMochila", Integer.parseInt(Objects.equals(camposDeEntrada.get(3).getText(), "") ? "0" : camposDeEntrada.get(3).getText()));
+
+        hash.put("chanceBichadas", Integer.parseInt(Objects.equals(camposDeEntrada.get(4).getText(), "") ? "0" : camposDeEntrada.get(4).getText()));
+        hash.put("quantPedras", Integer.parseInt(Objects.equals(camposDeEntrada.get(5).getText(), "") ? "0" : camposDeEntrada.get(5).getText()));
+
+
+        ArrayList <Integer> qtdTipoArvores = new ArrayList <>(6);
+        ArrayList <Integer> qtdFrutasChao = new ArrayList <>(7);
+
+
+        qtdFrutasChao.add(Integer.parseInt(Objects.equals(camposDeEntrada.get(1).getText(), "") ? "0" : camposDeEntrada.get(1).getText()));
+        for (int i = 6; i < camposDeEntrada.size(); i+=2){
+            qtdTipoArvores.add(Integer.parseInt(Objects.equals(camposDeEntrada.get(i).getText(), "") ? "0" : camposDeEntrada.get(i).getText()));
+            qtdFrutasChao.add(Integer.parseInt(Objects.equals(camposDeEntrada.get(i+1).getText(), "") ? "0" : camposDeEntrada.get(i+1).getText()));
+        }
+
+        hash.put("qtdTipoArvores", qtdTipoArvores);
+        hash.put("qtdFrutasChao", qtdFrutasChao);
+
+        System.out.println("Arvores: " + qtdTipoArvores);
+        System.out.println("Chao: " +qtdFrutasChao);
+
+        return hash;
+
+    }
+
+    public void gerarAvisoErro(String mensagem){
+        JOptionPane.showMessageDialog(framePrincipal, mensagem, "Altere as informações", JOptionPane.ERROR_MESSAGE);
     }
 
 

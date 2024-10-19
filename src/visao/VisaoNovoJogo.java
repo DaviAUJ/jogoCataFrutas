@@ -1,5 +1,6 @@
 package visao;
 
+import utilitarios.Validador;
 import visao.componentes.BarrinhaConfiguracoes;
 import visao.estilos.EstiloNovoJogo;
 
@@ -7,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VisaoNovoJogo extends JPanel {
 
@@ -29,6 +31,27 @@ public class VisaoNovoJogo extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gerenciador.voltarTela();
+            }
+        });
+
+        botaoOk.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                HashMap<String, Object> hashValidavel = gerenciador.constroiHashValidavel(
+                        ((JTextField) gerenciador.pegarInformacaoCache("nomeJogador1")),
+                        ((JTextField) gerenciador.pegarInformacaoCache("nomeJogador2")),
+                        camposDeEntrada);
+
+                Validador validador = new Validador();
+                String resposta = validador.validarInformacoes(hashValidavel);
+                if (!resposta.equals("Validado")) {
+                    gerenciador.gerarAvisoErro(resposta);
+                }
+
+                System.out.println(resposta);
+
+
             }
         });
     }
