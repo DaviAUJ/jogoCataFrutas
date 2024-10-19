@@ -2,7 +2,7 @@ package elementos;
 
 import frutas.Fruta;
 import utilitarios.GerenciadorArquivo;
-import excecoes.MochilaCheiaException;
+import excecoes.*;
 
 import java.util.Random;
 
@@ -153,9 +153,9 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean catarFruta() {
-        if(pontosMovimento <=  0 || mochila.taCheia()) {
-            return false;
+    public void catarFruta() throws JogadorSemPontosDeMovimentacaoException, GramaSemFrutaException{
+        if(pontosMovimento <=  0) {
+            throw new JogadorSemPontosDeMovimentacaoException("O jogador não tem pontos de movimento");
         }
 
         Grama quadradinho;
@@ -163,23 +163,24 @@ public class Jogador extends Elemento {
         // Testando se é grama ou não
         try {
             quadradinho = (Grama) local.tabuleiro[posicaoX][posicaoY];
+
+            if(!quadradinho.temFruta()){
+                throw new GramaSemFrutaException("Grama sem fruta");
+            }
+
+            Fruta frutaColetada = quadradinho.getEspacoFruta();
+
+            pontosMovimento--;
+            mochila.guardar(frutaColetada);
+            quadradinho.setEspacoFruta(null);
+
+            // Tenta aplicar nerf no jogador
+            frutaColetada.nerfar(this);
         }
         catch(Exception e) {
-            return false;
+            System.out.println(e + "");
+            return;
         }
-
-        if(!quadradinho.temFruta()){
-            return false;
-        }
-
-        pontosMovimento--;
-        mochila.colocar(quadradinho.getEspacoFruta());
-        quadradinho.setEspacoFruta(null);
-
-        // Tenta nerfar o jogador
-        mochila.bizoiar().nerfar(this);
-
-        return true;
     }
 
     /**
@@ -188,18 +189,15 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean comerFruta() {
+    public void comerFruta(Class<? extends Fruta> fruta) {
         try {
-            Fruta frutaComida = mochila.tirarFrutaNormal();
+            Fruta frutaComida = mochila.tirar(fruta);
 
             frutaComida.buffar(this);
         }
         catch(Exception e) {
             System.out.println(e + "");
-            return false;
         }
-
-        return true;
     }
     
     public boolean pegarFrutaArvore() {

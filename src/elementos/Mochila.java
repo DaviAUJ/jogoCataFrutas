@@ -1,96 +1,60 @@
 package elementos;
 
 import excecoes.*;
-import frutas.Fruta;
-import frutas.Maracuja;
+import frutas.*;
 import utilitarios.GerenciadorArquivo;
-import java.util.ArrayList;
 
-// Essa classe funciona como se fosse uma stack estranha de frutas
+import java.util.HashMap;
+import java.util.Stack;
+
 public class Mochila {
-    private final ArrayList<Fruta> bolso;
+    private final HashMap<Class<? extends Fruta>, Stack<Fruta>> bolso;
 
     private final int capacidade;
-    private int numeroMaracujas;
+    private int quantFrutas = 0;
 
-    Mochila() {
+    public Mochila() {
         GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 
         capacidade = arquivo.pegarEspacoMochila();
-        numeroMaracujas = 0;
-        bolso = new ArrayList<Fruta>();
+
+        bolso = new HashMap<>(5);
+        bolso.put(Abacate.class, new Stack<>());
+        bolso.put(Coco.class, new Stack<>());
+        bolso.put(Generica.class, new Stack<>());
+        bolso.put(Laranja.class, new Stack<>());
+        bolso.put(Maracuja.class, new Stack<>());
     }
 
-    public int quantidadeFrutas() {
-        return bolso.size();
+    public Boolean taCheia() {
+        return capacidade == quantFrutas;
     }
 
-    public int getNumeroMaracujas() {
-        return numeroMaracujas;
+    public int getQuantFrutas() {
+        return quantFrutas;
     }
 
-    // Retorno topo da stack
-    public Fruta bizoiar() {
-        return bolso.getLast();
-    }
-
-    public boolean taCheia() {
-        return capacidade == bolso.size();
-    }
-
-    // Serve como push da stack
-    public void colocar(Fruta fruta) throws MochilaCheiaException {
+    public void guardar(Fruta fruta) throws MochilaCheiaException {
         if(taCheia()) {
-            throw new MochilaCheiaException("Mochila cheia");
+            throw new MochilaCheiaException("Mochila em sua capacidade máxima");
         }
 
-        if(fruta instanceof Maracuja) {
-            numeroMaracujas++;
-        }
-
-        bolso.add(fruta);
+        quantFrutas++;
+        bolso.get(fruta.getClass()).push(fruta);
     }
 
-    // Essa função funciona como um pop da stack porem apenas para todas as frutas exceto maracujá
-    public Fruta tirarFrutaNormal() throws MochilaSemFrutaNormalException {
-        Fruta saida;
-
-        if(bolso.size() == numeroMaracujas) {
-            throw new MochilaSemFrutaNormalException("Mochila sem fruta normal");
+    public Fruta tirar(Class<? extends Fruta> classe) throws MochilaVaziaException, BolsoFrutaVazioException {
+        if(quantFrutas == 0) {
+            throw new MochilaVaziaException("Mochila vazia");
         }
 
-        for(int i = bolso.size() - 1; i >= 0; i--) {
-            saida = bolso.get(i);
-
-            if(!(saida instanceof Maracuja)) {
-                bolso.remove(i);
-
-                return saida;
-            }
+        if(bolso.get(classe).isEmpty()) {
+            throw new BolsoFrutaVazioException("Bolso fruta vazio");
         }
 
-        return null;
+        quantFrutas--;
+        return bolso.get(classe).pop();
     }
 
-    // Essa função será usada na hora que o jogador empurrar outro
-    // Funciona como a função de cima mas para todas os os tipos de fruta e também pode ser repetida ali
-    public Fruta[] derrubar(int quantidade) throws MochilaVaziaException {
-        Fruta[] saida = new Fruta[quantidade];
 
-        if(quantidade > bolso.size()) {
-            throw new MochilaVaziaException("Não é possível derrubar o número de frutas especificado");
-        }
-
-        for(int i = bolso.size() - 1; i >= bolso.size() - quantidade; i--) {
-            saida[i] = bolso.get(i);
-
-            if(bolso.get(i) instanceof Maracuja) {
-                numeroMaracujas--;
-            }
-
-            bolso.remove(i);
-        }
-
-        return saida;
-    }
 }
