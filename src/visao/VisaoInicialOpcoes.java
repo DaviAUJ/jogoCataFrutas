@@ -24,5 +24,12 @@ public class VisaoInicialOpcoes extends JPanel {
                 gerenciadorDeTelas.voltarTela();
             }
         });
+
+        btnJogarDoInicio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gerenciadorDeTelas.irParaTela("NOVO JOGO");
+            }
+        });
     }
 }

@@ -37,7 +37,7 @@ public abstract class EstiloVisaoInicio {
         ImageIcon imagemDeFundoFloresta = new ImageIcon("./assets/imgs/inicio/fundoFloresta.png");
         Image imagemFundo = imagemDeFundoFloresta.getImage();
 
-        ImageIcon bordaFundo = new ImageIcon("./assets/imgs/inicio/borda.png");
+        ImageIcon bordaFundo = new ImageIcon("./assets/imgs/geral/borda.png");
 
         final int[] FUNDO_POSX = {-800};
         int FUNDO_POSY = 0;
@@ -47,13 +47,7 @@ public abstract class EstiloVisaoInicio {
 
 
 
-        JLabel fundo = new JLabel(){
-            @Override
-            public void paintComponent(Graphics g){
-                super.paintComponent(g);
-                g.drawImage(imagemFundo, FUNDO_POSX[0], FUNDO_POSY, this);
-            }
-        };
+        FundoAnimado fundo = new FundoAnimado(imagemFundo, -800, 0);
 
         fundo.setBounds(0, FUNDO_POSY, 2506, ALTURA_TELA);
 
@@ -61,29 +55,9 @@ public abstract class EstiloVisaoInicio {
         JLabel borda = new JLabel(bordaFundo);
         borda.setBounds(BORDA_POSX, BORDA_POSY, LARGURA_TELA, ALTURA_TELA);
 
-        ActionListener acaoDoContador = new ActionListener() {
-            int velocidadeMovimento = 1;
-            char estado = 'I';
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Timer contadorUsado = (Timer) e.getSource();
-                if (FUNDO_POSX[0] == 0 || FUNDO_POSX[0] == -2506+1280){
-                    velocidadeMovimento *= -1;
-
-
-                }
-                System.out.println(FUNDO_POSX[0]);
-                FUNDO_POSX[0] = FUNDO_POSX[0] + velocidadeMovimento;
-                fundo.repaint();
-
-            }
-        };
-
-        Timer contador = new Timer(50, acaoDoContador);
-        contador.start();
-
         fundo.add(borda);
         inicio.add(fundo);
+        fundo.iniciarAnimacao(50);
         return borda;
     }
 
@@ -144,18 +118,7 @@ public abstract class EstiloVisaoInicio {
         botao.setBorder(null);
         botao.setBounds(BOTAO_POSX, BOTAO_POSY, BOTAO_LARGURA, BOTAO_ALTURA);
 
-        botao.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                botao.setBounds(BOTAO_POSX, BOTAO_POSY-5, BOTAO_LARGURA, BOTAO_ALTURA);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                botao.setBounds(BOTAO_POSX, BOTAO_POSY, BOTAO_LARGURA, BOTAO_ALTURA);
-            }
-        });
+        Estilos.animacaoClicavel(botao);
     }
 
 

@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class EstiloVisaoInicialOpcoes {
-    private static int ALTURA = 450;
-    private static int LARGURA = 800;
+    private static int ALTURA = 720;
+    private static int LARGURA = 1280;
 
 
     public static void aplicarEstilo(VisaoInicialOpcoes tela){
@@ -36,10 +36,11 @@ public abstract class EstiloVisaoInicialOpcoes {
     }
 
     private static JLabel configurarFundo(VisaoInicialOpcoes tela){
-        ImageIcon imagemFundo = new ImageIcon("./assets/imgs/opcoesIniciais/fundoMontanha.png");
-        ImageIcon imagemBorda = new ImageIcon("./assets/imgs/opcoesIniciais/borda.png");
+        Image imagemFundo = new ImageIcon("./assets/imgs/opcoesIniciais/fundoMontanha.png").getImage();
 
-        JLabel fundo = new JLabel(imagemFundo);
+        ImageIcon imagemBorda = new ImageIcon("./assets/imgs/geral/borda.png");
+
+        FundoAnimado fundo = new FundoAnimado(imagemFundo, -800, 0);
         fundo.setBounds(0, 0, LARGURA, ALTURA);
 
         JLabel borda = new JLabel(imagemBorda);
@@ -50,14 +51,16 @@ public abstract class EstiloVisaoInicialOpcoes {
 
         fundo.add(borda);
         tela.add(fundo);
+        fundo.iniciarAnimacao(50);
         return borda;
 
     }
 
     private static void estiloBotaoCarregar(JButton botao){
-        int botaoAltura = 167;
-        int botaoLargura = 242;
+        int botaoAltura = (int)(167*1.6);
+        int botaoLargura = (int)(242*1.6);
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/btnCarregar.png");
+        spriteBotao.setImage(spriteBotao.getImage().getScaledInstance(botaoLargura, botaoAltura, Image.SCALE_SMOOTH));
 
 
         botao.setBounds(LARGURA/2 - botaoLargura/2, ALTURA/2 - botaoAltura/2-20, botaoLargura, botaoAltura);
@@ -65,32 +68,36 @@ public abstract class EstiloVisaoInicialOpcoes {
         botao.setBackground(new Color(0, 0, 0, 0));
         botao.setFocusPainted(false);
         botao.setBorderPainted(false);
+        Estilos.animacaoClicavel(botao);
 
     }
 
     private static void estiloBotoesSelecao(JButton botaoVoltar, JButton botaoOk){
-        int botaoVoltarAltura = 34;
-        int botaoVoltarLargura = 138;
+        int botaoVoltarAltura = 34+10;
+        int botaoVoltarLargura = 138+10;
 
-        int botaoOkAltura = 34;
-        int botaoOkLargura = 70;
+        int botaoOkAltura = 34+10;
+        int botaoOkLargura = 70+10;
 
         estiloBtnVoltar(botaoVoltar);
-        botaoVoltar.setBounds(LARGURA - botaoVoltarLargura - 100, ALTURA - botaoVoltarAltura - 20, botaoVoltarLargura, botaoVoltarAltura);
+        botaoVoltar.setBounds(LARGURA - botaoVoltarLargura - 120, ALTURA - botaoVoltarAltura - 50, botaoVoltarLargura, botaoVoltarAltura);
+        Estilos.animacaoClicavel(botaoVoltar);
 
 
         estiloBtnOk(botaoOk);
-        botaoOk.setBounds(LARGURA - botaoVoltarLargura - botaoOkLargura - 120, ALTURA - botaoOkAltura - 21, botaoOkLargura, botaoOkAltura);
+        botaoOk.setBounds(LARGURA - botaoVoltarLargura - botaoOkLargura - 140, ALTURA - botaoOkAltura - 51, botaoOkLargura, botaoOkAltura);
+        Estilos.animacaoClicavel(botaoOk);
 
 
 
     }
 
     private static void estiloBotaoNovoJogo(JButton botao){
-        int botaoAltura = 45;
-        int botaoLargura = 244;
+        int botaoAltura = (int)(45*1.5);
+        int botaoLargura = (int)(244*1.5);
 
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/jogarDoInicio.png");
+        spriteBotao.setImage(spriteBotao.getImage().getScaledInstance(botaoLargura, botaoAltura, Image.SCALE_SMOOTH));
 
 
         botao.setBounds(LARGURA/2 - botaoLargura/2, ALTURA - botaoAltura*3, botaoLargura, botaoAltura);
@@ -98,6 +105,7 @@ public abstract class EstiloVisaoInicialOpcoes {
         botao.setBackground(new Color(0, 0, 0, 0));
         botao.setFocusPainted(false);
         botao.setBorderPainted(false);
+        Estilos.animacaoClicavel(botao);
 
     }
 
@@ -108,6 +116,7 @@ public abstract class EstiloVisaoInicialOpcoes {
         botao.setBackground(new Color(0, 0, 0, 0));
         botao.setFocusPainted(false);
         botao.setBorderPainted(false);
+
     }
 
     private static void estiloBtnOk(JButton botao){
