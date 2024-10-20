@@ -137,7 +137,7 @@ public class Jogo {
                             + jogadorDaVez.getPontosMovimento()
             );
         	
-           	while(jogadorDaVez.semPontosMovimento()) {
+           	while(jogadorDaVez.getPontosMovimento() != 0) {
                try {
                    switch (pegarInput()) {
                        case 'd':
