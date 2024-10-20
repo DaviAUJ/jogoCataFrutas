@@ -6,6 +6,7 @@ import utilitarios.GerenciadorArquivo;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.lang.NullPointerException;
 
 public class Mochila {
     private final HashMap<Class<? extends Fruta>, Stack<Fruta>> bolso;
@@ -34,6 +35,26 @@ public class Mochila {
         return quantFrutas;
     }
 
+    public int getQuantMaracujas() {
+        return bolso.get(Maracuja.class).size();
+    }
+
+    public int getQuantLaranjas() {
+        return bolso.get(Laranja.class).size();
+    }
+
+    public int getQuantCocos() {
+        return bolso.get(Coco.class).size();
+    }
+
+    public int getQuantGenericas() {
+        return bolso.get(Generica.class).size();
+    }
+
+    public int getQuantAbacates() {
+        return bolso.get(Abacate.class).size();
+    }
+
     public void guardar(Fruta fruta) throws MochilaCheiaException {
         if(taCheia()) {
             throw new MochilaCheiaException("Mochila em sua capacidade máxima");
@@ -43,7 +64,8 @@ public class Mochila {
         bolso.get(fruta.getClass()).push(fruta);
     }
 
-    public Fruta tirar(Class<? extends Fruta> classe) throws MochilaVaziaException, BolsoFrutaVazioException {
+    public Fruta tirar(Class<? extends Fruta> classe)
+            throws MochilaVaziaException, BolsoFrutaVazioException, NullPointerException {
         if(quantFrutas == 0) {
             throw new MochilaVaziaException("Mochila vazia");
         }
@@ -52,9 +74,11 @@ public class Mochila {
             throw new BolsoFrutaVazioException("Bolso fruta vazio");
         }
 
+        if(classe == null) {
+            throw new NullPointerException();
+        }
+
         quantFrutas--;
         return bolso.get(classe).pop();
     }
-
-
 }

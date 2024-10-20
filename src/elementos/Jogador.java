@@ -36,6 +36,10 @@ public class Jogador extends Elemento {
         mochila = new Mochila();
     }
 
+    public Mochila abrirMochila() {
+        return mochila;
+    }
+
     /**
      * Retorna os pontos de movimento do jogador.
      *
@@ -116,8 +120,8 @@ public class Jogador extends Elemento {
         this.nerfBichada = nerfBichada;
     }
 
-    public Mochila getMochila() {
-        return mochila;
+    public int getPontosOuro() {
+        return mochila.getQuantMaracujas();
     }
 
     /**
@@ -152,6 +156,10 @@ public class Jogador extends Elemento {
      *
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
+
+    public boolean semPontosMovimento() {
+        return pontosMovimento == 0;
+    }
 
     public void catarFruta() throws JogadorSemPontosDeMovimentacaoException, GramaSemFrutaException{
         if(pontosMovimento <=  0) {
@@ -226,7 +234,10 @@ public class Jogador extends Elemento {
         // Cria uma nova instância da fruta do tipo da árvore
         Fruta novaFruta;
         try {
-            novaFruta = tipoFruta.getDeclaredConstructor(String.class).newInstance(tipoFruta.getSimpleName() + " " + (mochila.quantidadeFrutas() + 1));
+            novaFruta = tipoFruta.getDeclaredConstructor(String.class).newInstance(tipoFruta.getSimpleName()
+                    + " " +
+                    (mochila.getQuantFrutas() + 1)
+            );
         } catch (Exception e) {
             System.out.println("Não foi possível instanciar a fruta: " + e.getMessage());
             return false;
@@ -234,7 +245,7 @@ public class Jogador extends Elemento {
 
         // Adiciona a nova fruta à mochila
         try {
-            mochila.colocar(novaFruta);
+            mochila.guardar(novaFruta);
             System.out.println("Você pegou uma " + novaFruta.getNome() + "!");
         } catch (MochilaCheiaException e) {
             System.out.println("A mochila está cheia: " + e.getMessage());
@@ -254,30 +265,30 @@ public class Jogador extends Elemento {
         return false;
     }
 
-    public char moverLivre(int posX, int posY) {
-    	try {
-	        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
-	            return 'p';
-	        }
-	        
-	        if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
-	        	return 'j';
-	        }
-	        
-        	// Trocando a posição do jogador
-        	((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
-        	((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
-        	this.posicaoX = posX;
-        	this.posicaoY = posY;
+    public void moverLivre(int posX, int posY)
+            throws MovimentoParaEspacoComPlayerException,
+            MovimentoParaEspacoComPedraException,
+            JogadorForaDoCampoException {
 
-            setJaSeMoveu(true);
-        	return 's';	
+        if(posX < 0 || posX >= local.getDimensao() || posY < 0 || posY >= local.getDimensao()) {
+            throw new JogadorForaDoCampoException("");
         }
-        catch(Exception e) {
-        	System.out.println("Tentando mover o jogador fora do campo: " + e);
-        	
-        	return 'n';
+
+        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
+            throw new MovimentoParaEspacoComPedraException("");
         }
+
+        if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
+            throw new MovimentoParaEspacoComPlayerException("");
+        }
+
+        // Trocando a posição do jogador
+        ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
+        ((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
+        this.posicaoX = posX;
+        this.posicaoY = posY;
+
+        setJaSeMoveu(true);
     }
 
     /**
@@ -286,34 +297,30 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean moverCima() {
-    	char tentativa = 'n';
-
-        if(pontosMovimento == 0) {
-            return false;
+    public void moverCima() throws JogadorSemPontosDeMovimentacaoException {
+        if(semPontosMovimento()) {
+            throw new JogadorSemPontosDeMovimentacaoException("");
         }
 
-        tentativa = moverLivre(posicaoX - 1, posicaoY);
-
-    	switch (tentativa) {
-            case 's':
-                pontosMovimento--;
-                return true;
-            case 'j':
-                //empurrar
-                return false;
-            case 'p':
-                if(pontosMovimento < 3) {
-                    return false;
-                }
-                tentativa = moverLivre(posicaoX - 2, posicaoY);
+        try {
+            moverLivre(posicaoX - 1, posicaoY);
+            pontosMovimento--;
         }
+        catch(JogadorForaDoCampoException _) {  }
+        catch(MovimentoParaEspacoComPedraException e) {
+            if(pontosMovimento < 3) {
+                throw new JogadorSemPontosDeMovimentacaoException("");
+            }
 
-        if(tentativa == 's') {
-            pontosMovimento -= 3;
+            try {
+                moverLivre(posicaoX - 2, posicaoY);
+                pontosMovimento -= 3;
+            }
+            catch(MovimentoParaEspacoComPlayerException _) {  }
         }
-
-        return tentativa == 's';
+        catch(MovimentoParaEspacoComPlayerException e) {
+            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+        }
     }
 
     /**
@@ -322,34 +329,30 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean moverBaixo() {
-        char tentativa = 'n';
-
-        if(pontosMovimento == 0) {
-            return false;
+    public void moverBaixo() throws JogadorSemPontosDeMovimentacaoException {
+        if(semPontosMovimento()) {
+            throw new JogadorSemPontosDeMovimentacaoException("");
         }
 
-        tentativa = moverLivre(posicaoX + 1, posicaoY);
-
-        switch (tentativa) {
-            case 's':
-                pontosMovimento--;
-                return true;
-            case 'j':
-                //empurrar
-                return false;
-            case 'p':
-                if(pontosMovimento < 3) {
-                    return false;
-                }
-                tentativa = moverLivre(posicaoX + 2, posicaoY);
+        try {
+            moverLivre(posicaoX + 1, posicaoY);
+            pontosMovimento--;
         }
+        catch(JogadorForaDoCampoException _) {  }
+        catch(MovimentoParaEspacoComPedraException e) {
+            if(pontosMovimento < 3) {
+                throw new JogadorSemPontosDeMovimentacaoException("");
+            }
 
-        if(tentativa == 's') {
-            pontosMovimento -= 3;
+            try {
+                moverLivre(posicaoX + 2, posicaoY);
+                pontosMovimento -= 3;
+            }
+            catch(MovimentoParaEspacoComPlayerException _) {  }
         }
-
-        return tentativa == 's';
+        catch(MovimentoParaEspacoComPlayerException e) {
+            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+        }
     }
 
     /**
@@ -358,34 +361,30 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean moverEsquerda() {
-        char tentativa = 'n';
-
-        if(pontosMovimento == 0) {
-            return false;
+    public void moverEsquerda() throws JogadorSemPontosDeMovimentacaoException {
+        if(semPontosMovimento()) {
+            throw new JogadorSemPontosDeMovimentacaoException("");
         }
 
-        tentativa = moverLivre(posicaoX, posicaoY - 1);
-
-        switch (tentativa) {
-            case 's':
-                pontosMovimento--;
-                return true;
-            case 'j':
-                //empurrar
-                return false;
-            case 'p':
-                if(pontosMovimento < 3) {
-                    return false;
-                }
-                tentativa = moverLivre(posicaoX, posicaoY - 2);
+        try {
+            moverLivre(posicaoX, posicaoY - 1);
+            pontosMovimento--;
         }
+        catch(JogadorForaDoCampoException _) {  }
+        catch(MovimentoParaEspacoComPedraException e) {
+            if(pontosMovimento < 3) {
+                throw new JogadorSemPontosDeMovimentacaoException("");
+            }
 
-        if(tentativa == 's') {
-            pontosMovimento -= 3;
+            try {
+                moverLivre(posicaoX, posicaoY - 2);
+                pontosMovimento -= 3;
+            }
+            catch(MovimentoParaEspacoComPlayerException _) {  }
         }
-
-        return tentativa == 's';
+        catch(MovimentoParaEspacoComPlayerException e) {
+            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+        }
     }
 
     /**
@@ -394,34 +393,30 @@ public class Jogador extends Elemento {
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
 
-    public boolean moverDireita() {
-        char tentativa = 'n';
-
-        if(pontosMovimento == 0) {
-            return false;
+    public void moverDireita() throws JogadorSemPontosDeMovimentacaoException {
+        if(semPontosMovimento()) {
+            throw new JogadorSemPontosDeMovimentacaoException("");
         }
 
-        tentativa = moverLivre(posicaoX, posicaoY + 1);
-
-        switch (tentativa) {
-            case 's':
-                pontosMovimento--;
-                return true;
-            case 'j':
-                //empurrar
-                return false;
-            case 'p':
-                if(pontosMovimento < 3) {
-                    return false;
-                }
-                tentativa = moverLivre(posicaoX, posicaoY + 2);
+        try {
+            moverLivre(posicaoX, posicaoY + 1);
+            pontosMovimento--;
         }
+        catch(JogadorForaDoCampoException _) {  }
+        catch(MovimentoParaEspacoComPedraException e) {
+            if(pontosMovimento < 3) {
+                throw new JogadorSemPontosDeMovimentacaoException("");
+            }
 
-        if(tentativa == 's') {
-            pontosMovimento -= 3;
+            try {
+                moverLivre(posicaoX, posicaoY + 2);
+                pontosMovimento -= 3;
+            }
+            catch(MovimentoParaEspacoComPlayerException _) {  }
         }
-
-        return tentativa == 's';
+        catch(MovimentoParaEspacoComPlayerException e) {
+            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+        }
     }
 
     /** Gera pontos para o jogador (a implementação ainda não existe). */

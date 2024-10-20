@@ -6,6 +6,7 @@ import elementos.Jogador;
 import elementos.Terreno;
 import visao.VisaoPrincipal;
 import visao.VisaoTerreno;
+import frutas.*;
 
 /**
  * Representa o jogo Cata Frutas.
@@ -70,7 +71,7 @@ public class Jogo {
         return this.floresta;
     }
     
-    // ESSAS TRÊS FUNÇÕES ABAIXO SERÃO INUTEIS NO FUTURO
+    // ESSAS QUATRO FUNÇÕES ABAIXO SERÃO INUTEIS NO FUTURO
     // LEMBRETE PARA NÃO FAZER JAVADOC A TOA. DEPOIS APAGAR
     private void criarJanela() {
     	visaoPrincipal = new VisaoPrincipal(800);
@@ -98,6 +99,22 @@ public class Jogo {
         return input;
     }
 
+    private Class<? extends Fruta>  pegarInputFruta() {
+        char input;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Fruta: ");
+        input = scanner.next().charAt(0);
+
+        return switch (input) {
+            case 'a' -> Abacate.class;
+            case 'l' -> Laranja.class;
+            case 'g' -> Generica.class;
+            case 'c' -> Coco.class;
+            default -> null;
+        };
+    }
+
     /**
      * Inicia o jogo.
      */
@@ -120,33 +137,41 @@ public class Jogo {
                             + jogadorDaVez.getPontosMovimento()
             );
         	
-           	while(jogadorDaVez.getPontosMovimento() != 0) {
-                switch (pegarInput()) {
-                    case 'd':
-                        jogadorDaVez.moverDireita();
-                        break;
-                    case 'a':
-                        jogadorDaVez.moverEsquerda();
-                        break;
-                    case 'w':
-                        jogadorDaVez.moverCima();
-                        break;
-                    case 's':
-                        jogadorDaVez.moverBaixo();
-                        break;
-                    case 'p':
-                        jogadorDaVez.setPontosMovimento(0);
-                        jogadorDaVez.pegarFrutaArvore();
-                        break;
-                    case 'f':
-                        jogadorDaVez.catarFruta();
-                        break;
-                    case 'c':
-                        jogadorDaVez.comerFruta();
-                        break;
-                }
+           	while(jogadorDaVez.semPontosMovimento()) {
+               try {
+                   switch (pegarInput()) {
+                       case 'd':
+                           jogadorDaVez.moverDireita();
+                           break;
+                       case 'a':
+                           jogadorDaVez.moverEsquerda();
+                           break;
+                       case 'w':
+                           jogadorDaVez.moverCima();
+                           break;
+                       case 's':
+                           jogadorDaVez.moverBaixo();
+                           break;
+                       case 'p':
+                           jogadorDaVez.setPontosMovimento(0);
+                           jogadorDaVez.pegarFrutaArvore();
+                           break;
+                       case 'f':
+                           jogadorDaVez.catarFruta();
+                           break;
+                       case 'c':
+                           System.out.println("Abacates: " + jogadorDaVez.abrirMochila().getQuantAbacates());
+                           System.out.println("Laranjas: " + jogadorDaVez.abrirMochila().getQuantLaranjas());
+                           System.out.println("Genericas: " + jogadorDaVez.abrirMochila().getQuantGenericas());
+                           System.out.println("Cocos: " + jogadorDaVez.abrirMochila().getQuantCocos());
+                           jogadorDaVez.comerFruta(pegarInputFruta());
+                           break;
+                   }
 
-                atualizarJanela();
+                   atualizarJanela();
+               } catch (Exception e) {
+                   System.out.println(e.getMessage());
+               }
             }
 
             // Trocando os jogadores
@@ -159,7 +184,7 @@ public class Jogo {
            	}
            	
            	// Vendo se o jogador ganhou
-           	if(jogadorDaVez.getMochila().getNumeroMaracujas() > floresta.getTotalMaracujas() / 2) {
+           	if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
            		estado = "Vitoria" + jogadorDaVez.getNome();
            	}
         }
