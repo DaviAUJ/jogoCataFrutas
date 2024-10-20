@@ -9,7 +9,7 @@ public abstract class EstiloVisaoJogo {
         tela.setBounds(0, 0, 1280, 720);
         tela.setLayout(null);
 
-        tela.tabuleiro = new TabuleiroJogo(800);
+        tela.tabuleiro = new TabuleiroJogo(720);
 
         tela.add(tela.tabuleiro);
     }
