@@ -52,5 +52,9 @@ public class ReagirMudanca<T> {
     public Object getPropriedade(String propriedade) {
         return propriedades.get(propriedade);
     }
+
+    public T getObjetoEscutado() {
+        return objetoEscutado;
+    }
 }
 

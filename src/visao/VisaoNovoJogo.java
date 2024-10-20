@@ -1,5 +1,6 @@
 package visao;
 
+import utilitarios.Transmissor;
 import utilitarios.Validador;
 import visao.componentes.BarrinhaConfiguracoes;
 import visao.estilos.EstiloNovoJogo;
@@ -47,9 +48,12 @@ public class VisaoNovoJogo extends JPanel {
                 String resposta = validador.validarInformacoes(hashValidavel);
                 if (!resposta.equals("Validado")) {
                     gerenciador.gerarAvisoErro(resposta);
+                    return;
                 }
 
-                System.out.println(resposta);
+                gerenciador.solicitarNovoJogo();
+                gerenciador.irParaTela("JOGO");
+
 
 
             }

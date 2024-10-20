@@ -1,6 +1,8 @@
 package visao.estilos;
 
 import visao.componentes.BarrinhaConfiguracoes;
+import visao.componentes.QuadradinhoTabuleiro;
+import visao.componentes.TabuleiroJogo;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
@@ -95,6 +97,18 @@ public abstract class EstiloComponentes {
         barrinha.add(barrinha.valor);
         barrinha.add(barrinha.valor2);
 
+
+    }
+
+
+    public static void aplicarEstiloTabuleiro(TabuleiroJogo tabuleiro){
+        tabuleiro.setLayout(null);
+        tabuleiro.setBounds(0, 0, tabuleiro.TAMANHO, tabuleiro.TAMANHO);
+        tabuleiro.setBackground(Color.GREEN);
+
+    }
+
+    public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
 
     }
 }

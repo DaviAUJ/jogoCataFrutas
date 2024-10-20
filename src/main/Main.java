@@ -1,12 +1,15 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import utilitarios.Transmissor;
 import visao.*;
 import jogoCataFrutas.*;
 import visao.estilos.Estilos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 
 /**
@@ -23,9 +26,6 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        Jogo novoJogo = new Jogo();
-
-
 
         FlatDarkLaf.setup();
         UIManager.put("ScrollBar.thumb", new Color(64, 64, 159)); // Cor da "polegada" (thumb)
@@ -46,7 +46,8 @@ public class Main {
 
         VisaoPrincipal principal = new VisaoPrincipal();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
+        Transmissor transmissor = new Transmissor();
+        GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal, transmissor);
         principal.setGerenciador(gerenciadorDeTelas);
 
         VisaoInicio telaInicio = new VisaoInicio(gerenciadorDeTelas);
@@ -67,6 +68,20 @@ public class Main {
 
         Estilos.visaoPrincipal(principal);
         principal.setVisible(true);
+
+        transmissor.setGerenciador(gerenciadorDeTelas);
+        transmissor.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
+                    Jogo novoJogo = new Jogo();
+
+                    transmissor.setJogoDoMomento(novoJogo);
+
+
+                }
+            }
+        });
 
 
 

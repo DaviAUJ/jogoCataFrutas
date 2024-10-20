@@ -1,4 +1,7 @@
 package visao;
+import jogoCataFrutas.Jogo;
+import utilitarios.ReagirMudanca;
+import utilitarios.Transmissor;
 import visao.estilos.Estilos;
 
 import javax.swing.*;
@@ -15,16 +18,18 @@ public class GerenciadorDeTelas {
     private HashMap<String, JPanel> telasGerenciadas;
     private String nomeTelaAtual;
     private Stack<String> caminhoAtual;
+    private Transmissor transmissor;
 
     private HashMap <String, Object> CACHE;
 
-    public GerenciadorDeTelas(JFrame framePrincipal) {
+    public GerenciadorDeTelas(JFrame framePrincipal, Transmissor transmissor) {
         this.framePrincipal = framePrincipal;
         this.telasGerenciadas = new HashMap<>();
         this.layout = new CardLayout();
         this.nomeTelaAtual = "raiz";
         this.telaPrincipal = new JPanel(layout);
         this.CACHE = new HashMap<>();
+        this.transmissor = transmissor;
         framePrincipal.setLayout(null);
 
         this.framePrincipal.setContentPane(telaPrincipal);
@@ -134,6 +139,20 @@ public class GerenciadorDeTelas {
 
     public void gerarAvisoErro(String mensagem){
         JOptionPane.showMessageDialog(framePrincipal, mensagem, "Altere as informações", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void solicitarNovoJogo(){
+        transmissor.solicitacaoNovoJogo();
+        adicionarVisaoJogo(transmissor.getJogoDoMomento());
+    }
+
+    public void adicionarVisaoJogo(Jogo jogo){
+        if (!this.telasGerenciadas.containsKey("JOGO")){
+            this.adicionarNovaTela("JOGO", new VisaoJogo(this));
+        }
+        else{
+            this.telasGerenciadas.put("JOGO", new VisaoJogo(this));
+        }
     }
 
 
