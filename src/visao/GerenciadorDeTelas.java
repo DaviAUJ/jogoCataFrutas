@@ -1,5 +1,6 @@
 package visao;
 import jogoCataFrutas.Jogo;
+import utilitarios.GerenciadorArquivo;
 import utilitarios.ReagirMudanca;
 import utilitarios.Transmissor;
 import visao.estilos.Estilos;
@@ -153,6 +154,11 @@ public class GerenciadorDeTelas {
         else{
             this.telasGerenciadas.put("JOGO", new VisaoJogo(this));
         }
+    }
+
+    public ArrayList<GerenciadorArquivo> solicitarSalvamentos (){
+        transmissor.buscarSalvamentos();
+        return (ArrayList<GerenciadorArquivo>) transmissor.getDados("salvamentos");
     }
 
 

@@ -31,5 +31,13 @@ public class VisaoInicialOpcoes extends JPanel {
                 gerenciadorDeTelas.irParaTela("NOMES DOS JOGADORES");
             }
         });
+
+        btnCarregarJogo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gerenciadorDeTelas.adicionarNovaTela("CARREGAR JOGO", new VisaoCarregarJogo(gerenciadorDeTelas));
+                gerenciadorDeTelas.irParaTela("CARREGAR JOGO");
+            }
+        });
     }
 }

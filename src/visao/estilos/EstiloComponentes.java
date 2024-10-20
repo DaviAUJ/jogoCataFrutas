@@ -1,6 +1,7 @@
 package visao.estilos;
 
 import visao.componentes.BarrinhaConfiguracoes;
+import visao.componentes.EspacoSalvamento;
 import visao.componentes.QuadradinhoTabuleiro;
 import visao.componentes.TabuleiroJogo;
 
@@ -9,11 +10,24 @@ import javax.swing.text.NumberFormatter;
 
 import java.awt.*;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 
 public abstract class EstiloComponentes {
     private static int BARRINHA_LARGURA = 506;
     private static int BARRINHA_ALTURA = 33;
+
+    private static ImageIcon imagemConfig1 = new ImageIcon("./assets/imgs/carregarJogo/config1.png");
+    private static ImageIcon imagemConfig2 = new ImageIcon("./assets/imgs/carregarJogo/config2.png");
+    private static ImageIcon imagemConfig3 = new ImageIcon("./assets/imgs/carregarJogo/config3.png");
+    private static ImageIcon imagemConfig4 = new ImageIcon("./assets/imgs/carregarJogo/config4.png");
+    private static ImageIcon imagemBordaSave = new ImageIcon("./assets/imgs/carregarJogo/bordaSave.png");
+    private static ImageIcon imagemGradiente = new ImageIcon("./assets/imgs/carregarJogo/gradiente.png");
+
+    private static ImageIcon imagemLabelDimensao = new ImageIcon("./assets/imgs/carregarJogo/labelDimensao.png");
+    private static ImageIcon imagemLabelFrutasOuro = new ImageIcon("./assets/imgs/carregarJogo/frutasOuro.png");
+    private static ImageIcon imagemLabelFrutasBichadas = new ImageIcon("./assets/imgs/carregarJogo/frutasBichadas.png");
+    private static ImageIcon imagemCoverEspacoSalvamento = new ImageIcon("./assets/imgs/carregarJogo/cover.png");
 
     public static void aplicarEstiloBarrinhaConfiguracoes(BarrinhaConfiguracoes barrinha, ImageIcon textoBarrinha){
         barrinha.setLayout(null);
@@ -31,7 +45,7 @@ public abstract class EstiloComponentes {
 
         barrinha.texto.setBounds(15, 0, BARRINHA_LARGURA-56, BARRINHA_ALTURA);
         barrinha.texto.setIcon(textoBarrinha);
-        System.out.println(barrinha.texto.getIcon().getIconWidth());
+
         barrinha.valor.setBounds(BARRINHA_LARGURA-56, 0, 56, BARRINHA_ALTURA);
         barrinha.texto.setOpaque(false);
         barrinha.valor.setOpaque(false);
@@ -109,6 +123,111 @@ public abstract class EstiloComponentes {
     }
 
     public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
+
+    }
+
+    public static void aplicarEstiloEspacoSalvamento(EspacoSalvamento espacoSalvamento){
+        int SAVE_LARGURA = imagemBordaSave.getIconWidth();
+        int SAVE_ALTURA = imagemBordaSave.getIconHeight();
+
+
+        espacoSalvamento.setSize(SAVE_LARGURA, SAVE_ALTURA);
+        espacoSalvamento.setLayout(null);
+        espacoSalvamento.imagemFundo = imagemBordaSave;
+        espacoSalvamento.imagemGradiente = imagemGradiente;
+        espacoSalvamento.setOpaque(false);
+
+        if (!espacoSalvamento.getEstaHabilitado()){
+            JLabel cover = new JLabel(imagemCoverEspacoSalvamento);
+            cover.setBounds(1, -2, SAVE_LARGURA, SAVE_ALTURA);
+            espacoSalvamento.add(cover);
+        }
+
+
+        ImageIcon imagemTextoTitulo;
+        JLabel labelTextoTitulo = new JLabel();
+
+
+        switch (espacoSalvamento.getTipoTitulo()){
+            case 2:{
+                labelTextoTitulo.setIcon(imagemConfig2);
+                imagemTextoTitulo = imagemConfig1;
+                break;
+            }
+
+            case 3:{
+                labelTextoTitulo.setIcon(imagemConfig3);
+                imagemTextoTitulo = imagemConfig4;
+                break;
+            }
+
+            case 4:{
+                labelTextoTitulo.setIcon(imagemConfig4);
+                imagemTextoTitulo = imagemConfig4;
+                break;
+            }
+
+            default:{
+                labelTextoTitulo.setIcon(imagemConfig1);
+                imagemTextoTitulo = imagemConfig1;
+                break;
+            }
+        }
+
+        labelTextoTitulo.setBounds(40, 30, imagemTextoTitulo.getIconWidth(), imagemTextoTitulo.getIconHeight());
+
+        ArrayList<JLabel> labelsDeEnfeite = new ArrayList<>();
+        ArrayList<JLabel> labelsImportantes = new ArrayList<>();
+
+        //x = 70, y = 90, margem = 20
+        labelsDeEnfeite.add(new JLabel(imagemLabelDimensao));
+        labelsImportantes.add(new JLabel(Integer.toString(espacoSalvamento.getEstaHabilitado() ? espacoSalvamento.getInfo("dimensao") : 0)));
+
+        labelsDeEnfeite.add(new JLabel(imagemLabelFrutasOuro));
+        labelsImportantes.add(new JLabel(Integer.toString(espacoSalvamento.getEstaHabilitado() ? espacoSalvamento.getInfo("frutasOuro") : 0)));
+
+        labelsDeEnfeite.add(new JLabel(imagemLabelFrutasBichadas));
+        labelsImportantes.add(new JLabel(Integer.toString(espacoSalvamento.getEstaHabilitado() ? espacoSalvamento.getInfo("frutasBichadas") : 0)));
+
+        int empurraPraBaixo = 0;
+        int margem = 0;
+
+        for (int c = 0; c < labelsDeEnfeite.size(); c++){
+            JLabel labelDeEnfeiteAtual = labelsDeEnfeite.get(c);
+            JLabel labelImportanteAtual = labelsImportantes.get(c);
+            ImageIcon imagemEnfeite = (ImageIcon) labelDeEnfeiteAtual.getIcon();
+
+
+            labelDeEnfeiteAtual.setBounds(70, 90 + empurraPraBaixo + margem, imagemEnfeite.getIconWidth(), imagemEnfeite.getIconHeight());
+
+            labelImportanteAtual.setBounds(70 + 355, 90 + empurraPraBaixo + margem, 50, imagemEnfeite.getIconHeight());
+            labelImportanteAtual.setFont(new Font("Arial", Font.PLAIN, 30));
+            labelImportanteAtual.setForeground(new Color(255, 255, 255));
+
+            espacoSalvamento.add(labelDeEnfeiteAtual);
+            espacoSalvamento.add(labelImportanteAtual);
+
+            empurraPraBaixo += imagemEnfeite.getIconHeight();
+            margem += 15;
+        }
+
+        espacoSalvamento.labels = labelsImportantes;
+
+
+
+
+
+
+
+
+
+
+
+
+
+        espacoSalvamento.add(labelTextoTitulo);
+
+
 
     }
 }

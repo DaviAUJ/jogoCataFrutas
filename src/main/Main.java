@@ -1,6 +1,7 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 import visao.*;
 import jogoCataFrutas.*;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 
 /**
@@ -50,24 +52,10 @@ public class Main {
         GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal, transmissor);
         principal.setGerenciador(gerenciadorDeTelas);
 
-        VisaoInicio telaInicio = new VisaoInicio(gerenciadorDeTelas);
-        telaInicio.setDoubleBuffered(true);
-        VisaoInicialOpcoes telaOpcoes = new VisaoInicialOpcoes(gerenciadorDeTelas);
-        telaOpcoes.setDoubleBuffered(true);
-        VisaoNovoJogo telaNovoJogo = new VisaoNovoJogo(gerenciadorDeTelas);
-        telaNovoJogo.setDoubleBuffered(true);
-        VisaoNomesJogadores telaNomes = new VisaoNomesJogadores(gerenciadorDeTelas);
 
-
-        gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
-        gerenciadorDeTelas.adicionarNovaTela("OPCOES INICIAIS", telaOpcoes);
-        gerenciadorDeTelas.adicionarNovaTela("NOVO JOGO", telaNovoJogo);
-        gerenciadorDeTelas.adicionarNovaTela("NOMES DOS JOGADORES", telaNomes);
-
-        gerenciadorDeTelas.irParaTela("INICIO");
 
         Estilos.visaoPrincipal(principal);
-        principal.setVisible(true);
+
 
         transmissor.setGerenciador(gerenciadorDeTelas);
         transmissor.addPropertyChangeListener(new PropertyChangeListener() {
@@ -82,6 +70,47 @@ public class Main {
                 }
             }
         });
+
+        transmissor.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("solicitacaoListaSalvamentos")){
+                    ArrayList<GerenciadorArquivo> arquivos = new ArrayList<>(4);
+
+                    GerenciadorArquivo arquivo1 = new GerenciadorArquivo("./config.txt");
+                    GerenciadorArquivo arquivo2 = new GerenciadorArquivo("./config.txt");
+                    GerenciadorArquivo arquivo3 = new GerenciadorArquivo("./config.txt");
+                    GerenciadorArquivo arquivo4 = new GerenciadorArquivo("./config.txt");
+                    arquivos.add(arquivo1);
+                    arquivos.add(arquivo2);
+                    arquivos.add(arquivo3);
+
+
+                    transmissor.adicionarDados("salvamentos", arquivos);
+                }
+            }
+        });
+
+
+        VisaoInicio telaInicio = new VisaoInicio(gerenciadorDeTelas);
+        telaInicio.setDoubleBuffered(true);
+        VisaoInicialOpcoes telaOpcoes = new VisaoInicialOpcoes(gerenciadorDeTelas);
+        telaOpcoes.setDoubleBuffered(true);
+        VisaoNovoJogo telaNovoJogo = new VisaoNovoJogo(gerenciadorDeTelas);
+        telaNovoJogo.setDoubleBuffered(true);
+        VisaoNomesJogadores telaNomes = new VisaoNomesJogadores(gerenciadorDeTelas);
+        telaNomes.setDoubleBuffered(true);
+
+
+        gerenciadorDeTelas.adicionarNovaTela("INICIO", telaInicio);
+        gerenciadorDeTelas.adicionarNovaTela("OPCOES INICIAIS", telaOpcoes);
+        gerenciadorDeTelas.adicionarNovaTela("NOVO JOGO", telaNovoJogo);
+        gerenciadorDeTelas.adicionarNovaTela("NOMES DOS JOGADORES", telaNomes);
+
+
+        gerenciadorDeTelas.irParaTela("INICIO");
+
+        principal.setVisible(true);
 
 
 

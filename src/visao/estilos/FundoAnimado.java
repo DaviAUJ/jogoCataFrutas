@@ -37,7 +37,6 @@ public class FundoAnimado extends JLabel {
                 }
                 POS_XY[0] = POS_XY[0] + velocidadeMovimento;
                 fundo.repaint();
-                fundo.revalidate();
 
             }
         };

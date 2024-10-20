@@ -5,6 +5,7 @@ import visao.GerenciadorDeTelas;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Transmissor {
@@ -36,6 +37,33 @@ public class Transmissor {
 
     public void solicitacaoNovoJogo() {
         this.suporteAMudanca.firePropertyChange("solicitacaoNovoJogo", null, dados);
+    }
+
+    public void buscarSalvamentos(){
+        this.suporteAMudanca.firePropertyChange("solicitacaoListaSalvamentos", null, dados);
+    }
+
+    public void adicionarDados(String identificador, Object dados) {
+        if (!this.dados.containsKey(identificador)) {
+            this.dados.put(identificador, dados);
+        }
+    }
+
+    public void alterarDados(String identificador, Object dados) {
+        if (this.dados.containsKey(identificador)) {
+            this.dados.put(identificador, dados);
+        }
+        else{
+            System.out.println("Identificador não encontrado!");
+        }
+    }
+
+    public Object getDados(String identificador) {
+        return this.dados.get(identificador);
+    }
+
+    public void removerDados(String identificador) {
+        this.dados.remove(identificador);
     }
 
 
