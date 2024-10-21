@@ -5,7 +5,9 @@ import utilitarios.GerenciadorArquivo;
 import excecoes.*;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Esta classe representa um jogador no jogo, contendo informações sobre sua
@@ -17,7 +19,6 @@ public class Jogador extends Elemento {
     private Terreno local;
 
     private int pontosMovimento = 0;
-    private String estado = "";
 
     private boolean buffForca = false;
     private boolean nerfBichada = false;
@@ -43,6 +44,14 @@ public class Jogador extends Elemento {
         return mochila;
     }
 
+    public int getForca() {
+        if(buffForca) {
+            return mochila.getQuantFrutas() * 2;
+        }
+
+        return mochila.getQuantFrutas();
+    }
+
     /**
      * Retorna os pontos de movimento do jogador.
      *
@@ -61,26 +70,6 @@ public class Jogador extends Elemento {
 
     public void setPontosMovimento(int pontosMovimento) {
         this.pontosMovimento = pontosMovimento;
-    }
-
-    /**
-     * Retorna o estado atual do jogador.
-     *
-     * @return O estado do jogador.
-     */
-
-    public String getEstado() {
-        return estado;
-    }
-
-    /**
-     * Define o estado do jogador.
-     *
-     * @param estado O novo estado do jogador.
-     */
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     /**
@@ -255,8 +244,19 @@ public class Jogador extends Elemento {
      * @param alvo O jogador a ser empurrado.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
-    public boolean empurrar(Jogador alvo) {
-        return false;
+    public void empurrar(Jogador alvo) throws ForcaInsuficienteException {
+        if(getForca() <= alvo.getForca()) {
+            throw new ForcaInsuficienteException("Forca insuficiente");
+        }
+
+        pontosMovimento--;
+
+        try {
+            alvo.moverLivre( 2 * alvo.posicaoX - this.posicaoX, 2 * alvo.posicaoY - this.posicaoY);
+        }
+        catch(Exception _) {  }
+
+        alvo.derrubarFrutas();
     }
 
     public void moverLivre(int posX, int posY)
@@ -317,7 +317,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -349,7 +352,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -381,7 +387,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -413,7 +422,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -431,6 +443,42 @@ public class Jogador extends Elemento {
 
             if(arvoresEmCooldown.get(arvore) == 0) {
                 arvoresEmCooldown.remove(arvore);
+            }
+        }
+    }
+
+    public void derrubarFrutas() {
+        LinkedList<int[]> vetores = new LinkedList<>();
+
+        vetores.add(new int[]{1, 0});
+        vetores.add(new int[]{1, 1});
+        vetores.add(new int[]{0, 1});
+        vetores.add(new int[]{-1, 1});
+        vetores.add(new int[]{-1, 0});
+        vetores.add(new int[]{-1, -1});
+        vetores.add(new int[]{0, -1});
+        vetores.add(new int[]{1, -1});
+        vetores.add(new int[]{});
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+        vetores.add();
+
+
+        for(int[] vetor : vetores) {
+            if(local.tabuleiro[posicaoX + vetor[0]][posicaoY + vetor[1]] instanceof Grama) {
+
             }
         }
     }

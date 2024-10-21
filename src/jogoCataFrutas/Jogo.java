@@ -130,7 +130,6 @@ public class Jogo {
         	jogadorDaVez.gerarPontos();
             jogadorDaVez.resetarMovimento();
             jogadorDaVez.atualizarCooldowns();
-            jogadorDaVez.setNerfBichada(false);
         	
         	System.out.println(
                     "Rodada: "
@@ -175,6 +174,10 @@ public class Jogo {
                    System.out.println(e.getMessage());
                }
             }
+
+            // Acabou a rodada reseta os status effects
+            jogadorDaVez.setNerfBichada(false);
+            jogadorDaVez.setBuffForca(false);
 
             // Trocando os jogadores
            	if(jogadorDaVez == floresta.getJogador1()) {
