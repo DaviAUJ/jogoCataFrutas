@@ -296,8 +296,4 @@ public class Terreno {
 			}
 		}
 	}
-
-	public void atualizarCooldownArvores() {
-
-	}
 }
