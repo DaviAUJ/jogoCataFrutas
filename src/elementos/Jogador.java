@@ -262,7 +262,11 @@ public class Jogador extends Elemento {
     public void moverLivre(int posX, int posY)
             throws MovimentoParaEspacoComPlayerException,
             MovimentoParaEspacoComPedraException,
-            JogadorForaDoCampoException {
+            JogadorForaDoCampoException, JogadorNerfadoException {
+
+        if(nerfBichada) {
+            throw new JogadorNerfadoException("");
+        }
 
         if(posX < 0 || posX >= local.getDimensao() || posY < 0 || posY >= local.getDimensao()) {
             throw new JogadorForaDoCampoException("");
@@ -300,7 +304,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX - 1, posicaoY);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -332,7 +336,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX + 1, posicaoY);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -364,7 +368,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX, posicaoY - 1);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -396,7 +400,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX, posicaoY + 1);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
