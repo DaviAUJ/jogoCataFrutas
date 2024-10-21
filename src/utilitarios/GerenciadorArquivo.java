@@ -1,10 +1,14 @@
 package utilitarios;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Classe para gerenciar a leitura e escrita de configurações em um arquivo.
@@ -249,5 +253,41 @@ public class GerenciadorArquivo {
             System.err.println(e);
             return false;
         }
+    }
+
+
+    public HashMap<String, Object> constroiHashValidavel() {
+
+        HashMap <String, Object> hash = new HashMap<>();
+
+        int[][] frutas = this.pegarFrutas();
+
+        hash.put("nomeJogador1", "nome1");
+        hash.put("nomeJogador2", "nome2");
+        hash.put("dimensao", this.pegarDimensao());
+        hash.put("totalMaracujas", frutas[0][0]);
+        hash.put("espacoMochila", this.pegarEspacoMochila());
+
+        hash.put("chanceBichadas", this.pegarChanceBichadas());
+        hash.put("quantPedras", this.pegarQtdPedras());
+
+
+        ArrayList <Integer> qtdTipoArvores = new ArrayList <>(6);
+        ArrayList <Integer> qtdFrutasChao = new ArrayList <>(7);
+
+        for (int c = 0; c < frutas.length; c++) {
+            qtdTipoArvores.add(frutas[c][0]);
+            qtdFrutasChao.add(frutas[c][1]);
+        }
+
+
+        hash.put("qtdTipoArvores", qtdTipoArvores);
+        hash.put("qtdFrutasChao", qtdFrutasChao);
+
+        System.out.println("Arvores: " + qtdTipoArvores);
+        System.out.println("Chao: " +qtdFrutasChao);
+
+        return hash;
+
     }
 }

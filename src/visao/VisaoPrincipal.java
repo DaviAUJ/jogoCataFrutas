@@ -1,5 +1,7 @@
 package visao;
 
+import visao.estilos.Estilos;
+
 import javax.swing.*;
 
 /**
@@ -8,19 +10,18 @@ import javax.swing.*;
  */
 
 public class VisaoPrincipal extends JFrame {
+    private GerenciadorDeTelas gerenciador;
 
-    /**
-     * Construtor da classe VisaoPrincipal.
-     *
-     * @param SIZE_CONSTANT O tamanho (largura e altura) da janela do jogo.
-     */
+    public VisaoPrincipal() {
+        setLocationRelativeTo(null);
+        this.gerenciador = null;
+    }
 
-    public VisaoPrincipal(int SIZE_CONSTANT) {
-        pack();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(SIZE_CONSTANT, SIZE_CONSTANT);
-        setResizable(false);
-        setTitle("Jogo Cata-Frutas --> v0.1");
+    public void setGerenciador(GerenciadorDeTelas gerenciador) {
+        this.gerenciador = gerenciador;
+    }
 
+    public GerenciadorDeTelas getGerenciador() {
+        return gerenciador;
     }
 }
