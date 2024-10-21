@@ -11,7 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ObjectInputFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -62,8 +64,36 @@ public class Main {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
+                    HashMap <String, Object> info = (HashMap<String, Object>) gerenciadorDeTelas.pegarInformacaoCache("infoJogo");
+
+                    Configuracoes.nomeJogador1 =  (String) info.get("nomeJogador1");
+                    Configuracoes.nomeJogador2 =  (String) info.get("nomeJogador2");
+                    Configuracoes.dimensao = (int) info.get("dimensao");
+                    Configuracoes.qtdMaracujasTotal = (int) info.get("totalMaracujas");
+                    ArrayList <Integer> qtdTipoArvores =  (ArrayList<Integer>) info.get("qtdTipoArvores");
+                    ArrayList <Integer> qtdFrutasChao =  (ArrayList<Integer>) info.get("qtdFrutasChao");
+
+                    Configuracoes.qtdMaracujasNoChao = qtdFrutasChao.getFirst();
+
+                    Configuracoes.espacoMochila = (int) info.get("espacoMochila");
+                    Configuracoes.chanceFrutaBichada = (int) info.get("chanceBichadas");
+                    Configuracoes.qtdPedras = (int) info.get("quantPedras");
+
+                    Configuracoes.qtdAbacatesArvore = qtdTipoArvores.getFirst();
+                    Configuracoes.qtdAbacatesChao = qtdFrutasChao.get(1);
+                    Configuracoes.qtdAcerolasArvore = qtdTipoArvores.get(1);
+                    Configuracoes.qtdAcerolasChao = qtdFrutasChao.get(2);
+                    Configuracoes.qtdAmorasArvore = qtdTipoArvores.get(2);
+                    Configuracoes.qtdAmorasChao = qtdFrutasChao.get(3);
+                    Configuracoes.qtdCocosArvore = qtdTipoArvores.get(3);
+                    Configuracoes.qtdCocosChao = qtdFrutasChao.get(4);
+                    Configuracoes.qtdGoiabasArvore = qtdTipoArvores.get(4);
+                    Configuracoes.qtdGoiabasChao = qtdFrutasChao.get(5);
+                    Configuracoes.qtdLaranjaArvore = qtdTipoArvores.get(5);
+                    Configuracoes.qtdLaranjaChao = qtdFrutasChao.get(6);
+
                     Jogo novoJogo = new Jogo();
-                    novoJogo.iniciarPartida();
+                    System.out.println(novoJogo);
 
                     transmissor.setJogoDoMomento(novoJogo);
 
