@@ -40,7 +40,7 @@ public class Arvore extends ElementoEstaticoPisavel {
      * @return A classe do tipo de fruta.
      */
 
-    public Class<?> getTipo() {
+    public Class<? extends Fruta> getTipo() {
         return tipo;
     }
 

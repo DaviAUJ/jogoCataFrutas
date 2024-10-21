@@ -37,6 +37,10 @@ public class Coco extends Fruta {
 
     @Override
     public boolean buffar(Jogador jogador) {
+    	if (jogador != null) {
+    		jogador.setPontosMovimento(2 * jogador.getPontosMovimento());
+    		return true;
+    	}
         return false;
     }
 }

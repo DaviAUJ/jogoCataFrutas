@@ -59,6 +59,12 @@ public abstract class Fruta {
      */
 
     public boolean nerfar(Jogador jogador) {
+        if(jogador != null) {
+            jogador.setNerfBichada(bichada);
+
+            return true;
+        }
+
         return false;
     }
 }
