@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 import elementos.Jogador;
 import elementos.Terreno;
-import visao.VisaoPrincipal;
-import visao.VisaoTerreno;
+
 import frutas.*;
 
 /**
@@ -19,10 +18,7 @@ public class Jogo {
 
     protected Terreno floresta = new Terreno();
     
-    //ESSES ATRIBUTOS AQUI SE TORNARAM INUTEIS
-    //APAGAR DEPOIS
-    VisaoPrincipal visaoPrincipal;
-    VisaoTerreno visaoTerreno;
+
 
     /**
      * Construtor da classe Jogo.
@@ -71,23 +67,7 @@ public class Jogo {
         return this.floresta;
     }
     
-    // ESSAS QUATRO FUNÇÕES ABAIXO SERÃO INUTEIS NO FUTURO
-    // LEMBRETE PARA NÃO FAZER JAVADOC A TOA. DEPOIS APAGAR
-    private void criarJanela() {
-    	visaoPrincipal = new VisaoPrincipal(800);
-        visaoTerreno = new VisaoTerreno(floresta, 800);
-        
-        visaoPrincipal.add(visaoTerreno);
-        visaoPrincipal.setVisible(true);
-        visaoPrincipal.setLocationRelativeTo(null);
-    }
-    
-    private void atualizarJanela() {
-    	visaoTerreno = new VisaoTerreno(getFloresta(), 800);
 
-    	visaoPrincipal.add(visaoTerreno);
-    	visaoPrincipal.setVisible(true);
-    }
     
     private char pegarInput() {
     	char input;
@@ -123,8 +103,6 @@ public class Jogo {
     	Jogador jogadorDaVez = floresta.getJogador1();
     	
     	estado = "EmPartida";
-    	
-    	criarJanela();
         
         while(estado.equals("EmPartida")) {
         	jogadorDaVez.gerarPontos();
@@ -168,7 +146,7 @@ public class Jogo {
                            break;
                    }
 
-                   atualizarJanela();
+
                } catch (Exception e) {
                    System.out.println(e.getMessage());
                }

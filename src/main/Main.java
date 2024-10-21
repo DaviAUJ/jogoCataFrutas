@@ -63,6 +63,7 @@ public class Main {
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
                     Jogo novoJogo = new Jogo();
+                    novoJogo.iniciarPartida();
 
                     transmissor.setJogoDoMomento(novoJogo);
 
