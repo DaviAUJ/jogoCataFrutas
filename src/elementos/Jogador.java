@@ -4,6 +4,7 @@ import frutas.Fruta;
 import utilitarios.GerenciadorArquivo;
 import excecoes.*;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -21,6 +22,8 @@ public class Jogador extends Elemento {
     private boolean buffForca = false;
     private boolean nerfBichada = false;
     private boolean jaSeMoveu = false;
+
+    private final HashMap<Arvore, Integer> arvoresEmCooldown = new HashMap<>();
 
     /** Construtor padrão da classe Jogador. */
 
@@ -208,27 +211,25 @@ public class Jogador extends Elemento {
         }
     }
     
-    public boolean pegarFrutaArvore() {
+    public void pegarFrutaArvore() throws
+            JogadorJaSeMovimentouException, JogadorForaDeArvoreException,
+            ClasseNaoInstanciadaException, ArvoreEmCooldownException {
         // Verifica se o jogador já se moveu
         if (jaSeMoveu) {
-            System.out.println("Você já se moveu e não pode pegar a fruta da árvore.");
-            return false;
+            throw new JogadorJaSeMovimentouException("");
         }
 
         // Verifica se o jogador está em uma posição de árvore
         ElementoEstatico elementoAtual = local.tabuleiro[posicaoX][posicaoY];
         if (!(elementoAtual instanceof Arvore)) {
-            System.out.println("Você não está em uma árvore.");
-            return false;
+            throw new JogadorForaDeArvoreException("");
         }
 
         Arvore arvore = (Arvore) elementoAtual;
-
-        // Pega o tipo da fruta da árvore
         Class<? extends Fruta> tipoFruta = arvore.getTipo();
-        if (tipoFruta == null) { // Essa verficação me aparenta ser meio inutil agora que vi, mas eu acho q ta massa e ta compilando...
-            System.out.println("A árvore não possui frutas.");
-            return false;
+
+        if(arvoresEmCooldown.containsKey(arvore)) {
+            throw new ArvoreEmCooldownException("");
         }
 
         // Cria uma nova instância da fruta do tipo da árvore
@@ -239,20 +240,13 @@ public class Jogador extends Elemento {
                     (mochila.getQuantFrutas() + 1)
             );
         } catch (Exception e) {
-            System.out.println("Não foi possível instanciar a fruta: " + e.getMessage());
-            return false;
+            throw new ClasseNaoInstanciadaException("Não foi possível instanciar a fruta");
         }
 
         // Adiciona a nova fruta à mochila
-        try {
-            mochila.guardar(novaFruta);
-            System.out.println("Você pegou uma " + novaFruta.getNome() + "!");
-        } catch (MochilaCheiaException e) {
-            System.out.println("A mochila está cheia: " + e.getMessage());
-            return false;
-        }
+        mochila.guardar(novaFruta);
 
-        return true; // Retorna true se a fruta foi pegada com sucesso
+        arvoresEmCooldown.put(arvore, 5);
     }
 
     /**
@@ -425,5 +419,15 @@ public class Jogador extends Elemento {
         Random gerador = new Random();
 
         pontosMovimento = gerador.nextInt(6) + gerador.nextInt(6) + 2;
+    }
+
+    public void atualizarCooldowns() {
+        for(Arvore arvore : arvoresEmCooldown.keySet()) {
+            arvoresEmCooldown.put(arvore, arvoresEmCooldown.get(arvore) - 1);
+
+            if(arvoresEmCooldown.get(arvore) == 0) {
+                arvoresEmCooldown.remove(arvore);
+            }
+        }
     }
 }

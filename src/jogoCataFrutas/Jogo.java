@@ -129,6 +129,7 @@ public class Jogo {
         while(estado.equals("EmPartida")) {
         	jogadorDaVez.gerarPontos();
             jogadorDaVez.resetarMovimento();
+            jogadorDaVez.atualizarCooldowns();
         	
         	System.out.println(
                     "Rodada: "
