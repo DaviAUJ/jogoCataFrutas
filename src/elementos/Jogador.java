@@ -1,6 +1,8 @@
 package elementos;
 
 import frutas.Fruta;
+import frutas.Maracuja;
+import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
 import excecoes.*;
 
@@ -23,6 +25,7 @@ public class Jogador extends Elemento {
     private boolean buffForca = false;
     private boolean nerfBichada = false;
     private boolean jaSeMoveu = false;
+    private boolean jaFoiEmpurrado;
 
     private final HashMap<Arvore, Integer> arvoresEmCooldown = new HashMap<>();
 
@@ -42,6 +45,10 @@ public class Jogador extends Elemento {
 
     public Mochila abrirMochila() {
         return mochila;
+    }
+
+    public void setJaFoiEmpurrado(boolean jaFoiEmpurrado) {
+        this.jaFoiEmpurrado = jaFoiEmpurrado;
     }
 
     public int getForca() {
@@ -244,19 +251,23 @@ public class Jogador extends Elemento {
      * @param alvo O jogador a ser empurrado.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
-    public void empurrar(Jogador alvo) throws ForcaInsuficienteException {
+    public void empurrar(Jogador alvo) throws ForcaInsuficienteException, jaEmpurraramNoJogadorException {
         if(getForca() <= alvo.getForca()) {
             throw new ForcaInsuficienteException("Forca insuficiente");
         }
 
+        if(alvo.jaFoiEmpurrado) {
+            throw new jaEmpurraramNoJogadorException("");
+        }
+
         pontosMovimento--;
 
-        try {
-            alvo.moverLivre( 2 * alvo.posicaoX - this.posicaoX, 2 * alvo.posicaoY - this.posicaoY);
-        }
-        catch(Exception _) {  }
+        int numFrutas = (int) Math.round(Extras.logb(2, getForca() + 1));
+        numFrutas -= (int) Math.round(Extras.logb(2, alvo.getForca() + 1));
+        numFrutas = Math.max(0, numFrutas);
 
-        alvo.derrubarFrutas();
+        alvo.derrubarFrutas(numFrutas);
+        System.out.println(numFrutas);
     }
 
     public void moverLivre(int posX, int posY)
@@ -318,7 +329,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX - 1][posicaoY]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -353,7 +364,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX + 1][posicaoY]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -388,7 +399,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY - 1]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -423,7 +434,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY + 1]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -435,6 +446,7 @@ public class Jogador extends Elemento {
         Random gerador = new Random();
 
         pontosMovimento = gerador.nextInt(6) + gerador.nextInt(6) + 2;
+        pontosMovimento *= 10;
     }
 
     public void atualizarCooldowns() {
@@ -447,38 +459,45 @@ public class Jogador extends Elemento {
         }
     }
 
-    public void derrubarFrutas() {
-        LinkedList<int[]> vetores = new LinkedList<>();
+    public void derrubarFrutas(int quantidade) {
+        Random gerador = new Random();
+        LinkedList<Grama> espacosVazios = new LinkedList<>();
+        Grama temp;
 
-        vetores.add(new int[]{1, 0});
-        vetores.add(new int[]{1, 1});
-        vetores.add(new int[]{0, 1});
-        vetores.add(new int[]{-1, 1});
-        vetores.add(new int[]{-1, 0});
-        vetores.add(new int[]{-1, -1});
-        vetores.add(new int[]{0, -1});
-        vetores.add(new int[]{1, -1});
-        vetores.add(new int[]{});
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
-        vetores.add();
+        for(int x = -2; x <= 2; x++) {
+            for(int y = -2; y <= 2; y++) {
+                try {
+                    temp = (Grama) local.getTabuleiro()[posicaoX + x][posicaoY + y];
 
+                    if(!temp.temFruta()) {
+                        espacosVazios.add(temp);
+                    }
+                }
+                catch(Exception _) {  }
+            }
+        }
 
-        for(int[] vetor : vetores) {
-            if(local.tabuleiro[posicaoX + vetor[0]][posicaoY + vetor[1]] instanceof Grama) {
+        LinkedList<Class<? extends Fruta>> frutasDisponiveis = new LinkedList<>();
 
+        for(Class<? extends Fruta> classe : mochila.getBolso().keySet()) {
+            if(!mochila.getBolso().get(classe).isEmpty()) {
+                frutasDisponiveis.add(classe);
+            }
+        }
+
+        while(quantidade > 0 && mochila.getQuantFrutas() > 0) {
+            int num = gerador.nextInt(frutasDisponiveis.size());
+            Class<? extends Fruta> escolhida = frutasDisponiveis.get(num);
+
+            try {
+                espacosVazios.get(gerador.nextInt(espacosVazios.size())).setEspacoFruta(mochila.tirar(escolhida));
+                quantidade--;
+            }
+            catch(BolsoFrutaVazioException e) {
+                frutasDisponiveis.remove(escolhida);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }

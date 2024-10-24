@@ -130,6 +130,7 @@ public class Jogo {
         	jogadorDaVez.gerarPontos();
             jogadorDaVez.resetarMovimento();
             jogadorDaVez.atualizarCooldowns();
+            jogadorDaVez.setJaFoiEmpurrado(false);
         	
         	System.out.println(
                     "Rodada: "

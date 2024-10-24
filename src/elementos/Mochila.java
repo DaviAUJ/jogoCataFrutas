@@ -5,6 +5,7 @@ import frutas.*;
 import utilitarios.GerenciadorArquivo;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Stack;
 import java.lang.NullPointerException;
 
@@ -29,6 +30,10 @@ public class Mochila {
 
     public Boolean taCheia() {
         return capacidade == quantFrutas;
+    }
+
+    protected HashMap<Class<? extends Fruta>, Stack<Fruta>> getBolso() {
+        return bolso;
     }
 
     public int getQuantFrutas() {
