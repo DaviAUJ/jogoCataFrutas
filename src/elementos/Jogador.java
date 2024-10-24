@@ -1,7 +1,7 @@
 package elementos;
 
+import SemUtilidade.JogadorNerfadoException;
 import frutas.Fruta;
-import frutas.Maracuja;
 import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
 import excecoes.*;
@@ -9,7 +9,6 @@ import excecoes.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * Esta classe representa um jogador no jogo, contendo informações sobre sua
@@ -273,11 +272,7 @@ public class Jogador extends Elemento {
     public void moverLivre(int posX, int posY)
             throws MovimentoParaEspacoComPlayerException,
             MovimentoParaEspacoComPedraException,
-            JogadorForaDoCampoException, JogadorNerfadoException {
-
-        if(nerfBichada) {
-            throw new JogadorNerfadoException("");
-        }
+            JogadorForaDoCampoException {
 
         if(posX < 0 || posX >= local.getDimensao() || posY < 0 || posY >= local.getDimensao()) {
             throw new JogadorForaDoCampoException("");

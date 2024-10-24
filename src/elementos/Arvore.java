@@ -54,4 +54,6 @@ public class Arvore extends ElementoEstaticoPisavel {
     public void setTipo(Class<? extends Fruta> classe) {
         tipo = classe;
     }
+
+
 }

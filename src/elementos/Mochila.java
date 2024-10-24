@@ -21,11 +21,11 @@ public class Mochila {
         capacidade = arquivo.pegarEspacoMochila();
 
         bolso = new HashMap<>(5);
+        bolso.put(Maracuja.class, new Stack<>());
         bolso.put(Abacate.class, new Stack<>());
         bolso.put(Coco.class, new Stack<>());
         bolso.put(Generica.class, new Stack<>());
         bolso.put(Laranja.class, new Stack<>());
-        bolso.put(Maracuja.class, new Stack<>());
     }
 
     public Boolean taCheia() {

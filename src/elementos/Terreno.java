@@ -12,14 +12,15 @@ import utilitarios.*;
  */
 
 public class Terreno {
-	private Jogador jogador1 = new Jogador(this);
-	private Jogador jogador2 = new Jogador(this);
+	private final Jogador jogador1 = new Jogador(this);
+	private final Jogador jogador2 = new Jogador(this);
 
 	private int dimensao = 3;
 	private int[] quantTipoArvores = new int[6];
 	private int[] quantFrutasChao = new int[7];
 	private int quantPedras = 0;
 	private int totalMaracujas = 1;
+	private int maracujasSpawnados = 0;
 
 	protected ElementoEstatico[][] tabuleiro = new ElementoEstatico[dimensao][dimensao];
 
@@ -294,6 +295,51 @@ public class Terreno {
 				}
 				System.out.println();
 			}
+		}
+	}
+
+	public void spawnarMaracuja() throws LimiteMaracujasAtingido {
+		if(maracujasSpawnados == totalMaracujas - quantFrutasChao[0]) {
+			throw new LimiteMaracujasAtingido("");
+		}
+
+		LinkedList<Arvore> possiveisArvores = new LinkedList<>();
+		Random gerador = new Random();
+
+		for(int x = 0; x < dimensao; x++) {
+			for(int y = 0; y < dimensao; y++) {
+				if(tabuleiro[x][y] instanceof Arvore) {
+					possiveisArvores.add((Arvore) tabuleiro[x][y]);
+				}
+			}
+		}
+
+		Arvore tentativa;
+		Grama grama;
+		while(true) {
+			tentativa = possiveisArvores.get(gerador.nextInt(possiveisArvores.size()));
+
+			for(int x = -1; x <= 1; x++) {
+				for(int y = -1; y <= 1; y++) {
+					try {
+						if(tabuleiro[x + tentativa.getPosicaoX()][y + tentativa.getPosicaoY()] instanceof Grama) {
+							grama = (Grama) tabuleiro[x + tentativa.getPosicaoX()][y + tentativa.getPosicaoY()];
+
+							if(!grama.temFruta()) {
+								grama.setEspacoFruta(new Maracuja("MaSp"));
+								maracujasSpawnados++;
+
+								System.out.println("Sapws");
+
+								return;
+							}
+						}
+					}
+					catch(Exception _) {}
+				}
+			}
+
+			possiveisArvores.remove(tentativa);
 		}
 	}
 }

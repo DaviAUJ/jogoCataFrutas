@@ -58,13 +58,11 @@ public abstract class Fruta {
      * @return True se o nerf foi aplicado com sucesso, false caso contrário.
      */
 
-    public boolean nerfar(Jogador jogador) {
-        if(jogador != null) {
-            jogador.setNerfBichada(bichada);
+    public void nerfar(Jogador jogador) {
+        jogador.setNerfBichada(bichada);
 
-            return true;
+        if(bichada) {
+            System.out.println(jogador.getNome());
         }
-
-        return false;
     }
 }
