@@ -4,22 +4,17 @@ import visao.estilos.EstiloComponentes;
 
 import javax.swing.*;
 
-public class QuadradinhoTabuleiro extends JLabel {
-    public JLabel jogador;
-    private boolean temJogador;
+public class QuadradinhoTabuleiro extends JButton {
+    public JLabel fundo;
+    public JLabel spriteJog;
+    private int TAMANHO;
 
-    public QuadradinhoTabuleiro() {
-        this.jogador = new JLabel();
-        temJogador = false;
-
+    public QuadradinhoTabuleiro(int tamanho) {
+        this.TAMANHO = tamanho;
         EstiloComponentes.aplicarEstiloQuadradinhoTabuleiro(this);
     }
 
-    public void setTemJogador(boolean temJogador) {
-        this.temJogador = temJogador;
-    }
-
-    public boolean getTemJogador() {
-        return temJogador;
+    public int getTamanho() {
+        return TAMANHO;
     }
 }

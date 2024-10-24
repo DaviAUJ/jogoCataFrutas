@@ -1,69 +1,57 @@
 package utilitarios;
 
 import jogoCataFrutas.Jogo;
-import visao.GerenciadorDeTelas;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Transmissor {
-    private HashMap<String, Object> dados;
-    private GerenciadorDeTelas gerenciador;
-    private Jogo jogo;
-    private PropertyChangeSupport suporteAMudanca;
+public abstract class Transmissor {
+    private static HashMap<String, Object> DADOS = new HashMap<>();
+    private static Jogo JOGO;
+    private static PropertyChangeSupport SUPORTE_MUDANCA = new PropertyChangeSupport(Jogo.class);
 
-    public Transmissor() {
-        this.dados = new HashMap<>();
-        this.suporteAMudanca = new PropertyChangeSupport(this);
+    public static void setJogoDoMomento(Jogo jogo) {
+        JOGO = jogo;
     }
 
-    public void setGerenciador(GerenciadorDeTelas gerenciador) {
-        this.gerenciador = gerenciador;
+    public static Jogo getJogoDoMomento() {
+        return JOGO;
     }
 
-    public void setJogoDoMomento(Jogo jogo) {
-        this.jogo = jogo;
+    public static void adicionarEvento(PropertyChangeListener listener) {
+        SUPORTE_MUDANCA.addPropertyChangeListener(listener);
     }
 
-    public Jogo getJogoDoMomento() {
-        return this.jogo;
+    public static void solicitacaoNovoJogo() {
+        SUPORTE_MUDANCA.firePropertyChange("solicitacaoNovoJogo", null, DADOS);
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        suporteAMudanca.addPropertyChangeListener(listener);
+    public static void buscarSalvamentos(){
+        SUPORTE_MUDANCA.firePropertyChange("solicitacaoListaSalvamentos", null, DADOS);
     }
 
-    public void solicitacaoNovoJogo() {
-        this.suporteAMudanca.firePropertyChange("solicitacaoNovoJogo", null, dados);
-    }
-
-    public void buscarSalvamentos(){
-        this.suporteAMudanca.firePropertyChange("solicitacaoListaSalvamentos", null, dados);
-    }
-
-    public void adicionarDados(String identificador, Object dados) {
-        if (!this.dados.containsKey(identificador)) {
-            this.dados.put(identificador, dados);
+    public static void adicionarDados(String identificador, Object dados) {
+        if (!DADOS.containsKey(identificador)) {
+            DADOS.put(identificador, dados);
         }
     }
 
-    public void alterarDados(String identificador, Object dados) {
-        if (this.dados.containsKey(identificador)) {
-            this.dados.put(identificador, dados);
+    public static void alterarDados(String identificador, Object dados) {
+        if (DADOS.containsKey(identificador)) {
+            DADOS.put(identificador, dados);
         }
         else{
             System.out.println("Identificador não encontrado!");
         }
     }
 
-    public Object getDados(String identificador) {
-        return this.dados.get(identificador);
+    public static Object getDados(String identificador) {
+        return DADOS.get(identificador);
     }
 
-    public void removerDados(String identificador) {
-        this.dados.remove(identificador);
+    public static void removerDados(String identificador) {
+        DADOS.remove(identificador);
     }
 
 

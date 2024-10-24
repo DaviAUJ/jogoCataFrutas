@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,17 +49,17 @@ public class Main {
 
         VisaoPrincipal principal = new VisaoPrincipal();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Transmissor transmissor = new Transmissor();
-        GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal, transmissor);
+        GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
         principal.setGerenciador(gerenciadorDeTelas);
+
+
+
 
 
 
         Estilos.visaoPrincipal(principal);
 
-
-        transmissor.setGerenciador(gerenciadorDeTelas);
-        transmissor.addPropertyChangeListener(new PropertyChangeListener() {
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
@@ -95,14 +94,14 @@ public class Main {
                     Jogo novoJogo = new Jogo();
                     System.out.println(novoJogo);
 
-                    transmissor.setJogoDoMomento(novoJogo);
+                    Transmissor.setJogoDoMomento(novoJogo);
 
 
                 }
             }
         });
 
-        transmissor.addPropertyChangeListener(new PropertyChangeListener() {
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoListaSalvamentos")){
@@ -117,7 +116,7 @@ public class Main {
                     arquivos.add(arquivo3);
 
 
-                    transmissor.adicionarDados("salvamentos", arquivos);
+                    Transmissor.adicionarDados("salvamentos", arquivos);
                 }
             }
         });
@@ -142,6 +141,11 @@ public class Main {
         gerenciadorDeTelas.irParaTela("INICIO");
 
         principal.setVisible(true);
+
+        JFrame modScreen = new JFrame();
+        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        modScreen.setBounds(0, 0, 200, 600);
+        modScreen.setVisible(true);
 
 
 
