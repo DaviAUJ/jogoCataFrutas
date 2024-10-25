@@ -126,8 +126,11 @@ public abstract class EstiloComponentes {
                 configGrid.gridheight = 1;
                 configGrid.gridx = i;
                 configGrid.gridy = j;
-                configGrid.fill = GridBagConstraints.BOTH;
-                tabuleiro.add(tabuleiro.malha.get(i).get(j), configGrid);
+
+                QuadradinhoTabuleiro quad = tabuleiro.malha.get(i).get(j);
+
+
+                tabuleiro.add(quad, configGrid);
             }
         }
 
@@ -135,7 +138,10 @@ public abstract class EstiloComponentes {
 
     public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
         quadradinho.setPreferredSize(new Dimension(quadradinho.getTamanho(), quadradinho.getTamanho()));
-        quadradinho.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0, 255)));
+        quadradinho.setOpaque(false);
+
+        //quadradinho.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0, 255)));
+        quadradinho.setBorder(null);
     }
 
     public static void aplicarEstiloEspacoSalvamento(EspacoSalvamento espacoSalvamento){

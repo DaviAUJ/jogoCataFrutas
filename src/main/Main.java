@@ -138,7 +138,7 @@ public class Main {
         gerenciadorDeTelas.adicionarNovaTela("NOMES DOS JOGADORES", telaNomes);
 
 
-        gerenciadorDeTelas.irParaTela("INICIO");
+        gerenciadorDeTelas.irParaTela("NOMES DOS JOGADORES");
 
         principal.setVisible(true);
 
