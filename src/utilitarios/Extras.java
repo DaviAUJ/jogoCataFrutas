@@ -71,4 +71,8 @@ public class Extras {
 
 		return saida;
 	}
+
+	public static double logb(double base, double x) {
+		return Math.log(x) / Math.log(base);
+	}
 }

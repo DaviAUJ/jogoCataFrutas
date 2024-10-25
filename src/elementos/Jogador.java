@@ -1,9 +1,13 @@
 package elementos;
 
+import SemUtilidade.JogadorNerfadoException;
 import frutas.Fruta;
+import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
 import excecoes.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -16,11 +20,13 @@ public class Jogador extends Elemento {
     private Terreno local;
 
     private int pontosMovimento = 0;
-    private String estado = "";
 
     private boolean buffForca = false;
     private boolean nerfBichada = false;
     private boolean jaSeMoveu = false;
+    private boolean jaFoiEmpurrado;
+
+    private final HashMap<Arvore, Integer> arvoresEmCooldown = new HashMap<>();
 
     /** Construtor padrão da classe Jogador. */
 
@@ -38,6 +44,18 @@ public class Jogador extends Elemento {
 
     public Mochila abrirMochila() {
         return mochila;
+    }
+
+    public void setJaFoiEmpurrado(boolean jaFoiEmpurrado) {
+        this.jaFoiEmpurrado = jaFoiEmpurrado;
+    }
+
+    public int getForca() {
+        if(buffForca) {
+            return mochila.getQuantFrutas() * 2;
+        }
+
+        return mochila.getQuantFrutas();
     }
 
     /**
@@ -58,26 +76,6 @@ public class Jogador extends Elemento {
 
     public void setPontosMovimento(int pontosMovimento) {
         this.pontosMovimento = pontosMovimento;
-    }
-
-    /**
-     * Retorna o estado atual do jogador.
-     *
-     * @return O estado do jogador.
-     */
-
-    public String getEstado() {
-        return estado;
-    }
-
-    /**
-     * Define o estado do jogador.
-     *
-     * @param estado O novo estado do jogador.
-     */
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     /**
@@ -208,27 +206,25 @@ public class Jogador extends Elemento {
         }
     }
     
-    public boolean pegarFrutaArvore() {
+    public void pegarFrutaArvore() throws
+            JogadorJaSeMovimentouException, JogadorForaDeArvoreException,
+            ClasseNaoInstanciadaException, ArvoreEmCooldownException {
         // Verifica se o jogador já se moveu
         if (jaSeMoveu) {
-            System.out.println("Você já se moveu e não pode pegar a fruta da árvore.");
-            return false;
+            throw new JogadorJaSeMovimentouException("");
         }
 
         // Verifica se o jogador está em uma posição de árvore
         ElementoEstatico elementoAtual = local.tabuleiro[posicaoX][posicaoY];
         if (!(elementoAtual instanceof Arvore)) {
-            System.out.println("Você não está em uma árvore.");
-            return false;
+            throw new JogadorForaDeArvoreException("");
         }
 
         Arvore arvore = (Arvore) elementoAtual;
-
-        // Pega o tipo da fruta da árvore
         Class<? extends Fruta> tipoFruta = arvore.getTipo();
-        if (tipoFruta == null) { // Essa verficação me aparenta ser meio inutil agora que vi, mas eu acho q ta massa e ta compilando...
-            System.out.println("A árvore não possui frutas.");
-            return false;
+
+        if(arvoresEmCooldown.containsKey(arvore)) {
+            throw new ArvoreEmCooldownException("");
         }
 
         // Cria uma nova instância da fruta do tipo da árvore
@@ -239,20 +235,13 @@ public class Jogador extends Elemento {
                     (mochila.getQuantFrutas() + 1)
             );
         } catch (Exception e) {
-            System.out.println("Não foi possível instanciar a fruta: " + e.getMessage());
-            return false;
+            throw new ClasseNaoInstanciadaException("Não foi possível instanciar a fruta");
         }
 
         // Adiciona a nova fruta à mochila
-        try {
-            mochila.guardar(novaFruta);
-            System.out.println("Você pegou uma " + novaFruta.getNome() + "!");
-        } catch (MochilaCheiaException e) {
-            System.out.println("A mochila está cheia: " + e.getMessage());
-            return false;
-        }
+        mochila.guardar(novaFruta);
 
-        return true; // Retorna true se a fruta foi pegada com sucesso
+        arvoresEmCooldown.put(arvore, 5);
     }
 
     /**
@@ -261,8 +250,23 @@ public class Jogador extends Elemento {
      * @param alvo O jogador a ser empurrado.
      * @return True se a ação for bem-sucedida, false caso contrário.
      */
-    public boolean empurrar(Jogador alvo) {
-        return false;
+    public void empurrar(Jogador alvo) throws ForcaInsuficienteException, jaEmpurraramNoJogadorException {
+        if(getForca() <= alvo.getForca()) {
+            throw new ForcaInsuficienteException("Forca insuficiente");
+        }
+
+        if(alvo.jaFoiEmpurrado) {
+            throw new jaEmpurraramNoJogadorException("");
+        }
+
+        pontosMovimento--;
+
+        int numFrutas = (int) Math.round(Extras.logb(2, getForca() + 1));
+        numFrutas -= (int) Math.round(Extras.logb(2, alvo.getForca() + 1));
+        numFrutas = Math.max(0, numFrutas);
+
+        alvo.derrubarFrutas(numFrutas);
+        System.out.println(numFrutas);
     }
 
     public void moverLivre(int posX, int posY)
@@ -306,7 +310,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX - 1, posicaoY);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -319,7 +323,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX - 1][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -338,7 +345,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX + 1, posicaoY);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -351,7 +358,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX + 1][posicaoY]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -370,7 +380,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX, posicaoY - 1);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -383,7 +393,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY - 1]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -402,7 +415,7 @@ public class Jogador extends Elemento {
             moverLivre(posicaoX, posicaoY + 1);
             pontosMovimento--;
         }
-        catch(JogadorForaDoCampoException _) {  }
+        catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
             if(pontosMovimento < 3) {
                 throw new JogadorSemPontosDeMovimentacaoException("");
@@ -415,7 +428,10 @@ public class Jogador extends Elemento {
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
         catch(MovimentoParaEspacoComPlayerException e) {
-            empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY]).espacoJogador);
+            try {
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY + 1]).espacoJogador);
+            }
+            catch(ForcaInsuficienteException _) {  }
         }
     }
 
@@ -425,5 +441,59 @@ public class Jogador extends Elemento {
         Random gerador = new Random();
 
         pontosMovimento = gerador.nextInt(6) + gerador.nextInt(6) + 2;
+        pontosMovimento *= 10;
+    }
+
+    public void atualizarCooldowns() {
+        for(Arvore arvore : arvoresEmCooldown.keySet()) {
+            arvoresEmCooldown.put(arvore, arvoresEmCooldown.get(arvore) - 1);
+
+            if(arvoresEmCooldown.get(arvore) == 0) {
+                arvoresEmCooldown.remove(arvore);
+            }
+        }
+    }
+
+    public void derrubarFrutas(int quantidade) {
+        Random gerador = new Random();
+        LinkedList<Grama> espacosVazios = new LinkedList<>();
+        Grama temp;
+
+        for(int x = -2; x <= 2; x++) {
+            for(int y = -2; y <= 2; y++) {
+                try {
+                    temp = (Grama) local.getTabuleiro()[posicaoX + x][posicaoY + y];
+
+                    if(!temp.temFruta()) {
+                        espacosVazios.add(temp);
+                    }
+                }
+                catch(Exception _) {  }
+            }
+        }
+
+        LinkedList<Class<? extends Fruta>> frutasDisponiveis = new LinkedList<>();
+
+        for(Class<? extends Fruta> classe : mochila.getBolso().keySet()) {
+            if(!mochila.getBolso().get(classe).isEmpty()) {
+                frutasDisponiveis.add(classe);
+            }
+        }
+
+        while(quantidade > 0 && mochila.getQuantFrutas() > 0) {
+            int num = gerador.nextInt(frutasDisponiveis.size());
+            Class<? extends Fruta> escolhida = frutasDisponiveis.get(num);
+
+            try {
+                espacosVazios.get(gerador.nextInt(espacosVazios.size())).setEspacoFruta(mochila.tirar(escolhida));
+                quantidade--;
+            }
+            catch(BolsoFrutaVazioException e) {
+                frutasDisponiveis.remove(escolhida);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

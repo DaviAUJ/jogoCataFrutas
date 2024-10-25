@@ -13,10 +13,13 @@ import frutas.*;
  */
 
 public class Jogo {
-    private int contadorRodada = 1;
+    private int contadorTurno = 0;
     private String estado;
 
     protected Terreno floresta = new Terreno();
+
+    Jogador jogadorDaVez = floresta.getJogador1();
+    Jogador outroJogador = floresta.getJogador2();
     
 
 
@@ -29,12 +32,12 @@ public class Jogo {
     	estado = "NoMenuInicial";
     }
     
-    public int getContadorRodada() {
-		return contadorRodada;
+    public int getcontadorTurno() {
+		return contadorTurno;
 	}
 
-    public void contarRodada() {
-        contadorRodada++;
+    public void contarTurno() {
+        contadorTurno++;
     }
 
     /**
@@ -65,6 +68,16 @@ public class Jogo {
 
     public Terreno getFloresta() {
         return this.floresta;
+    }
+
+    private void trocarJogadores() {
+        if (jogadorDaVez == floresta.getJogador1()) {
+            jogadorDaVez = floresta.getJogador2();
+            outroJogador = floresta.getJogador1();
+        } else {
+            jogadorDaVez = floresta.getJogador1();
+            outroJogador = floresta.getJogador2();
+        }
     }
     
 
@@ -99,18 +112,17 @@ public class Jogo {
      * Inicia o jogo.
      */
 
-    public void iniciarPartida() {   	        
-    	Jogador jogadorDaVez = floresta.getJogador1();
-    	
+    public void iniciarPartida() {
     	estado = "EmPartida";
         
         while(estado.equals("EmPartida")) {
+            contarTurno();
         	jogadorDaVez.gerarPontos();
             jogadorDaVez.resetarMovimento();
         	
         	System.out.println(
                     "Rodada: "
-                            + contadorRodada + " - "
+                            + (contadorTurno / 2 + 1) + " - "
                             + jogadorDaVez.getNome() + ": "
                             + jogadorDaVez.getPontosMovimento()
             );
@@ -152,15 +164,27 @@ public class Jogo {
                }
             }
 
-            // Trocando os jogadores
-           	if(jogadorDaVez == floresta.getJogador1()) {
-           		jogadorDaVez = floresta.getJogador2();
-           	}
-           	else {
-           		jogadorDaVez = getFloresta().getJogador1();
-                contarRodada();
-           	}
-           	
+            jogadorDaVez.atualizarCooldowns();
+            jogadorDaVez.setBuffForca(false);
+            jogadorDaVez.setJaFoiEmpurrado(false);
+
+            if(!outroJogador.getNerfBichada()) {
+                trocarJogadores();
+            }
+            else {
+                outroJogador.setNerfBichada(false);
+                //  Isso tem que ser feito pra garantir que o cooldown do jogador paralizado não paralize junto dele
+                outroJogador.atualizarCooldowns();
+                contarTurno();
+            }
+
+            try {
+                if(((contadorTurno) / 2 + 1) % 2 == 0) {
+                    floresta.spawnarMaracuja();
+                }
+            }
+            catch (Exception _) {}
+
            	// Vendo se o jogador ganhou
            	if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
            		estado = "Vitoria" + jogadorDaVez.getNome();
