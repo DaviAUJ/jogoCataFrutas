@@ -138,16 +138,18 @@ public class Main {
         gerenciadorDeTelas.adicionarNovaTela("NOMES DOS JOGADORES", telaNomes);
 
 
-        gerenciadorDeTelas.irParaTela("NOMES DOS JOGADORES");
+        gerenciadorDeTelas.irParaTela("INICIO");
 
         principal.setVisible(true);
 
+
+        /*
         JFrame modScreen = new JFrame();
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         modScreen.setBounds(0, 0, 200, 600);
         modScreen.setVisible(true);
 
-
+        */
 
 
 

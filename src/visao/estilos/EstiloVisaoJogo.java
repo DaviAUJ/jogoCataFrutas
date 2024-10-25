@@ -6,6 +6,7 @@ import visao.componentes.TabuleiroJogo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class EstiloVisaoJogo {
     private static int TELA_LARGURA = 1280;
@@ -21,6 +22,7 @@ public abstract class EstiloVisaoJogo {
         JLabel inventarioJ2 = new JLabel();
 
         inventariosJogadores(inventarioJ1, inventarioJ2);
+        labelsValoresInventarios(tela.valoresInventario1, tela.valoresInventario2, fundo);
 
 
         fundo.add(tela.tabuleiro);
@@ -96,5 +98,19 @@ public abstract class EstiloVisaoJogo {
         inventario1.setBounds(40, (TELA_ALTURA - imagemInventario1.getIconHeight()) / 2, imagemInventario1.getIconWidth(), imagemInventario1.getIconHeight());
 
         inventario2.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
+    }
+
+    private static void labelsValoresInventarios (ArrayList<JLabel> inventario1, ArrayList<JLabel> inventario2, JLabel fundo){
+        for (int i = 0; i < inventario1.size(); i++){
+            inventario1.get(i).setBounds(150, 130 + i*62, 50, 24);
+            inventario1.get(i).setFont(new Font("Arial", Font.PLAIN, 24));
+            inventario1.get(i).setForeground(new Color(255, 255, 255));
+            inventario2.get(i).setBounds(TELA_LARGURA-190, 130 + i*62, 50, 24);
+            inventario2.get(i).setFont(new Font("Arial", Font.PLAIN, 24));
+            inventario2.get(i).setForeground(new Color(117, 117, 117, 195));
+            inventario2.get(i).setHorizontalAlignment(JLabel.RIGHT);
+            fundo.add(inventario1.get(i));
+            fundo.add(inventario2.get(i));
+        }
     }
 }
