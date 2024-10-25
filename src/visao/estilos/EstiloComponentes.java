@@ -116,14 +116,32 @@ public abstract class EstiloComponentes {
 
 
     public static void aplicarEstiloTabuleiro(TabuleiroJogo tabuleiro){
-        tabuleiro.setLayout(null);
-        tabuleiro.setBounds(0, 0, tabuleiro.TAMANHO, tabuleiro.TAMANHO);
-        tabuleiro.setBackground(Color.GREEN);
+        tabuleiro.setSize(tabuleiro.getTamanho(), tabuleiro.getTamanho());
+        tabuleiro.setLayout(new GridBagLayout());
+        GridBagConstraints configGrid = new GridBagConstraints();
+
+        for (int i = 0; i < tabuleiro.malha.size(); i++) {
+            for (int j = 0; j < tabuleiro.malha.size(); j++) {
+                configGrid.gridwidth = 1;
+                configGrid.gridheight = 1;
+                configGrid.gridx = i;
+                configGrid.gridy = j;
+
+                QuadradinhoTabuleiro quad = tabuleiro.malha.get(i).get(j);
+
+
+                tabuleiro.add(quad, configGrid);
+            }
+        }
 
     }
 
     public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
+        quadradinho.setPreferredSize(new Dimension(quadradinho.getTamanho(), quadradinho.getTamanho()));
+        quadradinho.setOpaque(false);
 
+        //quadradinho.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0, 255)));
+        quadradinho.setBorder(null);
     }
 
     public static void aplicarEstiloEspacoSalvamento(EspacoSalvamento espacoSalvamento){

@@ -51,6 +51,8 @@ public class VisaoNovoJogo extends JPanel {
                     return;
                 }
 
+                gerenciador.addNoCache("infoJogo", hashValidavel);
+
                 gerenciador.solicitarNovoJogo();
                 gerenciador.irParaTela("JOGO");
 
