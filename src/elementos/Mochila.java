@@ -1,8 +1,10 @@
 package elementos;
 
 import excecoes.*;
+
 import frutas.*;
 import utilitarios.GerenciadorArquivo;
+import utilitarios.Transmissor;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -67,6 +69,7 @@ public class Mochila {
 
         quantFrutas++;
         bolso.get(fruta.getClass()).push(fruta);
+        Transmissor.avisoBoteiNaMochila(fruta.getClass(), 1);
     }
 
     public Fruta tirar(Class<? extends Fruta> classe)

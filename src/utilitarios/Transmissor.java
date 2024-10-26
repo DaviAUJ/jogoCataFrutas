@@ -1,6 +1,7 @@
 package utilitarios;
 
 import jogoCataFrutas.Jogo;
+import frutas.Fruta;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -54,5 +55,17 @@ public abstract class Transmissor {
         DADOS.remove(identificador);
     }
 
+    public static void avisoMovimentacaoJogador(int[] antigos, int[] novos) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
+    }
+    
+    public static void avisoBoteiNaMochila(Class<?extends Fruta> fruta, int quantidade) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoBoteiNaMochila",fruta, quantidade);
+    }
+    
+    public static void avisoPasseiRodada() {
+        SUPORTE_MUDANCA.firePropertyChange("passarRodada", null, null);
+    }
+    
 
 }

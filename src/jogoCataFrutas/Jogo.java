@@ -1,7 +1,9 @@
 package jogoCataFrutas;
 
 import java.util.Scanner;
-
+import utilitarios.Transmissor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import elementos.Jogador;
 import elementos.Terreno;
 
@@ -12,7 +14,7 @@ import frutas.*;
  * Esta classe gerencia os jogadores, o terreno e o estado do jogo.
  */
 
-public class Jogo {
+public class Jogo implements PropertyChangeListener{
     private int contadorTurno = 0;
     private String estado;
 
@@ -30,7 +32,35 @@ public class Jogo {
 
     public Jogo() {
     	estado = "NoMenuInicial";
+    	Transmissor.setJogoDoMomento(this);
+    	Transmissor.adicionarEvento(this);
+        configurarListeners();
     }
+    
+    private void configurarListeners() {
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                switch (evt.getPropertyName()) {
+                    case "avisoMovimentacaoJogador":
+                        // Chamar diretamente o método de movimentação do jogador
+                        int[] antigos = (int[]) evt.getOldValue();
+                        int[] novos = (int[]) evt.getNewValue();
+                        jogadorDaVez.moverLivre(novos[0], novos[1]); // Chama o método de movimento do jogador
+                        break;
+                    case "avisoBoteiNaMochila":
+                        // Chamar o método para guardar a fruta na mochila
+                    	Class<? extends Fruta> fruta = (Class<? extends Fruta>) evt.getNewValue();
+                        System.out.println("Uma fruta do tipo " + fruta.getSimpleName() + " foi adicionada à mochila.");
+                        break;
+                    case "avisoRodada":
+                    	 contarTurno();
+                        break;
+                }
+            }
+        });
+    }
+
     
     public int getcontadorTurno() {
 		return contadorTurno;
@@ -108,11 +138,24 @@ public class Jogo {
         };
     }
 
+    public void iniciarPartida() {
+        estado = "EmPartida";
+        contarTurno();
+        jogadorDaVez.gerarPontos();
+        jogadorDaVez.resetarMovimento();
+
+        System.out.println(
+            "Rodada: "
+            + (contadorTurno / 2 + 1) + " - "
+            + jogadorDaVez.getNome() + ": "
+            + jogadorDaVez.getPontosMovimento()
+        );
+    
     /**
      * Inicia o jogo.
      */
 
-    public void iniciarPartida() {
+    /*public void iniciarPartida() {
     	estado = "EmPartida";
         
         while(estado.equals("EmPartida")) {
@@ -190,5 +233,5 @@ public class Jogo {
            		estado = "Vitoria" + jogadorDaVez.getNome();
            	}
         }
-    }
+    }*/
 }

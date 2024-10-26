@@ -4,6 +4,7 @@ import SemUtilidade.JogadorNerfadoException;
 import frutas.Fruta;
 import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
+import utilitarios.Transmissor;
 import excecoes.*;
 
 import java.util.HashMap;
@@ -286,6 +287,8 @@ public class Jogador extends Elemento {
             throw new MovimentoParaEspacoComPlayerException("");
         }
 
+        Transmissor.avisoMovimentacaoJogador(new int[]{posicaoX,posicaoY},new int[] {posX,posY});
+        
         // Trocando a posição do jogador
         ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
         ((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
