@@ -5,6 +5,7 @@ import utilitarios.Transmissor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import elementos.Jogador;
+import elementos.Mochila;
 import elementos.Terreno;
 
 import frutas.*;
@@ -46,13 +47,9 @@ public class Jogo{
                         int[] novos = (int[]) evt.getNewValue();
                         jogadorDaVez.moverLivre(novos[0], novos[1]); // Chama o método de movimento do jogador
                         break;
-                    case "avisoBoteiNaMochila":
-                        // Chamar o método para guardar a fruta na mochila
-                    	Class<? extends Fruta> fruta = (Class<? extends Fruta>) evt.getNewValue();
-                        System.out.println("Uma fruta do tipo " + fruta.getSimpleName() + " foi adicionada à mochila.");
-                        break;
-                    case "avisoRodada":
-                    	 contarTurno();
+                    case "avisoPasseiRodada":
+                    	 passarTurno();
+                    	 jogadorDaVez.pegarFrutaArvore();
                         break;
                 }
             }
@@ -64,9 +61,16 @@ public class Jogo{
 		return contadorTurno;
 	}
 
-    public void contarTurno() {
+    public void passarTurno() {
         contadorTurno++;
+        Transmissor.avisoPasseiRodada();
+        trocarJogadores();
+        if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
+       		estado = "Vitoria" + jogadorDaVez.getNome();
+       		Transmissor.avisoFimDeJogo(jogadorDaVez);
+        }
     }
+   
 
     /**
      * Obtém o estado atual do jogo.
@@ -138,7 +142,7 @@ public class Jogo{
 
     public void iniciarPartida() {
         estado = "EmPartida";
-        contarTurno();
+        passarTurno();
         jogadorDaVez.gerarPontos();
         jogadorDaVez.resetarMovimento();
 

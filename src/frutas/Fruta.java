@@ -5,6 +5,7 @@ import java.util.Random;
 import elementos.Elemento;
 import elementos.Jogador;
 import utilitarios.GerenciadorArquivo;
+import utilitarios.Transmissor;
 
 /**
  * Esta classe abstrata representa uma fruta, que é um tipo de Elemento.
@@ -62,7 +63,8 @@ public abstract class Fruta {
         jogador.setNerfBichada(bichada);
 
         if(bichada) {
-            System.out.println(jogador.getNome());
+            Transmissor.avisoBichada(jogador);
         }
+       
     }
 }

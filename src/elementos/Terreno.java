@@ -328,6 +328,7 @@ public class Terreno {
 							if(!grama.temFruta()) {
 								grama.setEspacoFruta(new Maracuja("MaSp"));
 								maracujasSpawnados++;
+								Transmissor.avisoApareceuNoJogo("Maracuja", grama.posicaoX, grama.posicaoY);
 
 								System.out.println("Sapws");
 

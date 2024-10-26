@@ -69,13 +69,14 @@ public class Mochila {
 
         quantFrutas++;
         bolso.get(fruta.getClass()).push(fruta);
-        Transmissor.avisoBoteiNaMochila(fruta.getClass(), 1);
+        Transmissor.avisoMudouMochila(fruta.getClass(), 1);
     }
 
     public Fruta tirar(Class<? extends Fruta> classe)
             throws MochilaVaziaException, BolsoFrutaVazioException, NullPointerException {
         if(quantFrutas == 0) {
             throw new MochilaVaziaException("Mochila vazia");
+            
         }
 
         if(bolso.get(classe).isEmpty()) {
@@ -87,6 +88,9 @@ public class Mochila {
         }
 
         quantFrutas--;
+        Transmissor.avisoMudouMochila(classe, -1);
+        
         return bolso.get(classe).pop();
+        
     }
 }

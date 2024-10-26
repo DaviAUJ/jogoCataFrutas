@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import utilitarios.Transmissor;
 
 /**
  * Esta classe representa a fruta Laranja, que é um tipo específico de Fruta.
@@ -39,6 +40,7 @@ public class Laranja extends Fruta {
     public boolean buffar(Jogador jogador) {
     	if (jogador != null) {
     		jogador.setNerfBichada(false);
+    		Transmissor.avisoEfeito(jogador);
     		return true;
     	}
         return false;

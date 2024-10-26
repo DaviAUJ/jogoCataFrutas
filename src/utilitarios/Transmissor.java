@@ -7,6 +7,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 
+import elementos.Jogador;
+
 public abstract class Transmissor {
     private static HashMap<String, Object> DADOS = new HashMap<>();
     private static Jogo JOGO;
@@ -59,14 +61,31 @@ public abstract class Transmissor {
     	SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
     }
     
-    public static void avisoBoteiNaMochila(Class<?extends Fruta> fruta, int quantidade) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoBoteiNaMochila",fruta, quantidade);
+    public static void avisoMudouMochila(Class<?extends Fruta> fruta, int quantidade) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoMudouMochila",fruta, quantidade);
     }
     
     public static void avisoPasseiRodada() {
         SUPORTE_MUDANCA.firePropertyChange("passarRodada", null, null);
     }
 
+    public static void avisoApareceuNoJogo(String nome, int posX, int posY) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoApareceuNoJogo", null, null);
+    }
     
+    public static void avisoPegouFrutaArvore(int posX, int posY) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoPegouFrutaArvore", null, null);
+    }
 
+    public static void avisoBichada(Jogador jogador) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoBichada", null, null);
+    }
+    
+    public static void avisoEfeito(Jogador jogador) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoEfeito", null, null);
+    }
+    
+    public static void avisoFimDeJogo(Jogador jogador) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoFimDeJogo", null, null);
+    }
 }

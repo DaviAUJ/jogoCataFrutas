@@ -243,6 +243,7 @@ public class Jogador extends Elemento {
         mochila.guardar(novaFruta);
 
         arvoresEmCooldown.put(arvore, 5);
+        Transmissor.avisoPegouFrutaArvore(this.posicaoX, this.posicaoY);
     }
 
     /**
@@ -485,11 +486,14 @@ public class Jogador extends Elemento {
 
         while(quantidade > 0 && mochila.getQuantFrutas() > 0) {
             int num = gerador.nextInt(frutasDisponiveis.size());
+            int indexEspaco = gerador.nextInt(espacosVazios.size());
             Class<? extends Fruta> escolhida = frutasDisponiveis.get(num);
 
             try {
-                espacosVazios.get(gerador.nextInt(espacosVazios.size())).setEspacoFruta(mochila.tirar(escolhida));
+                espacosVazios.get(indexEspaco).setEspacoFruta(mochila.tirar(escolhida));
+                Grama espacoRemovido = espacosVazios.remove(indexEspaco);
                 quantidade--;
+                Transmissor.avisoApareceuNoJogo(espacoRemovido.getEspacoFruta().getNome(), espacoRemovido.posicaoX, espacoRemovido.posicaoY);
             }
             catch(BolsoFrutaVazioException e) {
                 frutasDisponiveis.remove(escolhida);
@@ -497,6 +501,9 @@ public class Jogador extends Elemento {
             catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+            
         }
+        
+       
     }
 }
