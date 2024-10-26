@@ -14,7 +14,7 @@ import frutas.*;
  * Esta classe gerencia os jogadores, o terreno e o estado do jogo.
  */
 
-public class Jogo implements PropertyChangeListener{
+public class Jogo{
     private int contadorTurno = 0;
     private String estado;
 
@@ -32,8 +32,6 @@ public class Jogo implements PropertyChangeListener{
 
     public Jogo() {
     	estado = "NoMenuInicial";
-    	Transmissor.setJogoDoMomento(this);
-    	Transmissor.adicionarEvento(this);
         configurarListeners();
     }
     
@@ -149,7 +147,7 @@ public class Jogo implements PropertyChangeListener{
             + (contadorTurno / 2 + 1) + " - "
             + jogadorDaVez.getNome() + ": "
             + jogadorDaVez.getPontosMovimento()
-        );
+        );}}
     
     /**
      * Inicia o jogo.
@@ -234,4 +232,4 @@ public class Jogo implements PropertyChangeListener{
            	}
         }
     }*/
-}
+

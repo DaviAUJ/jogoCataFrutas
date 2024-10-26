@@ -66,6 +66,7 @@ public abstract class Transmissor {
     public static void avisoPasseiRodada() {
         SUPORTE_MUDANCA.firePropertyChange("passarRodada", null, null);
     }
+
     
 
 }
