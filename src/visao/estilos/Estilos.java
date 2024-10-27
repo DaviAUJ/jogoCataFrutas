@@ -17,10 +17,7 @@ public abstract class Estilos {
             }
         }
 
-
-
-
-
+        principal.setFocusable(true);
     }
 
     public static void animacaoClicavel(JComponent elementoBotao) {

@@ -40,17 +40,21 @@ public class Jogo{
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                switch (evt.getPropertyName()) {
-                    case "avisoMovimentacaoJogador":
-                        // Chamar diretamente o método de movimentação do jogador
-                        int[] antigos = (int[]) evt.getOldValue();
-                        int[] novos = (int[]) evt.getNewValue();
-                        jogadorDaVez.moverLivre(novos[0], novos[1]); // Chama o método de movimento do jogador
-                        break;
-                    case "avisoPasseiRodada":
-                    	 passarTurno();
-                    	 jogadorDaVez.pegarFrutaArvore();
-                        break;
+//                if(evt.getPropertyName().equals("pedirMovJogador")) {
+                    switch ((String) evt.getNewValue()) {
+                        case "W":
+                            jogadorDaVez.moverCima();
+                            break;
+                        case "A":
+                            jogadorDaVez.moverEsquerda();
+                            break;
+                        case "S":
+                            jogadorDaVez.moverBaixo();
+                            break;
+                        case "D":
+                            jogadorDaVez.moverDireita();
+                            break;
+                    }
                 }
             }
         });

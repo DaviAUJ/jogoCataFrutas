@@ -58,6 +58,10 @@ public abstract class Transmissor {
         DADOS.remove(identificador);
     }
 
+    public static void pedirMovJogador(String entrada) {
+        SUPORTE_MUDANCA.firePropertyChange("pedirMovJogador", null, entrada);
+    }
+
     public static void avisoMovimentacaoJogador(ArrayList<Integer> antigos, ArrayList<Integer> novos) {
     	HashMap <String, ArrayList<Integer>> info = new HashMap <>();
     	info.put("posicoes antigas", antigos);

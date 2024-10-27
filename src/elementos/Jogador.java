@@ -7,9 +7,7 @@ import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 import excecoes.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Esta classe representa um jogador no jogo, contendo informações sobre sua
@@ -20,7 +18,7 @@ public class Jogador extends Elemento {
     private Mochila mochila;
     private Terreno local;
 
-    private int pontosMovimento = 0;
+    private int pontosMovimento = 100;
 
     private boolean buffForca = false;
     private boolean nerfBichada = false;
@@ -288,7 +286,11 @@ public class Jogador extends Elemento {
             throw new MovimentoParaEspacoComPlayerException("");
         }
 
-        //Transmissor.avisoMovimentacaoJogador(new int[]{posicaoX,posicaoY}, new int[] {posX,posY});
+        System.out.println("teste");
+        Transmissor.avisoMovimentacaoJogador(
+                new ArrayList<>(Arrays.asList(posicaoX, posicaoY)),
+                new ArrayList<>(Arrays.asList(posX, posY))
+        );
         
         // Trocando a posição do jogador
         ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
