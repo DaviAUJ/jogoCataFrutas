@@ -22,6 +22,8 @@ public class TabuleiroJogo extends JPanel {
     int[] posJogador1, posJogador2;
 
 
+
+
     public TabuleiroJogo(int tamanho) {
         this.TAMANHO = tamanho;
         this.DIMENSAO = Configuracoes.dimensao;
@@ -105,6 +107,8 @@ public class TabuleiroJogo extends JPanel {
 
 
         EstiloComponentes.aplicarEstiloTabuleiro(this);
+
+
     }
 
     public int getTamanho() {

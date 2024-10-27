@@ -40,7 +40,7 @@ public class Jogo{
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-//                if(evt.getPropertyName().equals("pedirMovJogador")) {
+                if(evt.getPropertyName().equals("pedirMovJogador")) {
                     switch ((String) evt.getNewValue()) {
                         case "W":
                             jogadorDaVez.moverCima();
