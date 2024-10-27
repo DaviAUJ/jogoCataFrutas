@@ -44,5 +44,4 @@ public class FundoAnimado extends JLabel {
         Timer contador = new Timer(delayContador, acaoDoContador);
         contador.start();
     }
-
 }

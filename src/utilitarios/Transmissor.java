@@ -65,6 +65,4 @@ public class Transmissor {
     public void removerDados(String identificador) {
         this.dados.remove(identificador);
     }
-
-
 }

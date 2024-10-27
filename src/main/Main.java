@@ -76,16 +76,7 @@ public class Main {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoListaSalvamentos")){
-                    ArrayList<GerenciadorArquivo> arquivos = new ArrayList<>(4);
-
-                    GerenciadorArquivo arquivo1 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo2 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo3 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo4 = new GerenciadorArquivo("./config.txt");
-                    arquivos.add(arquivo1);
-                    arquivos.add(arquivo2);
-                    arquivos.add(arquivo3);
-
+                    ArrayList<GerenciadorArquivo> arquivos = GerenciadorArquivo.resgatarSaves();
 
                     transmissor.adicionarDados("salvamentos", arquivos);
                 }
