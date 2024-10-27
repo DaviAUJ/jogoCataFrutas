@@ -278,23 +278,23 @@ public class Jogador extends Elemento {
             throw new JogadorForaDoCampoException("");
         }
 
-        if(!(local.tabuleiro[posX][posY] instanceof ElementoEstaticoPisavel)) {
+        if(!(local.tabuleiro[posY][posX] instanceof ElementoEstaticoPisavel)) {
             throw new MovimentoParaEspacoComPedraException("");
         }
 
-        if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
+        if(((ElementoEstaticoPisavel)local.tabuleiro[posY][posX]).temJogador()) {
             throw new MovimentoParaEspacoComPlayerException("");
         }
 
-        System.out.println("teste");
+
         Transmissor.avisoMovimentacaoJogador(
                 new ArrayList<>(Arrays.asList(posicaoX, posicaoY)),
                 new ArrayList<>(Arrays.asList(posX, posY))
         );
         
         // Trocando a posição do jogador
-        ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);
-        ((ElementoEstaticoPisavel) local.tabuleiro[this.posicaoX][this.posicaoY]).setJogador(null);
+        ((ElementoEstaticoPisavel) local.tabuleiro[posY][posX]).setJogador(this);
+        ((ElementoEstaticoPisavel) local.tabuleiro[posicaoY][posicaoX]).setJogador(null);
         this.posicaoX = posX;
         this.posicaoY = posY;
 
@@ -330,7 +330,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX - 1][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoY - 1][posicaoX]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -365,7 +365,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX + 1][posicaoY]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoY + 1][posicaoX]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -400,7 +400,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY - 1]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoY][posicaoX - 1]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -435,7 +435,7 @@ public class Jogador extends Elemento {
         }
         catch(MovimentoParaEspacoComPlayerException e) {
             try {
-                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoX][posicaoY + 1]).espacoJogador);
+                empurrar(((ElementoEstaticoPisavel) local.getTabuleiro()[posicaoY][posicaoX + 1]).espacoJogador);
             }
             catch(ForcaInsuficienteException _) {  }
         }
@@ -468,7 +468,7 @@ public class Jogador extends Elemento {
         for(int x = -2; x <= 2; x++) {
             for(int y = -2; y <= 2; y++) {
                 try {
-                    temp = (Grama) local.getTabuleiro()[posicaoX + x][posicaoY + y];
+                    temp = (Grama) local.getTabuleiro()[posicaoY + y][posicaoX + x];
 
                     if(!temp.temFruta()) {
                         espacosVazios.add(temp);
@@ -505,7 +505,5 @@ public class Jogador extends Elemento {
             }
             
         }
-        
-       
     }
 }

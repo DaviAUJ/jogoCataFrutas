@@ -31,10 +31,6 @@ public class QuadradinhoTabuleiro extends JButton {
         imagemJogador = null;
 
         configurarFundo();
-
-
-
-
     }
 
     public int getTamanho() {
@@ -59,10 +55,6 @@ public class QuadradinhoTabuleiro extends JButton {
                 this.imagemJogador = this.imagens.get("jogadores").get(1);
             }
         }
-
-
-
-
     }
 
     private int gerarIndiceAleatorio(String tipo) {
@@ -112,5 +104,7 @@ public class QuadradinhoTabuleiro extends JButton {
 
         repaint();
     }
+
+
 
 }

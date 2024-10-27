@@ -20,8 +20,6 @@ public class Jogo{
     private String estado;
 
     protected Terreno floresta = new Terreno();
-
-
     Jogador jogadorDaVez = floresta.getJogador1();
     Jogador outroJogador = floresta.getJogador2();
 
@@ -32,6 +30,7 @@ public class Jogo{
 
     public Jogo() {
         floresta.gerarTerreno();
+        floresta.imprimirTerreno();
     	estado = "NoMenuInicial";
         configurarListeners();
     }

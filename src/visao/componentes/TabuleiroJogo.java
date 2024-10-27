@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,9 +22,6 @@ public class TabuleiroJogo extends JPanel {
     public ArrayList< ArrayList <QuadradinhoTabuleiro> > malha;
     public HashMap<String, ArrayList<Image>> imagens;
     int[] posJogador1, posJogador2;
-
-
-
 
     public TabuleiroJogo(int tamanho) {
         this.TAMANHO = tamanho;
@@ -43,9 +42,9 @@ public class TabuleiroJogo extends JPanel {
 
         this.malha = new ArrayList<>(this.DIMENSAO);
         int tamanhoQuadradinho = this.TAMANHO/this.DIMENSAO;
-        for (int i = 0; i < this.DIMENSAO; i++) {
+        for (int j = 0; j < this.DIMENSAO; j++) {
             ArrayList<QuadradinhoTabuleiro> coluna = new ArrayList<>(this.DIMENSAO);
-            for (int j = 0; j < this.DIMENSAO; j++) {
+            for (int i = 0; i < this.DIMENSAO; i++) {
                 QuadradinhoTabuleiro quad;
 
 
@@ -104,11 +103,8 @@ public class TabuleiroJogo extends JPanel {
             this.malha.add(coluna);
         }
 
-
-
         EstiloComponentes.aplicarEstiloTabuleiro(this);
-
-
+        configurarListeners();
     }
 
     public int getTamanho() {
@@ -158,8 +154,25 @@ public class TabuleiroJogo extends JPanel {
             itensCarregados.add(new ImageIcon("./assets/imgs/jogo/jogador/jogador"+i+".png").getImage());
         }
         this.imagens.put("jogadores", itensCarregados);
+    }
 
+    public void configurarListeners() {
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoMovimentacaoJogador")) {
+                    System.out.println("teste");
+                    malha
+                            .get(((ArrayList<Integer>) evt.getOldValue()).getFirst())
+                            .get(((ArrayList<Integer>) evt.getOldValue()).getLast())
+                            .atualizarQuadradinho("tirarJogador", 0);
 
-
+                    malha
+                            .get(((ArrayList<Integer>) evt.getNewValue()).getFirst())
+                            .get(((ArrayList<Integer>) evt.getNewValue()).getLast())
+                            .atualizarQuadradinho("colocarJogador1", 0);
+                }
+            }
+        });
     }
 }

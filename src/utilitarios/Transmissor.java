@@ -63,10 +63,7 @@ public abstract class Transmissor {
     }
 
     public static void avisoMovimentacaoJogador(ArrayList<Integer> antigos, ArrayList<Integer> novos) {
-    	HashMap <String, ArrayList<Integer>> info = new HashMap <>();
-    	info.put("posicoes antigas", antigos);
-    	info.put("posicoes novas", novos);
-    	SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", null, info);
+        SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
     }
     
     public static void avisoMudouMochila(Class<?extends Fruta> fruta, int quantidade) {
