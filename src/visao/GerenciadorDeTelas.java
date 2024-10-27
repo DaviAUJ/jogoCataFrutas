@@ -1,5 +1,6 @@
 package visao;
 import jogoCataFrutas.Jogo;
+import sons.EfeitoSonoro;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.ReagirMudanca;
 import utilitarios.Transmissor;
@@ -21,6 +22,7 @@ public class GerenciadorDeTelas {
     private HashMap<String, JPanel> telasGerenciadas;
     private String nomeTelaAtual;
     private Stack<String> caminhoAtual;
+    private EfeitoSonoro musica;
 
     private HashMap <String, Object> CACHE;
 
@@ -53,6 +55,7 @@ public class GerenciadorDeTelas {
             this.nomeTelaAtual = nomeTela;
             ajustarFramePrincipal(telasGerenciadas.get(nomeTela));
             layout.show(this.telaPrincipal, nomeTela);
+            escolherMusica(nomeTela);
 
             return true;
         }
@@ -161,4 +164,30 @@ public class GerenciadorDeTelas {
         return (ArrayList<GerenciadorArquivo>) Transmissor.getDados("salvamentos");
     }
 
+
+    public void escolherMusica(String nomeTela) {
+        try {
+            if(nomeTela.equals("INICIO")) {
+                try {
+                    musica.parar();
+                }
+                catch (Exception _) {  }
+
+                musica = new EfeitoSonoro(EfeitoSonoro.pasta + "Abstração.wav", 0.5f);
+                musica.tocar();
+            }
+            else if(nomeTela.equals("JOGO")) {
+                try {
+                    musica.parar();
+                }
+                catch (Exception _) {  }
+
+                musica = new EfeitoSonoro(EfeitoSonoro.pasta + "Exceção.wav", 0.5f);
+                musica.tocar();
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e + "");
+        }
+    }
 }
