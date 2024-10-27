@@ -66,11 +66,20 @@ public abstract class Transmissor {
         SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
     }
     
-    public static void avisoMudouMochila(Class<?extends Fruta> fruta, int quantidade) {
+    public static void avisoMudouMochila(Class<?extends Fruta> fruta, int quantidade, int idJogador) {
     	HashMap <String, Object> info = new HashMap <>();
     	info.put("fruta", fruta);
     	info.put("quantidade", quantidade);
+        info.put("jogador", idJogador);
     	SUPORTE_MUDANCA.firePropertyChange("avisoMudouMochila",null, info);
+    }
+
+    public static void avisoMudancaFruta(Class<?extends Fruta> fruta, int posX, int posY) {
+        HashMap <String, Object> info = new HashMap <>();
+        info.put("classe", fruta);
+        info.put("x", posX);
+        info.put("y", posY);
+        SUPORTE_MUDANCA.firePropertyChange("avisoMudancaFruta", null, info);
     }
     
     public static void avisoPasseiTurno(int rodadaAtual, Jogador jogadorDaVez) {
@@ -80,14 +89,6 @@ public abstract class Transmissor {
         SUPORTE_MUDANCA.firePropertyChange("avisoPasseiTurno", null, info);
     }
 
-    public static void avisoApareceuNoJogo(String nome, int posX, int posY) {
-    	HashMap <String, Object> info = new HashMap <>();
-    	info.put("nome", nome);
-    	info.put("posicao x", posX);
-    	info.put("posicao y", posY);
-    	SUPORTE_MUDANCA.firePropertyChange("avisoApareceuNoJogo", null, info);
-    }
-    
     public static void avisoPegouFrutaArvore(int ArvoreX, int ArvoreY) {
     	HashMap <String, Integer> info = new HashMap <>();
     	info.put("posicao da arvore x", ArvoreX);

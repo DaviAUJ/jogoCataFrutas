@@ -38,7 +38,19 @@ public class Jogador extends Elemento {
 
         this.local = local;
 
-        mochila = new Mochila();
+        mochila = new Mochila(this);
+    }
+
+    public int getID() {
+        if(local.getJogador1() == this) {
+            return 1;
+        }
+
+        if(local.getJogador2() == this) {
+            return 2;
+        }
+
+        return 0;
     }
 
     public Mochila abrirMochila() {
@@ -179,12 +191,13 @@ public class Jogador extends Elemento {
             mochila.guardar(frutaColetada);
             quadradinho.setEspacoFruta(null);
 
+            Transmissor.avisoMudancaFruta(null, quadradinho.posicaoX, quadradinho.posicaoY);
+
             // Tenta aplicar nerf no jogador
             frutaColetada.nerfar(this);
         }
         catch(Exception e) {
             System.out.println(e + "");
-            return;
         }
     }
 
@@ -495,7 +508,9 @@ public class Jogador extends Elemento {
                 espacosVazios.get(indexEspaco).setEspacoFruta(mochila.tirar(escolhida));
                 Grama espacoRemovido = espacosVazios.remove(indexEspaco);
                 quantidade--;
-                Transmissor.avisoApareceuNoJogo(espacoRemovido.getEspacoFruta().getNome(), espacoRemovido.posicaoX, espacoRemovido.posicaoY);
+                Transmissor.avisoMudancaFruta(
+                        espacoRemovido.getEspacoFruta().getClass(), espacoRemovido.posicaoX, espacoRemovido.posicaoY
+                );
             }
             catch(BolsoFrutaVazioException e) {
                 frutasDisponiveis.remove(escolhida);

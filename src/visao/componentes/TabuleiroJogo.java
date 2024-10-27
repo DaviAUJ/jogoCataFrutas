@@ -9,8 +9,6 @@ import visao.estilos.EstiloComponentes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -161,7 +159,6 @@ public class TabuleiroJogo extends JPanel {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoMovimentacaoJogador")) {
-                    System.out.println("teste");
                     malha
                             .get(((ArrayList<Integer>) evt.getOldValue()).getFirst())
                             .get(((ArrayList<Integer>) evt.getOldValue()).getLast())
@@ -171,6 +168,42 @@ public class TabuleiroJogo extends JPanel {
                             .get(((ArrayList<Integer>) evt.getNewValue()).getFirst())
                             .get(((ArrayList<Integer>) evt.getNewValue()).getLast())
                             .atualizarQuadradinho("colocarJogador1", 0);
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoMudancaFruta")) {
+                    HashMap<String, Object> mapa = (HashMap<String, Object>) evt.getNewValue();
+                    Class<? extends Fruta> classe = (Class<? extends Fruta>) mapa.get("classe");
+                    int indicador = -1;
+                    String tipo = "colocarFruta";
+
+                    if(classe == Abacate.class) {
+                        indicador = 0;
+                    }
+                    else if(classe == Generica.class) {
+                        indicador = 1;
+                    }
+                    else if(classe == Coco.class) {
+                        indicador = 3;
+                    }
+                    else if(classe == Laranja.class) {
+                        indicador = 5;
+                    }
+                    else if(classe == Maracuja.class) {
+                        indicador = 6;
+                    }
+                    else {
+                        tipo = "tirarFruta";
+                    }
+
+                    malha
+                            .get((Integer) mapa.get("x"))
+                            .get((Integer) mapa.get("y"))
+                            .atualizarQuadradinho(tipo, indicador);
                 }
             }
         });

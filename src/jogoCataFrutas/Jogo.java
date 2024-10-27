@@ -40,23 +40,42 @@ public class Jogo{
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("pedirMovJogador")) {
-                    switch ((String) evt.getNewValue()) {
-                        case "W":
-                            jogadorDaVez.moverCima();
-                            break;
-                        case "A":
-                            jogadorDaVez.moverEsquerda();
-                            break;
-                        case "S":
-                            jogadorDaVez.moverBaixo();
-                            break;
-                        case "D":
-                            jogadorDaVez.moverDireita();
-                            break;
-                    }
+                    movimentarJogador((String) evt.getNewValue());
                 }
             }
         });
+    }
+
+    public void movimentarJogador(String entrada) {
+        switch (entrada) {
+            case "W":
+                jogadorDaVez.moverCima();
+                break;
+            case "A":
+                jogadorDaVez.moverEsquerda();
+                break;
+            case "S":
+                jogadorDaVez.moverBaixo();
+                break;
+            case "D":
+                jogadorDaVez.moverDireita();
+                break;
+            case "F":
+                jogadorDaVez.catarFruta();
+                break;
+            case "1":
+                jogadorDaVez.comerFruta(Laranja.class);
+                break;
+            case "2":
+                jogadorDaVez.comerFruta(Generica.class);
+                break;
+            case "3":
+                jogadorDaVez.comerFruta(Coco.class);
+                break;
+            case "4":
+                jogadorDaVez.comerFruta(Abacate.class);
+                break;
+        }
     }
 
     

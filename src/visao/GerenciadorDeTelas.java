@@ -155,49 +155,7 @@ public class GerenciadorDeTelas {
         else{
             this.telasGerenciadas.put("JOGO", new VisaoJogo(this));
         }
-        
-        configurarListenerVisaoJogo();
-        
     }
-
-    private void configurarListenerVisaoJogo() {
-    	Transmissor.adicionarEvento(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-            	if(evt.getPropertyName().equals("avisoMudouMochila")) {
-            		int qtde = (Integer) ((HashMap<String, Object>)evt.getNewValue()).get("quantidade");
-            		((VisaoJogo) telasGerenciadas.get("JOGO")).valoresInventario1.get(5).setText(Integer.toString(qtde));
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoMovimentacaoJogador")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoPasseiTurno")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoApareceuNoJogo")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoPegouFrutaArvore")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoBichada")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoEfeito")) {
-            		
-            	}
-            	
-            	else if(evt.getPropertyName().equals("avisoFimDeJogo")) {
-            		
-            	}
-            }});
-            }
     
     public ArrayList<GerenciadorArquivo> solicitarSalvamentos (){
         Transmissor.buscarSalvamentos();
