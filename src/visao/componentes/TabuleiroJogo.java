@@ -42,9 +42,9 @@ public class TabuleiroJogo extends JPanel {
 
         this.malha = new ArrayList<>(this.DIMENSAO);
         int tamanhoQuadradinho = this.TAMANHO/this.DIMENSAO;
-        for (int j = 0; j < this.DIMENSAO; j++) {
+        for (int i = 0; i < this.DIMENSAO; i++) {
             ArrayList<QuadradinhoTabuleiro> coluna = new ArrayList<>(this.DIMENSAO);
-            for (int i = 0; i < this.DIMENSAO; i++) {
+            for (int j = 0; j < this.DIMENSAO; j++) {
                 QuadradinhoTabuleiro quad;
 
 
