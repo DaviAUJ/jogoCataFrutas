@@ -94,7 +94,6 @@ public class Main {
 
 
                     Jogo novoJogo = new Jogo();
-                    System.out.println(novoJogo);
 
                     Transmissor.setJogoDoMomento(novoJogo);
 

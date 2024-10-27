@@ -23,8 +23,6 @@ public class VisaoNovoJogo extends JPanel {
 
     public ArrayList <JFormattedTextField> camposDeEntrada;
 
-
-
     public VisaoNovoJogo(GerenciadorDeTelas gerenciador) {
         EstiloNovoJogo.aplicarEstilo(this);
 
@@ -55,9 +53,6 @@ public class VisaoNovoJogo extends JPanel {
 
                 gerenciador.solicitarNovoJogo();
                 gerenciador.irParaTela("JOGO");
-
-
-
             }
         });
     }

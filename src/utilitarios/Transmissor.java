@@ -31,6 +31,10 @@ public abstract class Transmissor {
         SUPORTE_MUDANCA.firePropertyChange("solicitacaoNovoJogo", null, DADOS);
     }
 
+    public static void iniciarPartida() {
+        SUPORTE_MUDANCA.firePropertyChange("iniciarPartida", null, null);
+    }
+
     public static void buscarSalvamentos(){
         SUPORTE_MUDANCA.firePropertyChange("solicitacaoListaSalvamentos", null, DADOS);
     }
@@ -82,11 +86,20 @@ public abstract class Transmissor {
         SUPORTE_MUDANCA.firePropertyChange("avisoMudancaFruta", null, info);
     }
     
-    public static void avisoPasseiTurno(int rodadaAtual, Jogador jogadorDaVez) {
-    	HashMap <String, Object> info = new HashMap <>();
-    	info.put("rodada atual", rodadaAtual);
-    	info.put("jogador", jogadorDaVez);
-        SUPORTE_MUDANCA.firePropertyChange("avisoPasseiTurno", null, info);
+    public static void avisoMudarRodada(int rodadaAtual) {
+        SUPORTE_MUDANCA.firePropertyChange("avisoNovaRodada", null, rodadaAtual);
+    }
+
+    public static void avisoTrocaJogador(int idAntigo, int idNovo) {
+        SUPORTE_MUDANCA.firePropertyChange("avisoTrocaJogador", idAntigo, idNovo);
+    }
+
+    public static void avisoPontosAlterados(int novoValor, int idJogador) {
+        HashMap<String, Integer> mapa = new HashMap<>();
+        mapa.put("id", idJogador);
+        mapa.put("pontos", novoValor);
+
+        SUPORTE_MUDANCA.firePropertyChange("avisoPontosAlterados", null, mapa);
     }
 
     public static void avisoPegouFrutaArvore(int ArvoreX, int ArvoreY) {

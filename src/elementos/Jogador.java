@@ -18,7 +18,7 @@ public class Jogador extends Elemento {
     private Mochila mochila;
     private Terreno local;
 
-    private int pontosMovimento = 100;
+    private int pontosMovimento = 0;
 
     private boolean buffForca = false;
     private boolean nerfBichada = false;
@@ -28,11 +28,6 @@ public class Jogador extends Elemento {
     private final HashMap<Arvore, Integer> arvoresEmCooldown = new HashMap<>();
 
     /** Construtor padrão da classe Jogador. */
-
-    public Jogador() {
-
-    }
-
     public Jogador(Terreno local) {
         GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 
@@ -87,6 +82,7 @@ public class Jogador extends Elemento {
 
     public void setPontosMovimento(int pontosMovimento) {
         this.pontosMovimento = pontosMovimento;
+        Transmissor.avisoPontosAlterados(pontosMovimento, getID());
     }
 
     /**
@@ -257,6 +253,11 @@ public class Jogador extends Elemento {
         Transmissor.avisoPegouFrutaArvore(this.posicaoX, this.posicaoY);
     }
 
+    private void discontarPontos(int tirar) {
+        pontosMovimento -= tirar;
+        Transmissor.avisoPontosAlterados(pontosMovimento, getID());
+    }
+
     /**
      * Tenta empurrar outro jogador.
      *
@@ -272,14 +273,13 @@ public class Jogador extends Elemento {
             throw new jaEmpurraramNoJogadorException("");
         }
 
-        pontosMovimento--;
+        discontarPontos(1);
 
         int numFrutas = (int) Math.round(Extras.logb(2, getForca() + 1));
         numFrutas -= (int) Math.round(Extras.logb(2, alvo.getForca() + 1));
         numFrutas = Math.max(0, numFrutas);
 
         alvo.derrubarFrutas(numFrutas);
-        System.out.println(numFrutas);
     }
 
     public void moverLivre(int posX, int posY)
@@ -298,7 +298,6 @@ public class Jogador extends Elemento {
         if(((ElementoEstaticoPisavel)local.tabuleiro[posX][posY]).temJogador()) {
             throw new MovimentoParaEspacoComPlayerException("");
         }
-
 
         Transmissor.avisoMovimentacaoJogador(
                 new ArrayList<>(Arrays.asList(posicaoX, posicaoY)),
@@ -327,7 +326,7 @@ public class Jogador extends Elemento {
 
         try {
             moverLivre(posicaoX, posicaoY - 1);
-            pontosMovimento--;
+            discontarPontos(1);
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -337,7 +336,7 @@ public class Jogador extends Elemento {
 
             try {
                 moverLivre(posicaoX, posicaoY - 2);
-                pontosMovimento -= 3;
+                discontarPontos(3);
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -362,7 +361,7 @@ public class Jogador extends Elemento {
 
         try {
             moverLivre(posicaoX, posicaoY + 1);
-            pontosMovimento--;
+            discontarPontos(1);
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -372,7 +371,7 @@ public class Jogador extends Elemento {
 
             try {
                 moverLivre(posicaoX, posicaoY + 2);
-                pontosMovimento -= 3;
+                discontarPontos(3);
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -397,7 +396,7 @@ public class Jogador extends Elemento {
 
         try {
             moverLivre(posicaoX - 1, posicaoY);
-            pontosMovimento--;
+            discontarPontos(1);
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -407,7 +406,7 @@ public class Jogador extends Elemento {
 
             try {
                 moverLivre(posicaoX - 2, posicaoY);
-                pontosMovimento -= 3;
+                discontarPontos(3);
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -432,7 +431,7 @@ public class Jogador extends Elemento {
 
         try {
             moverLivre(posicaoX + 1, posicaoY);
-            pontosMovimento--;
+            discontarPontos(1);
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -442,7 +441,7 @@ public class Jogador extends Elemento {
 
             try {
                 moverLivre(posicaoX + 2, posicaoY);
-                pontosMovimento -= 3;
+                discontarPontos(3);
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -456,11 +455,15 @@ public class Jogador extends Elemento {
 
     /** Gera pontos para o jogador (a implementação ainda não existe). */
 
-    public void gerarPontos() {
+    public void gerarPontos(boolean trapaca) {
         Random gerador = new Random();
 
         pontosMovimento = gerador.nextInt(6) + gerador.nextInt(6) + 2;
-        pontosMovimento *= 10;
+        if(trapaca) {
+            pontosMovimento *= 20;
+        }
+
+        Transmissor.avisoPontosAlterados(pontosMovimento, getID());
     }
 
     public void atualizarCooldowns() {

@@ -1,11 +1,9 @@
 package jogoCataFrutas;
 
-import java.util.Scanner;
 import utilitarios.Transmissor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import elementos.Jogador;
-import elementos.Mochila;
 import elementos.Terreno;
 
 import frutas.*;
@@ -31,7 +29,9 @@ public class Jogo{
     public Jogo() {
         floresta.gerarTerreno();
         floresta.imprimirTerreno();
+
     	estado = "NoMenuInicial";
+
         configurarListeners();
     }
     
@@ -44,49 +44,99 @@ public class Jogo{
                 }
             }
         });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("iniciarPartida")) {
+                    jogadorDaVez.gerarPontos(false);
+                }
+            }
+        });
     }
 
     public void movimentarJogador(String entrada) {
-        switch (entrada) {
-            case "W":
-                jogadorDaVez.moverCima();
-                break;
-            case "A":
-                jogadorDaVez.moverEsquerda();
-                break;
-            case "S":
-                jogadorDaVez.moverBaixo();
-                break;
-            case "D":
-                jogadorDaVez.moverDireita();
-                break;
-            case "F":
-                jogadorDaVez.catarFruta();
-                break;
-            case "1":
-                jogadorDaVez.comerFruta(Laranja.class);
-                break;
-            case "2":
-                jogadorDaVez.comerFruta(Generica.class);
-                break;
-            case "3":
-                jogadorDaVez.comerFruta(Coco.class);
-                break;
-            case "4":
-                jogadorDaVez.comerFruta(Abacate.class);
-                break;
+        try {
+            switch (entrada) {
+                case "W":
+                    jogadorDaVez.moverCima();
+                    break;
+                case "A":
+                    jogadorDaVez.moverEsquerda();
+                    break;
+                case "S":
+                    jogadorDaVez.moverBaixo();
+                    break;
+                case "D":
+                    jogadorDaVez.moverDireita();
+                    break;
+                case "F":
+                    jogadorDaVez.catarFruta();
+                    break;
+                case "P":
+                    passarTurno();
+                    break;
+                case "1":
+                    jogadorDaVez.comerFruta(Laranja.class);
+                    break;
+                case "2":
+                    jogadorDaVez.comerFruta(Generica.class);
+                    break;
+                case "3":
+                    jogadorDaVez.comerFruta(Coco.class);
+                    break;
+                case "4":
+                    jogadorDaVez.comerFruta(Abacate.class);
+                    break;
+            }
+        }
+        catch (Exception _) {
+
         }
     }
 
-    
-    public int getcontadorTurno() {
-		return contadorTurno;
-	}
-
     public void passarTurno() {
+        try {
+            jogadorDaVez.pegarFrutaArvore();
+        }
+        catch (Exception _) {}
+
+        jogadorDaVez.setPontosMovimento(0);
+        jogadorDaVez.atualizarCooldowns();
+        jogadorDaVez.setBuffForca(false);
+        jogadorDaVez.setJaFoiEmpurrado(false);
+
+        if(!outroJogador.getNerfBichada()) {
+            trocarJogadores();
+        }
+        else {
+            outroJogador.setNerfBichada(false);
+            //  Isso tem que ser feito pra garantir que o cooldown do jogador paralizado não paralize junto dele
+            outroJogador.atualizarCooldowns();
+            contadorTurno++;
+        }
+
+        jogadorDaVez.gerarPontos(false);
         contadorTurno++;
-        Transmissor.avisoPasseiTurno(contadorTurno, jogadorDaVez);
-        trocarJogadores();
+
+        if(((contadorTurno) / 2 + 1) % 2 == 0) {
+            try {
+                floresta.spawnarMaracuja();
+            }
+            catch (Exception _) {
+
+            }
+        }
+
+        Transmissor.avisoMudarRodada(((contadorTurno) / 2 + 1));
+
         if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
        		estado = "Vitoria" + jogadorDaVez.getNome();
        		Transmissor.avisoFimDeJogo(jogadorDaVez);
@@ -131,49 +181,11 @@ public class Jogo{
             jogadorDaVez = floresta.getJogador1();
             outroJogador = floresta.getJogador2();
         }
+
+        Transmissor.avisoTrocaJogador(outroJogador.getID(), jogadorDaVez.getID());
     }
-    
+}
 
-    
-    private char pegarInput() {
-    	char input;
-    	
-    	Scanner scanner = new Scanner(System.in);
-        System.out.println("Comando: ");
-        input = scanner.next().charAt(0);
-        
-        return input;
-    }
-
-    private Class<? extends Fruta>  pegarInputFruta() {
-        char input;
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Fruta: ");
-        input = scanner.next().charAt(0);
-
-        return switch (input) {
-            case 'a' -> Abacate.class;
-            case 'l' -> Laranja.class;
-            case 'g' -> Generica.class;
-            case 'c' -> Coco.class;
-            default -> null;
-        };
-    }
-
-    public void iniciarPartida() {
-        estado = "EmPartida";
-        passarTurno();
-        jogadorDaVez.gerarPontos();
-        jogadorDaVez.resetarMovimento();
-
-        System.out.println(
-            "Rodada: "
-            + (contadorTurno / 2 + 1) + " - "
-            + jogadorDaVez.getNome() + ": "
-            + jogadorDaVez.getPontosMovimento()
-        );}}
-    
     /**
      * Inicia o jogo.
      */

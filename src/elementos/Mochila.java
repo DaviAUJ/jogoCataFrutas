@@ -103,6 +103,5 @@ public class Mochila {
         );
         
         return bolso.get(classe).pop();
-        
     }
 }

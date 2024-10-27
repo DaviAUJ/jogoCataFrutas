@@ -136,7 +136,6 @@ public class GerenciadorDeTelas {
         System.out.println("Chao: " +qtdFrutasChao);
 
         return hash;
-
     }
 
     public void gerarAvisoErro(String mensagem){

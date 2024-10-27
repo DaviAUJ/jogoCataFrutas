@@ -24,7 +24,7 @@ public class VisaoJogo extends JPanel {
 
         int dimensao = Configuracoes.dimensao;
         this.tabuleiro = new TabuleiroJogo(600);
-        this.rodada = new JLabel("0");
+        this.rodada = new JLabel("1");
         this.valoresInventario1 = new ArrayList<>(8);
         this.valoresInventario2 = new ArrayList<>(8);
 
@@ -35,6 +35,7 @@ public class VisaoJogo extends JPanel {
         EstiloVisaoJogo.aplicarEstilo(this);
 
         configurarListerners();
+        Transmissor.iniciarPartida();
     }
 
     private void configurarListerners() {
@@ -68,6 +69,30 @@ public class VisaoJogo extends JPanel {
                     else if(fruta == Abacate.class) {
                         inventario.get(5).setText("" + num);
                     }
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoNovaRodada")) {
+                    rodada.setText("" + (int) evt.getNewValue());
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoPontosAlterados")) {
+                    JLabel label = valoresInventario1.getFirst();
+
+                    if(((HashMap<String, Integer>) evt.getNewValue()).get("id") == 2) {
+                        label = valoresInventario2.getFirst();
+                    }
+
+                    label.setText("" + (int) ((HashMap<String, Integer>) evt.getNewValue()).get("pontos"));
                 }
             }
         });
