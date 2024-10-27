@@ -3,6 +3,11 @@ package elementos;
 public abstract class ElementoEstaticoPisavel extends ElementoEstatico {
     protected Jogador espacoJogador;
 
+
+    public Jogador getJogador() {
+        return espacoJogador;
+    }
+
     protected void setJogador(Jogador espacoJogador) {
         this.espacoJogador = espacoJogador;
     }
@@ -10,4 +15,5 @@ public abstract class ElementoEstaticoPisavel extends ElementoEstatico {
     public Boolean temJogador() {
         return espacoJogador != null;
     }
+
 }

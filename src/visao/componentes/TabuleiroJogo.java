@@ -48,7 +48,12 @@ public class TabuleiroJogo extends JPanel {
 
 
                 if (floresta.getTabuleiro()[i][j] instanceof Grama grama) {
-                    if (!grama.temFruta()){
+                    if (grama.temJogador()){
+                        quad = new QuadradinhoTabuleiro(tamanhoQuadradinho,
+                                grama.getJogador() == jogador1 ? "jogador1" : "jogador2"
+                                , 0,this.imagens);
+                    }
+                    else if (!grama.temFruta()){
                         quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "grama", 0, this.imagens);
                     }
                     else{
@@ -143,6 +148,12 @@ public class TabuleiroJogo extends JPanel {
         itensCarregados = new ArrayList<>(QTD_GRAMA);
         itensCarregados.add(new ImageIcon("./assets/imgs/jogo/grama.png").getImage());
         this.imagens.put("gramas", itensCarregados);
+
+        itensCarregados = new ArrayList<>(QTD_JOGADORES);
+        for (int i = 1; i <= QTD_JOGADORES; i++) {
+            itensCarregados.add(new ImageIcon("./assets/imgs/jogo/jogador/jogador"+i+".png").getImage());
+        }
+        this.imagens.put("jogadores", itensCarregados);
 
 
 

@@ -46,6 +46,7 @@ public class QuadradinhoTabuleiro extends JButton {
         super.paintComponent(g);
 
         Image imagemFundo = null;
+        Image imagemJogador = null;
 
         if (this.tipoPlural.equals("pedras")){
             imagemFundo = this.imagens.get("pedras").get(this.indiceAleatorio);
@@ -54,14 +55,12 @@ public class QuadradinhoTabuleiro extends JButton {
             switch (this.tipoPlural){
                 case "jogador1s":{
                     imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.setColor(Color.BLUE);
-                    g.drawRect(0, 0, TAMANHO, TAMANHO);
+                    imagemJogador = this.imagens.get("jogadores").getFirst();
                     break;
                 }
                 case "jogador2s":{
                     imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.setColor(Color.RED);
-                    g.drawRect(0, 0, TAMANHO, TAMANHO);
+                    imagemJogador = this.imagens.get("jogadores").get(1);
                     break;
                 }
                 default: {
@@ -74,6 +73,12 @@ public class QuadradinhoTabuleiro extends JButton {
         if (imagemFundo != null){
             Image imagemRedimencionada = imagemFundo.getScaledInstance(this.TAMANHO, this.TAMANHO, Image.SCALE_DEFAULT);
             ImageIcon imagemIcon = new ImageIcon(imagemRedimencionada);
+            g.drawImage(imagemIcon.getImage(), 0, 0, null);
+        }
+
+        if (imagemJogador != null){
+            Image imagemJogadorRedimencionada = imagemJogador.getScaledInstance(this.TAMANHO, this.TAMANHO, Image.SCALE_DEFAULT);
+            ImageIcon imagemIcon = new ImageIcon(imagemJogadorRedimencionada);
             g.drawImage(imagemIcon.getImage(), 0, 0, null);
         }
     }
