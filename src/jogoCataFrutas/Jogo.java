@@ -21,10 +21,9 @@ public class Jogo{
 
     protected Terreno floresta = new Terreno();
 
+
     Jogador jogadorDaVez = floresta.getJogador1();
     Jogador outroJogador = floresta.getJogador2();
-    
-
 
     /**
      * Construtor da classe Jogo.
@@ -32,6 +31,7 @@ public class Jogo{
      */
 
     public Jogo() {
+        floresta.gerarTerreno();
     	estado = "NoMenuInicial";
         configurarListeners();
     }
@@ -70,7 +70,6 @@ public class Jogo{
        		Transmissor.avisoFimDeJogo(jogadorDaVez);
         }
     }
-   
 
     /**
      * Obtém o estado atual do jogo.

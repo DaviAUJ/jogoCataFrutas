@@ -288,7 +288,7 @@ public class Jogador extends Elemento {
             throw new MovimentoParaEspacoComPlayerException("");
         }
 
-        Transmissor.avisoMovimentacaoJogador(new int[]{posicaoX,posicaoY},new int[] {posX,posY});
+        //Transmissor.avisoMovimentacaoJogador(new int[]{posicaoX,posicaoY}, new int[] {posX,posY});
         
         // Trocando a posição do jogador
         ((ElementoEstaticoPisavel) local.tabuleiro[posX][posY]).setJogador(this);

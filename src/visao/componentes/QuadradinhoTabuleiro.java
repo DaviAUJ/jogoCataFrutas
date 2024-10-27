@@ -54,12 +54,14 @@ public class QuadradinhoTabuleiro extends JButton {
             switch (this.tipoPlural){
                 case "jogador1s":{
                     imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.drawString("jogador1", 10, 10);
+                    g.setColor(Color.BLUE);
+                    g.drawRect(0, 0, TAMANHO, TAMANHO);
                     break;
                 }
                 case "jogador2s":{
                     imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.drawString("jogador2", 0, 0);
+                    g.setColor(Color.RED);
+                    g.drawRect(0, 0, TAMANHO, TAMANHO);
                     break;
                 }
                 default: {

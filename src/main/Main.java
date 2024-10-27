@@ -78,6 +78,7 @@ public class Main {
                     Configuracoes.chanceFrutaBichada = (int) info.get("chanceBichadas");
                     Configuracoes.qtdPedras = (int) info.get("quantPedras");
 
+
                     Configuracoes.qtdAbacatesArvore = qtdTipoArvores.getFirst();
                     Configuracoes.qtdAbacatesChao = qtdFrutasChao.get(1);
                     Configuracoes.qtdAcerolasArvore = qtdTipoArvores.get(1);
@@ -90,6 +91,7 @@ public class Main {
                     Configuracoes.qtdGoiabasChao = qtdFrutasChao.get(5);
                     Configuracoes.qtdLaranjaArvore = qtdTipoArvores.get(5);
                     Configuracoes.qtdLaranjaChao = qtdFrutasChao.get(6);
+
 
                     Jogo novoJogo = new Jogo();
                     System.out.println(novoJogo);

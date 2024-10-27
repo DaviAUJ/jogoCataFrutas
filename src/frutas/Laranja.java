@@ -40,7 +40,7 @@ public class Laranja extends Fruta {
     public boolean buffar(Jogador jogador) {
     	if (jogador != null) {
     		jogador.setNerfBichada(false);
-    		Transmissor.avisoEfeito(jogador);
+    		Transmissor.avisoEfeito(jogador, 3);
     		return true;
     	}
         return false;

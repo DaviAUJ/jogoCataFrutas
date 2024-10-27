@@ -40,7 +40,7 @@ public class Coco extends Fruta {
     public boolean buffar(Jogador jogador) {
     	if (jogador != null) {
     		jogador.setPontosMovimento(2 * jogador.getPontosMovimento());
-    		Transmissor.avisoEfeito(jogador);
+    		Transmissor.avisoEfeito(jogador, 1);
     		return true;
     	}
         return false;
