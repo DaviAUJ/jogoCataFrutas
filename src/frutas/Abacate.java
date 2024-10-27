@@ -40,7 +40,7 @@ public class Abacate extends Fruta {
     public boolean buffar(Jogador jogador) {
     	if (jogador != null) {
     		jogador.setBuffForca(true);
-    		Transmissor.avisoEfeito(jogador);
+    		Transmissor.avisoEfeito(jogador, 2);
     		return true;
     	}
         return false;

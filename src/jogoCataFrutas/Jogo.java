@@ -63,7 +63,7 @@ public class Jogo{
 
     public void passarTurno() {
         contadorTurno++;
-        Transmissor.avisoPasseiRodada();
+        Transmissor.avisoPasseiTurno(contadorTurno, jogadorDaVez);
         trocarJogadores();
         if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
        		estado = "Vitoria" + jogadorDaVez.getNome();

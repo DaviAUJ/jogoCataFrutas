@@ -6,6 +6,9 @@ import visao.componentes.TabuleiroJogo;
 import visao.estilos.EstiloVisaoJogo;
 
 import javax.swing.*;
+
+import frutas.Abacate;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -36,6 +39,7 @@ public class VisaoJogo extends JPanel {
             valoresInventario2.add(new JLabel("0"));
         }
         EstiloVisaoJogo.aplicarEstilo(this);
+        Transmissor.avisoMudouMochila(Abacate.class, 3);
 
     }
 }

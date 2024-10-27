@@ -2,6 +2,7 @@ package utilitarios;
 
 import jogoCataFrutas.Jogo;
 import frutas.Fruta;
+import java.util.ArrayList;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -57,35 +58,59 @@ public abstract class Transmissor {
         DADOS.remove(identificador);
     }
 
-    public static void avisoMovimentacaoJogador(int[] antigos, int[] novos) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
+    public static void avisoMovimentacaoJogador(ArrayList<Integer> antigos, ArrayList<Integer> novos) {
+    	HashMap <String, ArrayList<Integer>> info = new HashMap <>();
+    	info.put("posicoes antigas", antigos);
+    	info.put("posicoes novas", novos);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", null, info);
     }
     
     public static void avisoMudouMochila(Class<?extends Fruta> fruta, int quantidade) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoMudouMochila",fruta, quantidade);
+    	HashMap <String, Object> info = new HashMap <>();
+    	info.put("fruta", fruta);
+    	info.put("quantidade", quantidade);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoMudouMochila",null, info);
     }
     
-    public static void avisoPasseiRodada() {
-        SUPORTE_MUDANCA.firePropertyChange("passarRodada", null, null);
+    public static void avisoPasseiTurno(int rodadaAtual, Jogador jogadorDaVez) {
+    	HashMap <String, Object> info = new HashMap <>();
+    	info.put("rodada atual", rodadaAtual);
+    	info.put("jogador", jogadorDaVez);
+        SUPORTE_MUDANCA.firePropertyChange("avisoPasseiTurno", null, info);
     }
 
     public static void avisoApareceuNoJogo(String nome, int posX, int posY) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoApareceuNoJogo", null, null);
+    	HashMap <String, Object> info = new HashMap <>();
+    	info.put("nome", nome);
+    	info.put("posicao x", posX);
+    	info.put("posicao y", posY);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoApareceuNoJogo", null, info);
     }
     
-    public static void avisoPegouFrutaArvore(int posX, int posY) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoPegouFrutaArvore", null, null);
+    public static void avisoPegouFrutaArvore(int ArvoreX, int ArvoreY) {
+    	HashMap <String, Integer> info = new HashMap <>();
+    	info.put("posicao da arvore x", ArvoreX);
+    	info.put("posicao ArvoreY", ArvoreY);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoPegouFrutaArvore", null, info );
     }
 
     public static void avisoBichada(Jogador jogador) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoBichada", null, null);
+    	HashMap <String, Jogador> info = new HashMap <>();
+    	info.put("jogador", jogador);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoBichada", null, info);
     }
     
-    public static void avisoEfeito(Jogador jogador) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoEfeito", null, null);
+    public static void avisoEfeito(Jogador jogador, int tipoEfeito) { // 0 é o nerf, 1 é mais pontos de ação, 2 é o de mais força e 3 é o de tirar nerf
+    	 HashMap <String, Object> info = new HashMap <>();
+    	 info.put("jogador", jogador);
+    	 info.put("tipoEfeito", tipoEfeito);
+    	 // Jogador jogador2 =(Jogador) info.get("jogador");
+    	SUPORTE_MUDANCA.firePropertyChange("avisoEfeito", null, info);
     }
     
     public static void avisoFimDeJogo(Jogador jogador) {
-    	SUPORTE_MUDANCA.firePropertyChange("avisoFimDeJogo", null, null);
+    	HashMap <String, Jogador> info = new HashMap <>();
+    	info.put("jogador", jogador);
+    	SUPORTE_MUDANCA.firePropertyChange("avisoFimDeJogo", null, jogador);
     }
 }
