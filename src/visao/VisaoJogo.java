@@ -1,6 +1,7 @@
 package visao;
 
 import jogoCataFrutas.Configuracoes;
+import sons.EfeitoSonoro;
 import visao.componentes.TabuleiroJogo;
 import visao.estilos.EstiloVisaoJogo;
 
@@ -30,6 +31,5 @@ public class VisaoJogo extends JPanel {
         }
 
         EstiloVisaoJogo.aplicarEstilo(this);
-
     }
 }
