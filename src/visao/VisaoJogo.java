@@ -3,6 +3,7 @@ package visao;
 import frutas.*;
 import jogoCataFrutas.Configuracoes;
 import utilitarios.Transmissor;
+import sons.EfeitoSonoro;
 import visao.componentes.TabuleiroJogo;
 import visao.estilos.EstiloVisaoInicialOpcoes;
 import visao.estilos.EstiloVisaoJogo;
