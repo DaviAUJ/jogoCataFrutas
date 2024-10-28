@@ -1,7 +1,6 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import sons.EfeitoSonoro;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 import visao.*;

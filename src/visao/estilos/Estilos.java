@@ -1,6 +1,6 @@
 package visao.estilos;
 import com.formdev.flatlaf.FlatDarkLaf;
-import sons.EfeitoSonoro;
+
 import visao.VisaoPrincipal;
 
 import java.io.File;
@@ -32,15 +32,6 @@ public abstract class Estilos {
             public void mouseEntered(MouseEvent e) {
                 elementoBotao.setBounds(posX, posY-5, width, height);
 
-                try {
-                    EfeitoSonoro som = new EfeitoSonoro(
-                            EfeitoSonoro.pasta + "MouseHover.wav",
-                            0.3f
-                    );
-
-                    som.tocar();
-                }
-                catch (Exception ex) {  System.out.println(e + ""); }
             }
             @Override
             public void mouseExited(MouseEvent e) {

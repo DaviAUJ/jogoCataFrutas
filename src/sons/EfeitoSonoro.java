@@ -10,11 +10,12 @@ public class EfeitoSonoro {
     public static final String pasta = "assets" +
     File.separator + "sfx" + File.separator;
 
-    AudioInputStream fluxo;
-    String caminhoArquivo;
-    Clip clip;
+    private AudioInputStream fluxo;
+    private String caminhoArquivo;
+    private Clip clip;
 
     private float volume;
+    private String status;
 
     public EfeitoSonoro(String caminhoArquivo)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
