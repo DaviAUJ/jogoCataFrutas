@@ -37,9 +37,6 @@ public class GerenciadorDeTelas {
         this.framePrincipal.setResizable(false);
         this.caminhoAtual = new Stack<>();
         this.caminhoAtual.push("raiz");
-        
-        
-
     }
 
     public void adicionarNovaTela(String nomeTela, JPanel tela) {

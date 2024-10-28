@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 import utilitarios.Transmissor;
 
 /**
@@ -41,6 +42,7 @@ public class Laranja extends Fruta {
     	if (jogador != null) {
     		jogador.setNerfBichada(false);
     		Transmissor.avisoEfeito(jogador, 3);
+            EventoSonoroHandler.somBuff();
     		return true;
     	}
         return false;

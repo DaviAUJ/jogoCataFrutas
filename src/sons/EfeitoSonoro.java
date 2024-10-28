@@ -7,20 +7,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class EfeitoSonoro {
-    public static final String pasta = "assets" +
-    File.separator + "sfx" + File.separator;
-
     private AudioInputStream fluxo;
     private String caminhoArquivo;
     private Clip clip;
 
     private float volume;
-    private String status;
 
     public EfeitoSonoro(String caminhoArquivo)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         fluxo = AudioSystem.getAudioInputStream(new File(caminhoArquivo).getAbsoluteFile());
 
+        this.caminhoArquivo = caminhoArquivo;
         clip = AudioSystem.getClip();
         clip.open(fluxo);
     }
@@ -29,6 +26,7 @@ public class EfeitoSonoro {
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         fluxo = AudioSystem.getAudioInputStream(new File(caminhoArquivo).getAbsoluteFile());
 
+        this.caminhoArquivo = caminhoArquivo;
         clip = AudioSystem.getClip();
         clip.open(fluxo);
         setVolume(volume);
@@ -36,6 +34,15 @@ public class EfeitoSonoro {
 
     public void tocar() {
         clip.start();
+    }
+
+    public void tocarLoopando() {
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public boolean estaTocando() {
+        return clip.isRunning();
     }
 
     public void setVolume(float volume) throws VolumeInvalidoException {
@@ -50,5 +57,9 @@ public class EfeitoSonoro {
     public void parar() {
         clip.stop();
         clip.close();
+    }
+
+    public String getCaminhoArquivo() {
+        return caminhoArquivo;
     }
 }

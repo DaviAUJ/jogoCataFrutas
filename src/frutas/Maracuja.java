@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 
 /**
  * Esta classe representa a fruta Maracujá, que é um tipo específico de Fruta.

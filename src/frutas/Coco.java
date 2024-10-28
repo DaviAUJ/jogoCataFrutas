@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 import utilitarios.Transmissor;
 
 /**
@@ -41,6 +42,7 @@ public class Coco extends Fruta {
     	if (jogador != null) {
     		jogador.setPontosMovimento(2 * jogador.getPontosMovimento());
     		Transmissor.avisoEfeito(jogador, 1);
+            EventoSonoroHandler.somBuff();
     		return true;
     	}
         return false;

@@ -1,5 +1,6 @@
 package visao;
 
+import sons.Tocador;
 import utilitarios.Transmissor;
 import visao.estilos.Estilos;
 

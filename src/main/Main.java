@@ -1,6 +1,8 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import sons.EventoSonoroHandler;
+import sons.Tocador;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 import visao.*;
@@ -51,13 +53,10 @@ public class Main {
         principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
         principal.setGerenciador(gerenciadorDeTelas);
-        
-
-
-
-
 
         Estilos.visaoPrincipal(principal);
+        Tocador.configurarListener();
+        EventoSonoroHandler.musicaAbstracao();
 
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override

@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 import utilitarios.Transmissor;
 
 /**
@@ -41,6 +42,7 @@ public class Abacate extends Fruta {
     	if (jogador != null) {
     		jogador.setBuffForca(true);
     		Transmissor.avisoEfeito(jogador, 2);
+            EventoSonoroHandler.somBuff();
     		return true;
     	}
         return false;

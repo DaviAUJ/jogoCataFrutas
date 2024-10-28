@@ -2,6 +2,8 @@ package elementos;
 
 import SemUtilidade.JogadorNerfadoException;
 import frutas.Fruta;
+import frutas.Maracuja;
+import sons.EventoSonoroHandler;
 import utilitarios.Extras;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
@@ -189,6 +191,17 @@ public class Jogador extends Elemento {
 
             Transmissor.avisoMudancaFruta(null, quadradinho.posicaoX, quadradinho.posicaoY);
 
+            if(frutaColetada.isBichada()) {
+                Transmissor.avisoBichada(this);
+                EventoSonoroHandler.somNerf();
+            }
+            else if(frutaColetada.getClass() == Maracuja.class) {
+                EventoSonoroHandler.somPontuacao();
+            }
+            else {
+                EventoSonoroHandler.somCatar();
+            }
+
             // Tenta aplicar nerf no jogador
             frutaColetada.nerfar(this);
         }
@@ -251,6 +264,7 @@ public class Jogador extends Elemento {
 
         arvoresEmCooldown.put(arvore, 5);
         Transmissor.avisoPegouFrutaArvore(this.posicaoX, this.posicaoY);
+        EventoSonoroHandler.somCatar();
     }
 
     private void discontarPontos(int tirar) {
@@ -274,12 +288,14 @@ public class Jogador extends Elemento {
         }
 
         discontarPontos(1);
+        EventoSonoroHandler.somEmpurrao();
 
         int numFrutas = (int) Math.round(Extras.logb(2, getForca() + 1));
         numFrutas -= (int) Math.round(Extras.logb(2, alvo.getForca() + 1));
         numFrutas = Math.max(0, numFrutas);
 
         alvo.derrubarFrutas(numFrutas);
+        alvo.setJaFoiEmpurrado(true);
     }
 
     public void moverLivre(int posX, int posY)
@@ -327,6 +343,7 @@ public class Jogador extends Elemento {
         try {
             moverLivre(posicaoX, posicaoY - 1);
             discontarPontos(1);
+            EventoSonoroHandler.somAndarCima();
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -337,6 +354,7 @@ public class Jogador extends Elemento {
             try {
                 moverLivre(posicaoX, posicaoY - 2);
                 discontarPontos(3);
+                EventoSonoroHandler.somPular();
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -362,6 +380,7 @@ public class Jogador extends Elemento {
         try {
             moverLivre(posicaoX, posicaoY + 1);
             discontarPontos(1);
+            EventoSonoroHandler.somAndarBaixo();
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -372,6 +391,7 @@ public class Jogador extends Elemento {
             try {
                 moverLivre(posicaoX, posicaoY + 2);
                 discontarPontos(3);
+                EventoSonoroHandler.somPular();
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -397,6 +417,7 @@ public class Jogador extends Elemento {
         try {
             moverLivre(posicaoX - 1, posicaoY);
             discontarPontos(1);
+            EventoSonoroHandler.somAndarEsquerda();
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -407,6 +428,7 @@ public class Jogador extends Elemento {
             try {
                 moverLivre(posicaoX - 2, posicaoY);
                 discontarPontos(3);
+                EventoSonoroHandler.somPular();
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }
@@ -432,6 +454,7 @@ public class Jogador extends Elemento {
         try {
             moverLivre(posicaoX + 1, posicaoY);
             discontarPontos(1);
+            EventoSonoroHandler.somAndarDireita();
         }
         catch(JogadorForaDoCampoException | JogadorNerfadoException _) {  }
         catch(MovimentoParaEspacoComPedraException e) {
@@ -442,6 +465,7 @@ public class Jogador extends Elemento {
             try {
                 moverLivre(posicaoX + 2, posicaoY);
                 discontarPontos(3);
+                EventoSonoroHandler.somPular();
             }
             catch(MovimentoParaEspacoComPlayerException _) {  }
         }

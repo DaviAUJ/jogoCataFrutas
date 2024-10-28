@@ -2,9 +2,9 @@ package visao;
 
 import frutas.*;
 import jogoCataFrutas.Configuracoes;
+import sons.EventoSonoroHandler;
 import utilitarios.Transmissor;
 import visao.componentes.TabuleiroJogo;
-import visao.estilos.EstiloVisaoInicialOpcoes;
 import visao.estilos.EstiloVisaoJogo;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -24,8 +24,6 @@ public class VisaoJogo extends JPanel {
     public JLabel inventario1;
     public JLabel inventario2;
 
-    private int passagemDeRodada = 0;
-
     public VisaoJogo(GerenciadorDeTelas gerenciador){
 
         int dimensao = Configuracoes.dimensao;
@@ -44,21 +42,16 @@ public class VisaoJogo extends JPanel {
 
         configurarListerners();
         Transmissor.iniciarPartida();
-
-
-
+        EventoSonoroHandler.musicaExcecao();
     }
 
-    public void trocarInventarios(){
-        if (passagemDeRodada % 2 != 0){
+    public void trocarInventarios(int idJogador){
+        if (idJogador == 2){
             EstiloVisaoJogo.inverterJogadores(inventario1, valoresInventario1, inventario2, valoresInventario2);
         }
         else{
             EstiloVisaoJogo.inverterJogadores(inventario2, valoresInventario2, inventario1, valoresInventario1);
         }
-
-
-        passagemDeRodada++;
     }
 
     private void configurarListerners() {
@@ -111,13 +104,21 @@ public class VisaoJogo extends JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoPontosAlterados")) {
                     JLabel label = valoresInventario1.getFirst();
-                    trocarInventarios();
 
                     if(((HashMap<String, Integer>) evt.getNewValue()).get("id") == 2) {
                         label = valoresInventario2.getFirst();
                     }
 
                     label.setText("" + (int) ((HashMap<String, Integer>) evt.getNewValue()).get("pontos"));
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoTrocaJogador")) {
+                    trocarInventarios((Integer) evt.getNewValue());
                 }
             }
         });

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import elementos.Elemento;
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 
@@ -61,10 +62,5 @@ public abstract class Fruta {
 
     public void nerfar(Jogador jogador) {
         jogador.setNerfBichada(bichada);
-
-        if(bichada) {
-            Transmissor.avisoBichada(jogador);
-        }
-       
     }
 }
