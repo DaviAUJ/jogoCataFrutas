@@ -64,7 +64,6 @@ public class Main {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
                     HashMap <String, Object> info = (HashMap<String, Object>) gerenciadorDeTelas.pegarInformacaoCache("infoJogo");
 
-                    System.out.println(info);
 
                     Configuracoes.nomeJogador1 =  (String) info.get("nomeJogador1");
                     Configuracoes.nomeJogador2 =  (String) info.get("nomeJogador2");
@@ -109,7 +108,6 @@ public class Main {
                     ArrayList<GerenciadorArquivo> arquivos = GerenciadorArquivo.resgatarSaves();
 
                     Configuracoes.arquvosSaves = arquivos;
-                    System.out.println(arquivos);
                 }
             }
         });

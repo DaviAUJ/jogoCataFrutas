@@ -68,7 +68,8 @@ public class VisaoNovoJogo extends JPanel {
                 gerenciador.solicitarNovoJogo();
                 TabuleiroJogo tabuleiroJogo = new TabuleiroJogo(preview.getHeight() - 60);
                 tabuleiroJogo.setLocation((preview.getWidth() - tabuleiroJogo.getWidth()) / 2, (preview.getHeight() - tabuleiroJogo.getHeight()) / 2);
-                preview.add(tabuleiroJogo, 0);
+                preview.add(tabuleiroJogo);
+                preview.revalidate(); //Isso aqui é gambiarra professora :D
 
 
 
@@ -80,6 +81,9 @@ public class VisaoNovoJogo extends JPanel {
 
 
     }
+
+
+
 
 
 }

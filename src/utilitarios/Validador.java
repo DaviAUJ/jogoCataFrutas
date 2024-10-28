@@ -127,8 +127,8 @@ public class Validador {
                 }
 
                 case "dimensao":{
-                    if ((Integer) dados.get(chave) < 3 || (Integer) dados.get(chave) > 50){
-                        return "E11: A dimensão informada ultrapassa o limite! (Entre 3 e 50)!";
+                    if ((Integer) dados.get(chave) < 3 || (Integer) dados.get(chave) > 15){
+                        return "E11: A dimensão informada ultrapassa o limite! (Entre 3 e 15)!";
                     }
                     this.dimensao = (Integer) dados.get(chave);
                     passosValidados++;

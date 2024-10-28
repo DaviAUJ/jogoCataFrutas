@@ -149,6 +149,8 @@ public class VisaoJogo extends JPanel {
                 if(evt.getPropertyName().equals("avisoFimDeJogo")) {
                     EventoSonoroHandler.somVitoria();
                     mostrarTelaVitoria();
+                    btnPassarRodada.setEnabled(false);
+                    btnPassarRodada.setVisible(false);
                 }
             }
         });
