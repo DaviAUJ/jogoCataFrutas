@@ -70,6 +70,11 @@ public class VisaoJogo extends JPanel {
         }
     }
 
+    public void mostrarTelaVitoria(){
+        this.add(textoFimDeJogo);
+        this.setComponentZOrder(textoFimDeJogo, 0);
+    }
+
     private void configurarListerners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
@@ -143,7 +148,7 @@ public class VisaoJogo extends JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoFimDeJogo")) {
                     EventoSonoroHandler.somVitoria();
-                    setComponentZOrder(textoFimDeJogo, 0);
+                    mostrarTelaVitoria();
                 }
             }
         });
