@@ -1,4 +1,5 @@
 package visao;
+import jogoCataFrutas.Configuracoes;
 import jogoCataFrutas.Jogo;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.ReagirMudanca;
@@ -154,6 +155,6 @@ public class GerenciadorDeTelas {
     
     public ArrayList<GerenciadorArquivo> solicitarSalvamentos (){
         Transmissor.buscarSalvamentos();
-        return (ArrayList<GerenciadorArquivo>) Transmissor.getDados("salvamentos");
+        return Configuracoes.arquvosSaves;
     }
 }

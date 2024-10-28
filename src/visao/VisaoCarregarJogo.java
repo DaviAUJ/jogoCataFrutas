@@ -24,7 +24,6 @@ public class VisaoCarregarJogo extends JPanel {
     public VisaoCarregarJogo(GerenciadorDeTelas gerenciador) {
 
         this.saves = new ArrayList<>();
-        this.listaDeArquivosSaves = new ArrayList<>(4);
 
         this.listaDeArquivosSaves = gerenciador.solicitarSalvamentos();
 

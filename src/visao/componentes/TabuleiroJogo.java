@@ -21,7 +21,7 @@ public class TabuleiroJogo extends JPanel {
     public HashMap<String, ArrayList<Image>> imagens;
     int[] posJogador1, posJogador2;
 
-    public TabuleiroJogo(int tamanho, String tipo) {
+    public TabuleiroJogo(int tamanho) {
         this.TAMANHO = tamanho;
         this.DIMENSAO = Configuracoes.dimensao;
         posJogador1 = new int[2];
@@ -103,9 +103,7 @@ public class TabuleiroJogo extends JPanel {
 
         EstiloComponentes.aplicarEstiloTabuleiro(this);
 
-        if (!tipo.equals("preview")){
-            configurarListeners();
-        }
+        configurarListeners();
     }
 
 

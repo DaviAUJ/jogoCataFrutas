@@ -4,9 +4,11 @@ import utilitarios.Transmissor;
 import utilitarios.Validador;
 import visao.componentes.BarrinhaConfiguracoes;
 import visao.componentes.TabuleiroJogo;
+import visao.estilos.EstiloComponentes;
 import visao.estilos.EstiloNovoJogo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class VisaoNovoJogo extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 if (gerenciador.pegarInformacaoCache("infoJogo") != null) {
-                    preview.removeAll();
+                    Transmissor.getJogoDoMomento().configurarListeners();
                     gerenciador.adicionarVisaoJogo();
                     gerenciador.irParaTela("JOGO");
                 }
@@ -64,10 +66,10 @@ public class VisaoNovoJogo extends JPanel {
 
                 gerenciador.addNoCache("infoJogo", hashValidavel);
                 gerenciador.solicitarNovoJogo();
-                TabuleiroJogo tabuleiroJogo = new TabuleiroJogo(preview.getHeight() - 60, "preview");
-                tabuleiroJogo.setLocation(2+(preview.getWidth() - tabuleiroJogo.getWidth()) / 2, (preview.getHeight() - tabuleiroJogo.getHeight()) / 2);
-                preview.add(tabuleiroJogo);
-                System.gc();
+                TabuleiroJogo tabuleiroJogo = new TabuleiroJogo(preview.getHeight() - 60);
+                tabuleiroJogo.setLocation((preview.getWidth() - tabuleiroJogo.getWidth()) / 2, (preview.getHeight() - tabuleiroJogo.getHeight()) / 2);
+                preview.add(tabuleiroJogo, 0);
+
 
 
 

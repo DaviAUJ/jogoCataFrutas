@@ -38,7 +38,7 @@ public class VisaoJogo extends JPanel {
 
         int dimensao = Configuracoes.dimensao;
         Configuracoes.tipo = "real";
-        this.tabuleiro = new TabuleiroJogo(600, "real");
+        this.tabuleiro = new TabuleiroJogo(600);
         this.rodada = new JLabel("1");
         this.valoresInventario1 = new ArrayList<>(8);
         this.valoresInventario2 = new ArrayList<>(8);

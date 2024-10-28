@@ -11,9 +11,10 @@ import java.util.HashMap;
 import elementos.Jogador;
 
 public abstract class Transmissor {
-    private static HashMap<String, Object> DADOS = new HashMap<>();
     private static Jogo JOGO;
     private static PropertyChangeSupport SUPORTE_MUDANCA = new PropertyChangeSupport(Jogo.class);
+
+
 
     public static void setJogoDoMomento(Jogo jogo) {
         JOGO = jogo;
@@ -36,31 +37,9 @@ public abstract class Transmissor {
     }
 
     public static void buscarSalvamentos(){
-        SUPORTE_MUDANCA.firePropertyChange("solicitacaoListaSalvamentos", null, DADOS);
+        SUPORTE_MUDANCA.firePropertyChange("solicitacaoListaSalvamentos", null, null);
     }
 
-    public static void adicionarDados(String identificador, Object dados) {
-        if (!DADOS.containsKey(identificador)) {
-            DADOS.put(identificador, dados);
-        }
-    }
-
-    public static void alterarDados(String identificador, Object dados) {
-        if (DADOS.containsKey(identificador)) {
-            DADOS.put(identificador, dados);
-        }
-        else{
-            System.out.println("Identificador não encontrado!");
-        }
-    }
-
-    public static Object getDados(String identificador) {
-        return DADOS.get(identificador);
-    }
-
-    public static void removerDados(String identificador) {
-        DADOS.remove(identificador);
-    }
 
     public static void pedirMovJogador(String entrada) {
         SUPORTE_MUDANCA.firePropertyChange("pedirMovJogador", null, entrada);

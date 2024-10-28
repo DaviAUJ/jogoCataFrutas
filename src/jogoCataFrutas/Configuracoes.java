@@ -1,5 +1,9 @@
 package jogoCataFrutas;
 
+import utilitarios.GerenciadorArquivo;
+
+import java.util.ArrayList;
+
 public abstract class Configuracoes {
     public static String nomeJogador1;
     public static String nomeJogador2;
@@ -25,4 +29,5 @@ public abstract class Configuracoes {
     public static int qtdLaranjaArvore;
     public static int qtdLaranjaChao;
     public static String tipo = "preview";
+    public static ArrayList<GerenciadorArquivo> arquvosSaves = new ArrayList<>();
 }

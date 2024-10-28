@@ -29,10 +29,10 @@ public class Jogo{
         floresta.gerarTerreno();
         floresta.imprimirTerreno();
 
-        configurarListeners();
+
     }
     
-    private void configurarListeners() {
+    public void configurarListeners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {

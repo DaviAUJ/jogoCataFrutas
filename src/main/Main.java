@@ -66,8 +66,6 @@ public class Main {
 
                     System.out.println(info);
 
-                    Transmissor.setJogoDoMomento(null);
-
                     Configuracoes.nomeJogador1 =  (String) info.get("nomeJogador1");
                     Configuracoes.nomeJogador2 =  (String) info.get("nomeJogador2");
                     Configuracoes.dimensao = (int) info.get("dimensao");
@@ -110,7 +108,8 @@ public class Main {
                 if (evt.getPropertyName().equals("solicitacaoListaSalvamentos")){
                     ArrayList<GerenciadorArquivo> arquivos = GerenciadorArquivo.resgatarSaves();
 
-                    Transmissor.adicionarDados("salvamentos", arquivos);
+                    Configuracoes.arquvosSaves = arquivos;
+                    System.out.println(arquivos);
                 }
             }
         });
