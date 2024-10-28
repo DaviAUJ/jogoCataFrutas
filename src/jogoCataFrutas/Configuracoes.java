@@ -24,4 +24,5 @@ public abstract class Configuracoes {
     public static int qtdGoiabasChao;
     public static int qtdLaranjaArvore;
     public static int qtdLaranjaChao;
+    public static String tipo = "preview";
 }

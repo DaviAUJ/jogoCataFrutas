@@ -28,7 +28,7 @@ public abstract class Transmissor {
     }
 
     public static void solicitacaoNovoJogo() {
-        SUPORTE_MUDANCA.firePropertyChange("solicitacaoNovoJogo", null, DADOS);
+        SUPORTE_MUDANCA.firePropertyChange("solicitacaoNovoJogo", null, null);
     }
 
     public static void iniciarPartida() {

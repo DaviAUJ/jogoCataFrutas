@@ -24,10 +24,19 @@ public class VisaoJogo extends JPanel {
     public JLabel inventario1;
     public JLabel inventario2;
 
+    public JLabel textoFimDeJogo;
+
+
+    //Quando lançar o evento de fim de jogo, o jogo lá deve desabilitar os eventos, para que nada novo aconteça. Além disso
+    //O escutador daqui deve fazer this.setComponentZOrder(this.textoFimDeJogo, 0);
+
+    public JButton btnPassarRodada;
+
     public VisaoJogo(GerenciadorDeTelas gerenciador){
 
         int dimensao = Configuracoes.dimensao;
-        this.tabuleiro = new TabuleiroJogo(600);
+        Configuracoes.tipo = "real";
+        this.tabuleiro = new TabuleiroJogo(600, "real");
         this.rodada = new JLabel("1");
         this.valoresInventario1 = new ArrayList<>(8);
         this.valoresInventario2 = new ArrayList<>(8);

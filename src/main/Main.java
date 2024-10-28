@@ -64,6 +64,10 @@ public class Main {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
                     HashMap <String, Object> info = (HashMap<String, Object>) gerenciadorDeTelas.pegarInformacaoCache("infoJogo");
 
+                    System.out.println(info);
+
+                    Transmissor.setJogoDoMomento(null);
+
                     Configuracoes.nomeJogador1 =  (String) info.get("nomeJogador1");
                     Configuracoes.nomeJogador2 =  (String) info.get("nomeJogador2");
                     Configuracoes.dimensao = (int) info.get("dimensao");
@@ -93,7 +97,6 @@ public class Main {
 
 
                     Jogo novoJogo = new Jogo();
-
                     Transmissor.setJogoDoMomento(novoJogo);
 
 

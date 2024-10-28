@@ -1,5 +1,6 @@
 package visao;
 
+import jogoCataFrutas.Configuracoes;
 import sons.Tocador;
 import utilitarios.Transmissor;
 import visao.estilos.Estilos;
@@ -37,7 +38,7 @@ public class VisaoPrincipal extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(ativarControles) {
+        if(ativarControles && !Configuracoes.tipo.equals("preview")) {
             String c = KeyEvent.getKeyText(e.getKeyCode());
             Transmissor.pedirMovJogador(KeyEvent.getKeyText(e.getKeyCode()));
         }

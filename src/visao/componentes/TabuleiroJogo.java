@@ -21,7 +21,7 @@ public class TabuleiroJogo extends JPanel {
     public HashMap<String, ArrayList<Image>> imagens;
     int[] posJogador1, posJogador2;
 
-    public TabuleiroJogo(int tamanho) {
+    public TabuleiroJogo(int tamanho, String tipo) {
         this.TAMANHO = tamanho;
         this.DIMENSAO = Configuracoes.dimensao;
         posJogador1 = new int[2];
@@ -102,7 +102,10 @@ public class TabuleiroJogo extends JPanel {
         }
 
         EstiloComponentes.aplicarEstiloTabuleiro(this);
-        configurarListeners();
+
+        if (!tipo.equals("preview")){
+            configurarListeners();
+        }
     }
 
 
@@ -168,7 +171,9 @@ public class TabuleiroJogo extends JPanel {
                     malha
                             .get(((ArrayList<Integer>) evt.getNewValue()).getFirst())
                             .get(((ArrayList<Integer>) evt.getNewValue()).getLast())
-                            .atualizarQuadradinho("colocarJogador1", 0);
+                            .atualizarQuadradinho(
+                                    "colocarJogador" + Transmissor.getJogoDoMomento().getIDJogadorDaVez(),
+                                    0);
                 }
             }
         });

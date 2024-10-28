@@ -150,14 +150,11 @@ public abstract class EstiloNovoJogo {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(fundoPainel, 0, 0, null);
-                this.revalidate();
             }
         };
 
         preview.setBorder(BorderFactory.createEmptyBorder(26, 28, 26, 26));
-        JPanel teste = new JPanel();
-        preview.add(teste);
-        preview.setLayout(new BoxLayout(preview, BoxLayout.PAGE_AXIS));
+        preview.setLayout(null);
 
         preview.setBounds(150, 145, PREVIEW_LARGURA, PREVIEW_ALTURA);
         preview.setOpaque(false);

@@ -141,10 +141,9 @@ public class GerenciadorDeTelas {
 
     public void solicitarNovoJogo(){
         Transmissor.solicitacaoNovoJogo();
-        adicionarVisaoJogo(Transmissor.getJogoDoMomento());
     }
 
-    public void adicionarVisaoJogo(Jogo jogo){
+    public void adicionarVisaoJogo(){
         if (!this.telasGerenciadas.containsKey("JOGO")){
             this.adicionarNovaTela("JOGO", new VisaoJogo(this));
         }

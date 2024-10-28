@@ -162,6 +162,11 @@ public class Jogo{
         }
 
         Transmissor.avisoTrocaJogador(outroJogador.getID(), jogadorDaVez.getID());
+        System.out.println(this);
+    }
+
+    public int getIDJogadorDaVez(){
+        return jogadorDaVez.getID();
     }
 }
 
