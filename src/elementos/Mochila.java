@@ -98,7 +98,7 @@ public class Mochila {
         quantFrutas--;
         Transmissor.avisoMudouMochila(
                 classe,
-                bolso.get(classe).size(),
+                bolso.get(classe).size() - 1,
                 dono.getID()
         );
         

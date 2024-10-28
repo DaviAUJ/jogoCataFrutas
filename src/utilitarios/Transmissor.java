@@ -123,9 +123,7 @@ public abstract class Transmissor {
     	SUPORTE_MUDANCA.firePropertyChange("avisoEfeito", null, info);
     }
     
-    public static void avisoFimDeJogo(Jogador jogador) {
-    	HashMap <String, Jogador> info = new HashMap <>();
-    	info.put("jogador", jogador);
-    	SUPORTE_MUDANCA.firePropertyChange("avisoFimDeJogo", null, jogador);
+    public static void avisoFimDeJogo(String nomeVencedor) {
+    	SUPORTE_MUDANCA.firePropertyChange("avisoFimDeJogo", null, nomeVencedor);
     }
 }

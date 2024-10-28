@@ -28,7 +28,6 @@ public class VisaoCarregarJogo extends JPanel {
 
         this.listaDeArquivosSaves = gerenciador.solicitarSalvamentos();
 
-
         int posI = 0;
         for (GerenciadorArquivo arquivo : listaDeArquivosSaves) {
 

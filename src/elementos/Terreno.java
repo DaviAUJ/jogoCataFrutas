@@ -337,8 +337,6 @@ public class Terreno {
 								maracujasSpawnados++;
 								Transmissor.avisoMudancaFruta(Maracuja.class, grama.posicaoX, grama.posicaoY);
 
-								System.out.println("Sapws");
-
 								return;
 							}
 						}

@@ -15,7 +15,6 @@ import frutas.*;
 
 public class Jogo{
     private int contadorTurno = 0;
-    private String estado;
 
     protected Terreno floresta = new Terreno();
     Jogador jogadorDaVez = floresta.getJogador1();
@@ -29,8 +28,6 @@ public class Jogo{
     public Jogo() {
         floresta.gerarTerreno();
         floresta.imprimirTerreno();
-
-    	estado = "NoMenuInicial";
 
         configurarListeners();
     }
@@ -56,7 +53,7 @@ public class Jogo{
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("iniciarPartida")) {
-                    jogadorDaVez.gerarPontos(false);
+                    jogadorDaVez.gerarPontos(true);
                 }
             }
         });
@@ -106,8 +103,11 @@ public class Jogo{
         try {
             jogadorDaVez.pegarFrutaArvore();
         }
-        catch (Exception _) {}
+        catch (Exception e) {
+            System.out.println("" + e);
+        }
 
+        jogadorDaVez.resetarMovimento();
         jogadorDaVez.setPontosMovimento(0);
         jogadorDaVez.atualizarCooldowns();
         jogadorDaVez.setBuffForca(false);
@@ -138,29 +138,8 @@ public class Jogo{
         Transmissor.avisoMudarRodada(((contadorTurno) / 2 + 1));
 
         if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
-       		estado = "Vitoria" + jogadorDaVez.getNome();
-       		Transmissor.avisoFimDeJogo(jogadorDaVez);
+       		Transmissor.avisoFimDeJogo(jogadorDaVez.getNome());
         }
-    }
-
-    /**
-     * Obtém o estado atual do jogo.
-     *
-     * @return uma String representando o estado do jogo.
-     */
-
-    public String getEstado() {
-        return estado;
-    }
-
-    /**
-     * Define o estado do jogo.
-     *
-     * @param estado uma String representando o novo estado do jogo.
-     */
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     /**

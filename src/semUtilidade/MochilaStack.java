@@ -1,4 +1,4 @@
-package SemUtilidade;
+package semUtilidade;
 
 import excecoes.MochilaCheiaException;
 import excecoes.MochilaVaziaException;
