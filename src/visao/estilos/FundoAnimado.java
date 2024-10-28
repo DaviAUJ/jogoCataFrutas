@@ -14,6 +14,8 @@ public class FundoAnimado extends JLabel {
         this.imagemFundo = imagemFundo;
         this.POS_XY[0] = posX;
         this.POS_XY[1] = posY;
+        
+        this.setFocusable(false);
     }
 
     @Override

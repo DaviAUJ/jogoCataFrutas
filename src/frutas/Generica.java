@@ -1,6 +1,7 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
 
 /**
  * Esta classe representa uma fruta genérica, que é um tipo específico de Fruta.
@@ -37,6 +38,7 @@ public class Generica extends Fruta {
 
     @Override
     public boolean buffar(Jogador jogador) {
+        EventoSonoroHandler.somComer();
         return false;
     }
 }

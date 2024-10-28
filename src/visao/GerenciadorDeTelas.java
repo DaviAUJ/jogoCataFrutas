@@ -7,6 +7,8 @@ import visao.estilos.Estilos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -19,26 +21,22 @@ public class GerenciadorDeTelas {
     private HashMap<String, JPanel> telasGerenciadas;
     private String nomeTelaAtual;
     private Stack<String> caminhoAtual;
-    private Transmissor transmissor;
 
     private HashMap <String, Object> CACHE;
 
-    public GerenciadorDeTelas(JFrame framePrincipal, Transmissor transmissor) {
+    public GerenciadorDeTelas(JFrame framePrincipal) {
         this.framePrincipal = framePrincipal;
         this.telasGerenciadas = new HashMap<>();
         this.layout = new CardLayout();
         this.nomeTelaAtual = "raiz";
         this.telaPrincipal = new JPanel(layout);
         this.CACHE = new HashMap<>();
-        this.transmissor = transmissor;
         framePrincipal.setLayout(null);
 
         this.framePrincipal.setContentPane(telaPrincipal);
         this.framePrincipal.setResizable(false);
         this.caminhoAtual = new Stack<>();
         this.caminhoAtual.push("raiz");
-
-
     }
 
     public void adicionarNovaTela(String nomeTela, JPanel tela) {
@@ -135,7 +133,6 @@ public class GerenciadorDeTelas {
         System.out.println("Chao: " +qtdFrutasChao);
 
         return hash;
-
     }
 
     public void gerarAvisoErro(String mensagem){
@@ -143,8 +140,8 @@ public class GerenciadorDeTelas {
     }
 
     public void solicitarNovoJogo(){
-        transmissor.solicitacaoNovoJogo();
-        adicionarVisaoJogo(transmissor.getJogoDoMomento());
+        Transmissor.solicitacaoNovoJogo();
+        adicionarVisaoJogo(Transmissor.getJogoDoMomento());
     }
 
     public void adicionarVisaoJogo(Jogo jogo){
@@ -155,11 +152,9 @@ public class GerenciadorDeTelas {
             this.telasGerenciadas.put("JOGO", new VisaoJogo(this));
         }
     }
-
+    
     public ArrayList<GerenciadorArquivo> solicitarSalvamentos (){
-        transmissor.buscarSalvamentos();
-        return (ArrayList<GerenciadorArquivo>) transmissor.getDados("salvamentos");
+        Transmissor.buscarSalvamentos();
+        return (ArrayList<GerenciadorArquivo>) Transmissor.getDados("salvamentos");
     }
-
-
 }
