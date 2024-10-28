@@ -45,7 +45,9 @@ public class Jogo{
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-
+                if(evt.getPropertyName().equals("pedirPassarRodada")) {
+                    passarTurno();
+                }
             }
         });
 

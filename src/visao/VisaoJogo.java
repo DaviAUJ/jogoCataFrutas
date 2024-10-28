@@ -7,6 +7,8 @@ import utilitarios.Transmissor;
 import visao.componentes.TabuleiroJogo;
 import visao.estilos.EstiloVisaoJogo;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -52,6 +54,13 @@ public class VisaoJogo extends JPanel {
         configurarListerners();
         Transmissor.iniciarPartida();
         EventoSonoroHandler.musicaExcecao();
+
+        btnPassarRodada.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Transmissor.pedirPassarRodada();
+            }
+        });
     }
 
     public void trocarInventarios(int idJogador){

@@ -66,6 +66,10 @@ public abstract class Transmissor {
         SUPORTE_MUDANCA.firePropertyChange("pedirMovJogador", null, entrada);
     }
 
+    public static void pedirPassarRodada() {
+        SUPORTE_MUDANCA.firePropertyChange("pedirPassarRodada", null, null);
+    }
+
     public static void avisoMovimentacaoJogador(ArrayList<Integer> antigos, ArrayList<Integer> novos) {
         SUPORTE_MUDANCA.firePropertyChange("avisoMovimentacaoJogador", antigos, novos);
     }
