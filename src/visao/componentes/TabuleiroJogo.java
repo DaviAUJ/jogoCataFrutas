@@ -105,6 +105,7 @@ public class TabuleiroJogo extends JPanel {
         configurarListeners();
     }
 
+
     public int getTamanho() {
         return TAMANHO;
     }

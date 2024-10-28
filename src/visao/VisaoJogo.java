@@ -4,6 +4,7 @@ import frutas.*;
 import jogoCataFrutas.Configuracoes;
 import utilitarios.Transmissor;
 import visao.componentes.TabuleiroJogo;
+import visao.estilos.EstiloVisaoInicialOpcoes;
 import visao.estilos.EstiloVisaoJogo;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -20,6 +21,11 @@ public class VisaoJogo extends JPanel {
     public ArrayList <JLabel> valoresInventario1;
     public ArrayList <JLabel> valoresInventario2;
 
+    public JLabel inventario1;
+    public JLabel inventario2;
+
+    private int passagemDeRodada = 0;
+
     public VisaoJogo(GerenciadorDeTelas gerenciador){
 
         int dimensao = Configuracoes.dimensao;
@@ -27,6 +33,8 @@ public class VisaoJogo extends JPanel {
         this.rodada = new JLabel("1");
         this.valoresInventario1 = new ArrayList<>(8);
         this.valoresInventario2 = new ArrayList<>(8);
+        this.inventario1 = new JLabel();
+        this.inventario2 = new JLabel();
 
         for (int i = 0; i < 8; i++){
             valoresInventario1.add(new JLabel("0"));
@@ -36,6 +44,21 @@ public class VisaoJogo extends JPanel {
 
         configurarListerners();
         Transmissor.iniciarPartida();
+
+
+
+    }
+
+    public void trocarInventarios(){
+        if (passagemDeRodada % 2 != 0){
+            EstiloVisaoJogo.inverterJogadores(inventario1, valoresInventario1, inventario2, valoresInventario2);
+        }
+        else{
+            EstiloVisaoJogo.inverterJogadores(inventario2, valoresInventario2, inventario1, valoresInventario1);
+        }
+
+
+        passagemDeRodada++;
     }
 
     private void configurarListerners() {
@@ -78,6 +101,7 @@ public class VisaoJogo extends JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoNovaRodada")) {
                     rodada.setText("" + (int) evt.getNewValue());
+
                 }
             }
         });
@@ -87,6 +111,7 @@ public class VisaoJogo extends JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoPontosAlterados")) {
                     JLabel label = valoresInventario1.getFirst();
+                    trocarInventarios();
 
                     if(((HashMap<String, Integer>) evt.getNewValue()).get("id") == 2) {
                         label = valoresInventario2.getFirst();

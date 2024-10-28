@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public abstract class EstiloVisaoJogo {
     private static int TELA_LARGURA = 1280;
     private static int TELA_ALTURA = 720;
+    private static ImageIcon imagemInventario1 = new ImageIcon("./assets/imgs/jogo/fundo/inventario1.png");
+     private static ImageIcon imagemInventario2 = new ImageIcon("./assets/imgs/jogo/fundo/inventario2.png");
 
     public static void aplicarEstilo(VisaoJogo tela){
         tela.setBounds(0, 0, TELA_LARGURA, TELA_ALTURA);
@@ -18,10 +20,8 @@ public abstract class EstiloVisaoJogo {
         aplicarEstiloTabuleiro(tela.tabuleiro);
 
         JLabel fundo = configurarFundo(tela);
-        JLabel inventarioJ1 = new JLabel();
-        JLabel inventarioJ2 = new JLabel();
 
-        inventariosJogadores(inventarioJ1, inventarioJ2);
+        inventariosJogadores(tela.inventario1, tela.inventario2);
         labelsValoresInventarios(tela.valoresInventario1, tela.valoresInventario2, fundo);
 
 
@@ -29,8 +29,8 @@ public abstract class EstiloVisaoJogo {
         fundo.add(bordaTabuleiro());
         fundo.add(indicadorRodadas(tela.rodada));
         fundo.add(tela.rodada);
-        fundo.add(inventarioJ1);
-        fundo.add(inventarioJ2);
+        fundo.add(tela.inventario1);
+        fundo.add(tela.inventario2);
 
 
 
@@ -88,16 +88,33 @@ public abstract class EstiloVisaoJogo {
         return textoRodada;
     }
 
-    private static void inventariosJogadores(JLabel inventario1, JLabel inventario2){
-        ImageIcon imagemInventario1 = new ImageIcon("./assets/imgs/jogo/fundo/inventario1.png");
-        ImageIcon imagemInventario2 = new ImageIcon("./assets/imgs/jogo/fundo/inventario2.png");
-
+    public static void inventariosJogadores(JLabel inventario1, JLabel inventario2){
         inventario1.setIcon(imagemInventario1);
         inventario2.setIcon(imagemInventario2);
+        System.out.println("Trocou!");
+        System.out.println(inventario1);
+        System.out.println(inventario2);
 
         inventario1.setBounds(40, (TELA_ALTURA - imagemInventario1.getIconHeight()) / 2, imagemInventario1.getIconWidth(), imagemInventario1.getIconHeight());
 
         inventario2.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
+    }
+
+    public static void inverterJogadores(JLabel inventario1, ArrayList<JLabel> valoresInventario1, JLabel inventario2, ArrayList<JLabel> valoresInventario2){
+        inventario1.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
+
+        inventario2.setBounds(40, (TELA_ALTURA - imagemInventario1.getIconHeight()) / 2, imagemInventario1.getIconWidth(), imagemInventario1.getIconHeight());
+
+        for (int i = 0; i < valoresInventario1.size(); i++){
+            valoresInventario2.get(i).setForeground(new Color(255, 255, 255));
+            valoresInventario1.get(i).setForeground(new Color(117, 117, 117, 195));
+
+
+        }
+
+
+
+
     }
 
     private static void labelsValoresInventarios (ArrayList<JLabel> inventario1, ArrayList<JLabel> inventario2, JLabel fundo){
