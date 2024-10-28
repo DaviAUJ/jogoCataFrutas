@@ -4,6 +4,7 @@ import java.util.*;
 
 import excecoes.*;
 import frutas.*;
+import jogoCataFrutas.Configuracoes;
 import utilitarios.*;
 
 /**
@@ -15,11 +16,11 @@ public class Terreno {
 	private final Jogador jogador1 = new Jogador(this);
 	private final Jogador jogador2 = new Jogador(this);
 
-	private int dimensao = 3;
+	private int dimensao;
 	private int[] quantTipoArvores = new int[6];
 	private int[] quantFrutasChao = new int[7];
-	private int quantPedras = 0;
-	private int totalMaracujas = 1;
+	private int quantPedras;
+	private int totalMaracujas;
 	private int maracujasSpawnados = 0;
 
 	protected ElementoEstatico[][] tabuleiro = new ElementoEstatico[dimensao][dimensao];
@@ -31,21 +32,26 @@ public class Terreno {
 	 */
 
 	public Terreno() {
-		GerenciadorArquivo arquivo = new GerenciadorArquivo("config.txt");
-		int[][] configFrutas = arquivo.pegarFrutas();
+		dimensao = Configuracoes.dimensao;
+		quantPedras = Configuracoes.qtdPedras;
+		totalMaracujas = Configuracoes.qtdMaracujasTotal;
 
-		dimensao = arquivo.pegarDimensao();
-		
-		if(dimensao < 3) {
-			dimensao = 3;
-		}
-		
-		quantPedras = arquivo.pegarQtdPedras();
+		quantTipoArvores[0] = Configuracoes.qtdLaranjaArvore;
+		quantTipoArvores[1] = Configuracoes.qtdAbacatesArvore;
+		quantTipoArvores[2] = Configuracoes.qtdCocosArvore;
+		quantTipoArvores[3] = Configuracoes.qtdAcerolasArvore;
+		quantTipoArvores[4] = Configuracoes.qtdAmorasArvore;
+		quantTipoArvores[5] = Configuracoes.qtdGoiabasArvore;
+
+		quantFrutasChao[0] = Configuracoes.qtdMaracujasNoChao;
+		quantFrutasChao[1] = Configuracoes.qtdLaranjaChao;
+		quantFrutasChao[2] = Configuracoes.qtdAbacatesChao;
+		quantFrutasChao[3] = Configuracoes.qtdCocosChao;
+		quantFrutasChao[4] = Configuracoes.qtdAcerolasChao;
+		quantFrutasChao[5] = Configuracoes.qtdAmorasChao;
+		quantFrutasChao[6] = Configuracoes.qtdGoiabasChao;
+
 		tabuleiro = new ElementoEstatico[dimensao][dimensao];
-
-		quantTipoArvores = Arrays.copyOfRange(Extras.colunaMatriz(configFrutas, 0), 1, 7);
-		quantFrutasChao = Extras.colunaMatriz(configFrutas, 1);
-		totalMaracujas = configFrutas[0][0];
 	}
 
 	public Jogador getJogador1() {
@@ -328,8 +334,7 @@ public class Terreno {
 							if(!grama.temFruta()) {
 								grama.setEspacoFruta(new Maracuja("MaSp"));
 								maracujasSpawnados++;
-
-								System.out.println("Sapws");
+								Transmissor.avisoMudancaFruta(Maracuja.class, grama.posicaoX, grama.posicaoY);
 
 								return;
 							}

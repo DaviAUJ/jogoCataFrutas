@@ -6,9 +6,12 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
+import excecoes.*;
 
 /**
  * Classe para gerenciar a leitura e escrita de configurações em um arquivo.
@@ -289,5 +292,73 @@ public class GerenciadorArquivo {
 
         return hash;
 
+    }
+
+    public static void criarPastaNaRaiz(String nome) {
+        try {
+            File paschhhhta = new File(System.getProperty("user.dir") + File.separator + nome);
+
+            if(!paschhhhta.exists()) {
+                if(paschhhhta.mkdirs()) {
+                    System.out.println("Arquivo " + nome + " criado com sucesso!");
+                }
+            }
+        }
+        catch (Exception e) {
+            System.err.println(e + "");
+        }
+    }
+
+    // eu to com medo disso aqui dar merda em algum lugar
+    public static void deletarPastaNaRaiz(String nome) {
+        try {
+            File paschhhhta = new File(System.getProperty("user.dir") + File.separator + nome);
+
+            if(!paschhhhta.exists()) {
+                if(paschhhhta.delete()) {
+                    System.out.println("Arquivo " + nome + " criado com sucesso!");
+                }
+            }
+        }
+        catch (Exception e) {
+            System.err.println(e + "");
+        }
+    }
+
+    public static ArrayList<GerenciadorArquivo> resgatarSaves() throws PastaInexistenteException {
+        try {
+            String caminhoPasta = System.getProperty("user.dir") + File.separator + "Saves" + File.separator;
+            File arquivo = new File(caminhoPasta);
+
+            if(!arquivo.exists()) {
+                throw new PastaInexistenteException("");
+            }
+
+            ArrayList<GerenciadorArquivo> arquivos = new ArrayList<>();
+
+            String[] nomes = {
+                    "Save1.txt",
+                    "Save2.txt",
+                    "Save3.txt",
+                    "Save4.txt"
+            };
+
+            for(String nome : nomes) {
+                arquivo = new File(caminhoPasta + nome);
+                if(arquivo.exists()) {
+                    arquivos.add(new GerenciadorArquivo(caminhoPasta + nome));
+                }
+                else {
+                    arquivos.add(null);
+                }
+            }
+
+            return arquivos;
+        }
+        catch (Exception e) {
+            System.err.println(e + "");
+        }
+
+        return null;
     }
 }

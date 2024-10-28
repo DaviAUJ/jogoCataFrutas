@@ -3,9 +3,12 @@ package visao;
 import utilitarios.Transmissor;
 import utilitarios.Validador;
 import visao.componentes.BarrinhaConfiguracoes;
+import visao.componentes.TabuleiroJogo;
+import visao.estilos.EstiloComponentes;
 import visao.estilos.EstiloNovoJogo;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,8 +26,6 @@ public class VisaoNovoJogo extends JPanel {
 
     public ArrayList <JFormattedTextField> camposDeEntrada;
 
-
-
     public VisaoNovoJogo(GerenciadorDeTelas gerenciador) {
         EstiloNovoJogo.aplicarEstilo(this);
 
@@ -39,6 +40,18 @@ public class VisaoNovoJogo extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                if (gerenciador.pegarInformacaoCache("infoJogo") != null) {
+                    Transmissor.getJogoDoMomento().configurarListeners();
+                    gerenciador.adicionarVisaoJogo();
+                    gerenciador.irParaTela("JOGO");
+                }
+            }
+        });
+
+        botaoPreview.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                preview.removeAll();
                 HashMap<String, Object> hashValidavel = gerenciador.constroiHashValidavel(
                         ((JTextField) gerenciador.pegarInformacaoCache("nomeJogador1")),
                         ((JTextField) gerenciador.pegarInformacaoCache("nomeJogador2")),
@@ -52,14 +65,20 @@ public class VisaoNovoJogo extends JPanel {
                 }
 
                 gerenciador.addNoCache("infoJogo", hashValidavel);
-
                 gerenciador.solicitarNovoJogo();
-                gerenciador.irParaTela("JOGO");
+                TabuleiroJogo tabuleiroJogo = new TabuleiroJogo(preview.getHeight() - 60);
+                tabuleiroJogo.setLocation((preview.getWidth() - tabuleiroJogo.getWidth()) / 2, (preview.getHeight() - tabuleiroJogo.getHeight()) / 2);
+                preview.add(tabuleiroJogo, 0);
+
+
+
 
 
 
             }
         });
+
+
     }
 
 

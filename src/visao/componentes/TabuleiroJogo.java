@@ -9,8 +9,8 @@ import visao.estilos.EstiloComponentes;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +20,6 @@ public class TabuleiroJogo extends JPanel {
     public ArrayList< ArrayList <QuadradinhoTabuleiro> > malha;
     public HashMap<String, ArrayList<Image>> imagens;
     int[] posJogador1, posJogador2;
-
 
     public TabuleiroJogo(int tamanho) {
         this.TAMANHO = tamanho;
@@ -48,7 +47,12 @@ public class TabuleiroJogo extends JPanel {
 
 
                 if (floresta.getTabuleiro()[i][j] instanceof Grama grama) {
-                    if (!grama.temFruta()){
+                    if (grama.temJogador()){
+                        quad = new QuadradinhoTabuleiro(tamanhoQuadradinho,
+                                grama.getJogador() == jogador1 ? "jogador1" : "jogador2"
+                                , 0,this.imagens);
+                    }
+                    else if (!grama.temFruta()){
                         quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "grama", 0, this.imagens);
                     }
                     else{
@@ -97,10 +101,11 @@ public class TabuleiroJogo extends JPanel {
             this.malha.add(coluna);
         }
 
-
-
         EstiloComponentes.aplicarEstiloTabuleiro(this);
+
+        configurarListeners();
     }
+
 
     public int getTamanho() {
         return TAMANHO;
@@ -144,7 +149,67 @@ public class TabuleiroJogo extends JPanel {
         itensCarregados.add(new ImageIcon("./assets/imgs/jogo/grama.png").getImage());
         this.imagens.put("gramas", itensCarregados);
 
+        itensCarregados = new ArrayList<>(QTD_JOGADORES);
+        for (int i = 1; i <= QTD_JOGADORES; i++) {
+            itensCarregados.add(new ImageIcon("./assets/imgs/jogo/jogador/jogador"+i+".png").getImage());
+        }
+        this.imagens.put("jogadores", itensCarregados);
+    }
 
+    public void configurarListeners() {
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoMovimentacaoJogador")) {
+                    malha
+                            .get(((ArrayList<Integer>) evt.getOldValue()).getFirst())
+                            .get(((ArrayList<Integer>) evt.getOldValue()).getLast())
+                            .atualizarQuadradinho("tirarJogador", 0);
 
+                    malha
+                            .get(((ArrayList<Integer>) evt.getNewValue()).getFirst())
+                            .get(((ArrayList<Integer>) evt.getNewValue()).getLast())
+                            .atualizarQuadradinho(
+                                    "colocarJogador" + Transmissor.getJogoDoMomento().getIDJogadorDaVez(),
+                                    0);
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoMudancaFruta")) {
+                    HashMap<String, Object> mapa = (HashMap<String, Object>) evt.getNewValue();
+                    Class<? extends Fruta> classe = (Class<? extends Fruta>) mapa.get("classe");
+                    int indicador = -1;
+                    String tipo = "colocarFruta";
+
+                    if(classe == Abacate.class) {
+                        indicador = 0;
+                    }
+                    else if(classe == Generica.class) {
+                        indicador = 1;
+                    }
+                    else if(classe == Coco.class) {
+                        indicador = 3;
+                    }
+                    else if(classe == Laranja.class) {
+                        indicador = 5;
+                    }
+                    else if(classe == Maracuja.class) {
+                        indicador = 6;
+                    }
+                    else {
+                        tipo = "tirarFruta";
+                    }
+
+                    malha
+                            .get((Integer) mapa.get("x"))
+                            .get((Integer) mapa.get("y"))
+                            .atualizarQuadradinho(tipo, indicador);
+                }
+            }
+        });
     }
 }

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 public abstract class EstiloVisaoJogo {
     private static int TELA_LARGURA = 1280;
     private static int TELA_ALTURA = 720;
+    private static ImageIcon imagemInventario1 = new ImageIcon("./assets/imgs/jogo/fundo/inventario1.png");
+    private static ImageIcon imagemInventario2 = new ImageIcon("./assets/imgs/jogo/fundo/inventario2.png");
+    private static ImageIcon imagemBotaoRodada = new ImageIcon("./assets/imgs/jogo/fundo/btnPularRodada.png");
+    private static ImageIcon imagemTextoVitoria = new ImageIcon("./assets/imgs/jogo/fundo/fimJogo.png");
 
     public static void aplicarEstilo(VisaoJogo tela){
         tela.setBounds(0, 0, TELA_LARGURA, TELA_ALTURA);
@@ -18,19 +22,23 @@ public abstract class EstiloVisaoJogo {
         aplicarEstiloTabuleiro(tela.tabuleiro);
 
         JLabel fundo = configurarFundo(tela);
-        JLabel inventarioJ1 = new JLabel();
-        JLabel inventarioJ2 = new JLabel();
+        tela.btnPassarRodada = new JButton();
+        tela.textoFimDeJogo = new JLabel();
 
-        inventariosJogadores(inventarioJ1, inventarioJ2);
+        inventariosJogadores(tela.inventario1, tela.inventario2);
         labelsValoresInventarios(tela.valoresInventario1, tela.valoresInventario2, fundo);
+        estiloBotaoPassarRodada(tela.btnPassarRodada);
+        textoVitoria(tela.textoFimDeJogo);
 
 
         fundo.add(tela.tabuleiro);
         fundo.add(bordaTabuleiro());
         fundo.add(indicadorRodadas(tela.rodada));
         fundo.add(tela.rodada);
-        fundo.add(inventarioJ1);
-        fundo.add(inventarioJ2);
+        fundo.add(tela.inventario1);
+        fundo.add(tela.inventario2);
+        fundo.add(tela.btnPassarRodada);
+
 
 
 
@@ -88,16 +96,33 @@ public abstract class EstiloVisaoJogo {
         return textoRodada;
     }
 
-    private static void inventariosJogadores(JLabel inventario1, JLabel inventario2){
-        ImageIcon imagemInventario1 = new ImageIcon("./assets/imgs/jogo/fundo/inventario1.png");
-        ImageIcon imagemInventario2 = new ImageIcon("./assets/imgs/jogo/fundo/inventario2.png");
-
+    public static void inventariosJogadores(JLabel inventario1, JLabel inventario2){
         inventario1.setIcon(imagemInventario1);
         inventario2.setIcon(imagemInventario2);
+        System.out.println("Trocou!");
+        System.out.println(inventario1);
+        System.out.println(inventario2);
 
         inventario1.setBounds(40, (TELA_ALTURA - imagemInventario1.getIconHeight()) / 2, imagemInventario1.getIconWidth(), imagemInventario1.getIconHeight());
 
         inventario2.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
+    }
+
+    public static void inverterJogadores(JLabel inventario1, ArrayList<JLabel> valoresInventario1, JLabel inventario2, ArrayList<JLabel> valoresInventario2){
+        inventario1.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
+
+        inventario2.setBounds(40, (TELA_ALTURA - imagemInventario1.getIconHeight()) / 2, imagemInventario1.getIconWidth(), imagemInventario1.getIconHeight());
+
+        for (int i = 0; i < valoresInventario1.size(); i++){
+            valoresInventario2.get(i).setForeground(new Color(255, 255, 255));
+            valoresInventario1.get(i).setForeground(new Color(117, 117, 117, 195));
+
+
+        }
+
+
+
+
     }
 
     private static void labelsValoresInventarios (ArrayList<JLabel> inventario1, ArrayList<JLabel> inventario2, JLabel fundo){
@@ -112,5 +137,21 @@ public abstract class EstiloVisaoJogo {
             fundo.add(inventario1.get(i));
             fundo.add(inventario2.get(i));
         }
+    }
+
+    public static void estiloBotaoPassarRodada(JButton botao){
+        botao.setBounds(TELA_LARGURA - imagemBotaoRodada.getIconWidth() - 125, TELA_ALTURA - imagemBotaoRodada.getIconHeight() - 50, imagemBotaoRodada.getIconWidth(), imagemBotaoRodada.getIconHeight());
+        botao.setIcon(imagemBotaoRodada);
+        botao.setFocusable(false);
+        botao.setBackground(new Color(0, 0, 0, 0));
+        botao.setBorder(null);
+        Estilos.animacaoClicavel(botao);
+    }
+
+    public static void textoVitoria(JLabel vitoria){
+        vitoria.setBounds((TELA_LARGURA - imagemTextoVitoria.getIconWidth()) / 2, (TELA_ALTURA - imagemTextoVitoria.getIconHeight()) / 2, imagemTextoVitoria.getIconWidth(), imagemTextoVitoria.getIconHeight());
+        vitoria.setIcon(imagemTextoVitoria);
+        System.out.println(imagemTextoVitoria.getIconWidth());
+        Estilos.animacaoClicavel(vitoria);
     }
 }

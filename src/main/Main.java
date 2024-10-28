@@ -1,6 +1,8 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import sons.EventoSonoroHandler;
+import sons.Tocador;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 import visao.*;
@@ -52,18 +54,17 @@ public class Main {
         GerenciadorDeTelas gerenciadorDeTelas = new GerenciadorDeTelas(principal);
         principal.setGerenciador(gerenciadorDeTelas);
 
-
-
-
-
-
         Estilos.visaoPrincipal(principal);
+        Tocador.configurarListener();
+        EventoSonoroHandler.musicaAbstracao();
 
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoNovoJogo")){
                     HashMap <String, Object> info = (HashMap<String, Object>) gerenciadorDeTelas.pegarInformacaoCache("infoJogo");
+
+                    System.out.println(info);
 
                     Configuracoes.nomeJogador1 =  (String) info.get("nomeJogador1");
                     Configuracoes.nomeJogador2 =  (String) info.get("nomeJogador2");
@@ -78,6 +79,7 @@ public class Main {
                     Configuracoes.chanceFrutaBichada = (int) info.get("chanceBichadas");
                     Configuracoes.qtdPedras = (int) info.get("quantPedras");
 
+
                     Configuracoes.qtdAbacatesArvore = qtdTipoArvores.getFirst();
                     Configuracoes.qtdAbacatesChao = qtdFrutasChao.get(1);
                     Configuracoes.qtdAcerolasArvore = qtdTipoArvores.get(1);
@@ -91,9 +93,8 @@ public class Main {
                     Configuracoes.qtdLaranjaArvore = qtdTipoArvores.get(5);
                     Configuracoes.qtdLaranjaChao = qtdFrutasChao.get(6);
 
-                    Jogo novoJogo = new Jogo();
-                    System.out.println(novoJogo);
 
+                    Jogo novoJogo = new Jogo();
                     Transmissor.setJogoDoMomento(novoJogo);
 
 
@@ -105,18 +106,10 @@ public class Main {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 if (evt.getPropertyName().equals("solicitacaoListaSalvamentos")){
-                    ArrayList<GerenciadorArquivo> arquivos = new ArrayList<>(4);
+                    ArrayList<GerenciadorArquivo> arquivos = GerenciadorArquivo.resgatarSaves();
 
-                    GerenciadorArquivo arquivo1 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo2 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo3 = new GerenciadorArquivo("./config.txt");
-                    GerenciadorArquivo arquivo4 = new GerenciadorArquivo("./config.txt");
-                    arquivos.add(arquivo1);
-                    arquivos.add(arquivo2);
-                    arquivos.add(arquivo3);
-
-
-                    Transmissor.adicionarDados("salvamentos", arquivos);
+                    Configuracoes.arquvosSaves = arquivos;
+                    System.out.println(arquivos);
                 }
             }
         });

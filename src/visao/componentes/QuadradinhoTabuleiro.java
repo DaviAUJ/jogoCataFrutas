@@ -11,23 +11,50 @@ import java.util.Random;
 public class QuadradinhoTabuleiro extends JButton {
     public HashMap<String, ArrayList<Image>> imagens;
     private int TAMANHO;
-    public String tipoPlural;
+    public String tipo;
     public int indicador = 0;
     private int indiceAleatorio = 0;
+    private Image imagemFundo;
+    private Image imagemJogador;
 
     public QuadradinhoTabuleiro(int tamanho, String tipo, int indicador, HashMap<String, ArrayList<Image>> imagens) {
         this.TAMANHO = tamanho;
-        this.tipoPlural = tipo + "s";
+        this.tipo = tipo;
         this.indicador = indicador;
         this.indiceAleatorio = gerarIndiceAleatorio(tipo);
         this.imagens = imagens;
 
 
         EstiloComponentes.aplicarEstiloQuadradinhoTabuleiro(this);
+
+        imagemFundo = null;
+        imagemJogador = null;
+
+        configurarFundo();
     }
 
     public int getTamanho() {
         return TAMANHO;
+    }
+
+    public void configurarFundo(){
+        if (this.tipo.equals("pedra")){
+            imagemFundo = this.imagens.get("pedras").get(this.indiceAleatorio);
+        }
+        else if (!this.tipo.equals("jogador1") && !this.tipo.equals("jogador2")){
+            System.out.println(this.tipo+"s");
+            imagemFundo = this.imagens.get(this.tipo + "s").get(this.indicador);
+        }
+
+        else{
+            imagemFundo = this.imagens.get("gramas").get(this.indicador);
+            if (this.tipo.equals("jogador1")){
+                this.imagemJogador = this.imagens.get("jogadores").getFirst();
+            }
+            else{
+                this.imagemJogador = this.imagens.get("jogadores").get(1);
+            }
+        }
     }
 
     private int gerarIndiceAleatorio(String tipo) {
@@ -45,35 +72,39 @@ public class QuadradinhoTabuleiro extends JButton {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Image imagemFundo = null;
-
-        if (this.tipoPlural.equals("pedras")){
-            imagemFundo = this.imagens.get("pedras").get(this.indiceAleatorio);
-        }
-        else{
-            switch (this.tipoPlural){
-                case "jogador1s":{
-                    imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.drawString("jogador1", 10, 10);
-                    break;
-                }
-                case "jogador2s":{
-                    imagemFundo = this.imagens.get("gramas").getFirst();
-                    g.drawString("jogador2", 0, 0);
-                    break;
-                }
-                default: {
-                    imagemFundo = this.imagens.get(this.tipoPlural).get(this.indicador);
-                }
-            }
-        }
-
-
         if (imagemFundo != null){
             Image imagemRedimencionada = imagemFundo.getScaledInstance(this.TAMANHO, this.TAMANHO, Image.SCALE_DEFAULT);
             ImageIcon imagemIcon = new ImageIcon(imagemRedimencionada);
             g.drawImage(imagemIcon.getImage(), 0, 0, null);
         }
+
+        if (imagemJogador != null){
+            Image imagemJogadorRedimencionada = imagemJogador.getScaledInstance(this.TAMANHO, this.TAMANHO, Image.SCALE_DEFAULT);
+            ImageIcon imagemIcon = new ImageIcon(imagemJogadorRedimencionada);
+            g.drawImage(imagemIcon.getImage(), 0, 0, null);
+        }
+
     }
+
+    public void atualizarQuadradinho(String tipo, int indicador) {
+        if (tipo.equals("colocarJogador1")){
+            this.imagemJogador = this.imagens.get("jogadores").getFirst();
+        }
+        else if (tipo.equals("colocarJogador2")){
+            this.imagemJogador = this.imagens.get("jogadores").get(1);
+        }
+        else if (tipo.equals("colocarFruta")){
+            this.imagemFundo = this.imagens.get("frutas").get(indicador);
+        }else if (tipo.equals("tirarJogador")){
+            this.imagemJogador = null;
+        }
+        else if (tipo.equals("tirarFruta")){
+            this.imagemFundo = this.imagens.get("gramas").getFirst();
+        }
+
+        repaint();
+    }
+
+
 
 }

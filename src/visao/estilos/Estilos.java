@@ -1,7 +1,10 @@
 package visao.estilos;
 import com.formdev.flatlaf.FlatDarkLaf;
+
+import sons.EventoSonoroHandler;
 import visao.VisaoPrincipal;
 
+import java.io.File;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -17,10 +20,7 @@ public abstract class Estilos {
             }
         }
 
-
-
-
-
+        principal.setFocusable(true);
     }
 
     public static void animacaoClicavel(JComponent elementoBotao) {
@@ -31,11 +31,12 @@ public abstract class Estilos {
             private int width = elementoBotao.getWidth();
             @Override
             public void mouseEntered(MouseEvent e) {
-                elementoBotao.setBounds(posX, posY-5, width, height);
+                elementoBotao.setBounds(posX, posY - 15, width, height + 15);
+                EventoSonoroHandler.somMouseHover();
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                elementoBotao.setBounds(posX, posY+5, width, height);
+                elementoBotao.setBounds(posX, posY, width, height);
             }
         });
 

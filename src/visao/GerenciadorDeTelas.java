@@ -1,4 +1,5 @@
 package visao;
+import jogoCataFrutas.Configuracoes;
 import jogoCataFrutas.Jogo;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.ReagirMudanca;
@@ -7,6 +8,8 @@ import visao.estilos.Estilos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -35,8 +38,6 @@ public class GerenciadorDeTelas {
         this.framePrincipal.setResizable(false);
         this.caminhoAtual = new Stack<>();
         this.caminhoAtual.push("raiz");
-
-
     }
 
     public void adicionarNovaTela(String nomeTela, JPanel tela) {
@@ -53,14 +54,12 @@ public class GerenciadorDeTelas {
 
             return true;
         }
-        System.out.println("Tela não encontrada!");
         return false;
     }
 
     public void irParaTela(String nomeTela) {
         if (this.mostrarTela(nomeTela)) {
             this.caminhoAtual.push(nomeTela);
-            System.out.println(this.caminhoAtual);
         }
     }
 
@@ -71,11 +70,8 @@ public class GerenciadorDeTelas {
             if (!this.mostrarTela(nomeTela)) {
                 this.caminhoAtual.push(nomeTelaAntigo);
             }
-            System.out.println(this.caminhoAtual);
             return;
         }
-
-        System.out.println("Não é possível voltar mais! Já está na raíz.");
     }
 
     private void ajustarFramePrincipal(JPanel tela) {
@@ -129,11 +125,7 @@ public class GerenciadorDeTelas {
         hash.put("qtdTipoArvores", qtdTipoArvores);
         hash.put("qtdFrutasChao", qtdFrutasChao);
 
-        System.out.println("Arvores: " + qtdTipoArvores);
-        System.out.println("Chao: " +qtdFrutasChao);
-
         return hash;
-
     }
 
     public void gerarAvisoErro(String mensagem){
@@ -142,10 +134,9 @@ public class GerenciadorDeTelas {
 
     public void solicitarNovoJogo(){
         Transmissor.solicitacaoNovoJogo();
-        adicionarVisaoJogo(Transmissor.getJogoDoMomento());
     }
 
-    public void adicionarVisaoJogo(Jogo jogo){
+    public void adicionarVisaoJogo(){
         if (!this.telasGerenciadas.containsKey("JOGO")){
             this.adicionarNovaTela("JOGO", new VisaoJogo(this));
         }
@@ -153,11 +144,9 @@ public class GerenciadorDeTelas {
             this.telasGerenciadas.put("JOGO", new VisaoJogo(this));
         }
     }
-
+    
     public ArrayList<GerenciadorArquivo> solicitarSalvamentos (){
         Transmissor.buscarSalvamentos();
-        return (ArrayList<GerenciadorArquivo>) Transmissor.getDados("salvamentos");
+        return Configuracoes.arquvosSaves;
     }
-
-
 }

@@ -1,6 +1,8 @@
 package frutas;
 
 import elementos.Jogador;
+import sons.EventoSonoroHandler;
+import utilitarios.Transmissor;
 
 /**
  * Esta classe representa a fruta Coco, que é um tipo específico de Fruta.
@@ -39,6 +41,8 @@ public class Coco extends Fruta {
     public boolean buffar(Jogador jogador) {
     	if (jogador != null) {
     		jogador.setPontosMovimento(2 * jogador.getPontosMovimento());
+    		Transmissor.avisoEfeito(jogador, 1);
+            EventoSonoroHandler.somBuff();
     		return true;
     	}
         return false;

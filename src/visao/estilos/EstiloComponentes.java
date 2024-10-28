@@ -134,6 +134,8 @@ public abstract class EstiloComponentes {
             }
         }
 
+        tabuleiro.setFocusable(false);
+
     }
 
     public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
@@ -142,6 +144,8 @@ public abstract class EstiloComponentes {
 
         //quadradinho.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0, 255)));
         quadradinho.setBorder(null);
+        quadradinho.setFocusPainted(false);
+        quadradinho.setFocusable(false);
     }
 
     public static void aplicarEstiloEspacoSalvamento(EspacoSalvamento espacoSalvamento){

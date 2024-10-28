@@ -1,10 +1,17 @@
 package visao.componentes;
 
+import utilitarios.Transmissor;
+import visao.GerenciadorDeTelas;
 import visao.estilos.EstiloComponentes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
 
 public class EspacoSalvamento extends JPanel {
     private int tipoTitulo;
@@ -59,4 +66,15 @@ public class EspacoSalvamento extends JPanel {
         }
     }
 
+    public void fazerClicavel(GerenciadorDeTelas gerenciador) {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Transmissor.solicitacaoNovoJogo();
+                Transmissor.getJogoDoMomento().configurarListeners();
+                gerenciador.adicionarVisaoJogo();
+                gerenciador.irParaTela("JOGO");
+            }
+        });
+    }
 }

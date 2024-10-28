@@ -1,8 +1,10 @@
 package elementos;
 
 import excecoes.*;
+
 import frutas.*;
 import utilitarios.GerenciadorArquivo;
+import utilitarios.Transmissor;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -15,7 +17,9 @@ public class Mochila {
     private final int capacidade;
     private int quantFrutas = 0;
 
-    public Mochila() {
+    private Jogador dono;
+
+    public Mochila(Jogador dono) {
         GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 
         capacidade = arquivo.pegarEspacoMochila();
@@ -26,6 +30,8 @@ public class Mochila {
         bolso.put(Coco.class, new Stack<>());
         bolso.put(Generica.class, new Stack<>());
         bolso.put(Laranja.class, new Stack<>());
+
+        this.dono = dono;
     }
 
     public Boolean taCheia() {
@@ -67,12 +73,18 @@ public class Mochila {
 
         quantFrutas++;
         bolso.get(fruta.getClass()).push(fruta);
+        Transmissor.avisoMudouMochila(
+                fruta.getClass(),
+                bolso.get(fruta.getClass()).size(),
+                dono.getID()
+        );
     }
 
     public Fruta tirar(Class<? extends Fruta> classe)
             throws MochilaVaziaException, BolsoFrutaVazioException, NullPointerException {
         if(quantFrutas == 0) {
             throw new MochilaVaziaException("Mochila vazia");
+            
         }
 
         if(bolso.get(classe).isEmpty()) {
@@ -84,6 +96,12 @@ public class Mochila {
         }
 
         quantFrutas--;
+        Transmissor.avisoMudouMochila(
+                classe,
+                bolso.get(classe).size() - 1,
+                dono.getID()
+        );
+        
         return bolso.get(classe).pop();
     }
 }
