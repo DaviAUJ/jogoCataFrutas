@@ -63,5 +63,14 @@ public class VisaoPrincipal extends JFrame implements KeyListener {
                 }
             }
         });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoFimDeJogo")) {
+                    ativarControles = false;
+                }
+            }
+        });
     }
 }

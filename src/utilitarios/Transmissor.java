@@ -14,8 +14,6 @@ public abstract class Transmissor {
     private static Jogo JOGO;
     private static PropertyChangeSupport SUPORTE_MUDANCA = new PropertyChangeSupport(Jogo.class);
 
-
-
     public static void setJogoDoMomento(Jogo jogo) {
         JOGO = jogo;
     }

@@ -17,7 +17,7 @@ public abstract class Tocador {
             catch(Exception _) {}
 
             canalMusica = som;
-            canalMusica.setVolume(0.65f);
+            canalMusica.setVolume(0.6f);
             canalMusica.tocarLoopando();
 
             return;

@@ -348,6 +348,9 @@ public class GerenciadorArquivo {
                 if(arquivo.exists()) {
                     arquivos.add(new GerenciadorArquivo(caminhoPasta + nome));
                 }
+                else {
+                    arquivos.add(null);
+                }
             }
 
             return arquivos;

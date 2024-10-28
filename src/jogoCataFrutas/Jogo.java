@@ -27,9 +27,6 @@ public class Jogo{
 
     public Jogo() {
         floresta.gerarTerreno();
-        floresta.imprimirTerreno();
-
-
     }
     
     public void configurarListeners() {
@@ -105,9 +102,7 @@ public class Jogo{
         try {
             jogadorDaVez.pegarFrutaArvore();
         }
-        catch (Exception e) {
-            System.out.println("" + e);
-        }
+        catch (Exception _) {  }
 
         jogadorDaVez.resetarMovimento();
         jogadorDaVez.setPontosMovimento(0);
@@ -164,95 +159,9 @@ public class Jogo{
         }
 
         Transmissor.avisoTrocaJogador(outroJogador.getID(), jogadorDaVez.getID());
-        System.out.println(this);
     }
 
     public int getIDJogadorDaVez(){
         return jogadorDaVez.getID();
     }
 }
-
-    /**
-     * Inicia o jogo.
-     */
-
-    /*public void iniciarPartida() {
-    	estado = "EmPartida";
-        
-        while(estado.equals("EmPartida")) {
-            contarTurno();
-        	jogadorDaVez.gerarPontos();
-            jogadorDaVez.resetarMovimento();
-        	
-        	System.out.println(
-                    "Rodada: "
-                            + (contadorTurno / 2 + 1) + " - "
-                            + jogadorDaVez.getNome() + ": "
-                            + jogadorDaVez.getPontosMovimento()
-            );
-        	
-           	while(jogadorDaVez.getPontosMovimento() != 0) {
-               try {
-                   switch (pegarInput()) {
-                       case 'd':
-                           jogadorDaVez.moverDireita();
-                           break;
-                       case 'a':
-                           jogadorDaVez.moverEsquerda();
-                           break;
-                       case 'w':
-                           jogadorDaVez.moverCima();
-                           break;
-                       case 's':
-                           jogadorDaVez.moverBaixo();
-                           break;
-                       case 'p':
-                           jogadorDaVez.setPontosMovimento(0);
-                           jogadorDaVez.pegarFrutaArvore();
-                           break;
-                       case 'f':
-                           jogadorDaVez.catarFruta();
-                           break;
-                       case 'c':
-                           System.out.println("Abacates: " + jogadorDaVez.abrirMochila().getQuantAbacates());
-                           System.out.println("Laranjas: " + jogadorDaVez.abrirMochila().getQuantLaranjas());
-                           System.out.println("Genericas: " + jogadorDaVez.abrirMochila().getQuantGenericas());
-                           System.out.println("Cocos: " + jogadorDaVez.abrirMochila().getQuantCocos());
-                           jogadorDaVez.comerFruta(pegarInputFruta());
-                           break;
-                   }
-
-
-               } catch (Exception e) {
-                   System.out.println(e.getMessage());
-               }
-            }
-
-            jogadorDaVez.atualizarCooldowns();
-            jogadorDaVez.setBuffForca(false);
-            jogadorDaVez.setJaFoiEmpurrado(false);
-
-            if(!outroJogador.getNerfBichada()) {
-                trocarJogadores();
-            }
-            else {
-                outroJogador.setNerfBichada(false);
-                //  Isso tem que ser feito pra garantir que o cooldown do jogador paralizado não paralize junto dele
-                outroJogador.atualizarCooldowns();
-                contarTurno();
-            }
-
-            try {
-                if(((contadorTurno) / 2 + 1) % 2 == 0) {
-                    floresta.spawnarMaracuja();
-                }
-            }
-            catch (Exception _) {}
-
-           	// Vendo se o jogador ganhou
-           	if(jogadorDaVez.getPontosOuro() > floresta.getTotalMaracujas() / 2) {
-           		estado = "Vitoria" + jogadorDaVez.getNome();
-           	}
-        }
-    }*/
-

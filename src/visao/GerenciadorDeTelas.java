@@ -54,14 +54,12 @@ public class GerenciadorDeTelas {
 
             return true;
         }
-        System.out.println("Tela não encontrada!");
         return false;
     }
 
     public void irParaTela(String nomeTela) {
         if (this.mostrarTela(nomeTela)) {
             this.caminhoAtual.push(nomeTela);
-            System.out.println(this.caminhoAtual);
         }
     }
 
@@ -72,11 +70,8 @@ public class GerenciadorDeTelas {
             if (!this.mostrarTela(nomeTela)) {
                 this.caminhoAtual.push(nomeTelaAntigo);
             }
-            System.out.println(this.caminhoAtual);
             return;
         }
-
-        System.out.println("Não é possível voltar mais! Já está na raíz.");
     }
 
     private void ajustarFramePrincipal(JPanel tela) {
@@ -129,9 +124,6 @@ public class GerenciadorDeTelas {
 
         hash.put("qtdTipoArvores", qtdTipoArvores);
         hash.put("qtdFrutasChao", qtdFrutasChao);
-
-        System.out.println("Arvores: " + qtdTipoArvores);
-        System.out.println("Chao: " +qtdFrutasChao);
 
         return hash;
     }

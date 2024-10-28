@@ -153,8 +153,5 @@ public abstract class EstiloVisaoJogo {
         vitoria.setIcon(imagemTextoVitoria);
         System.out.println(imagemTextoVitoria.getIconWidth());
         Estilos.animacaoClicavel(vitoria);
-
-
-
     }
 }

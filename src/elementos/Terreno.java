@@ -101,7 +101,6 @@ public class Terreno {
 			jogador2.posicaoY = gerador.nextInt(dimensao);
 		}
 
-		System.out.println(tabuleiro.length);
 		tabuleiro[jogador1.posicaoX][jogador1.posicaoY] =
 				new Grama("Gr0", jogador1.posicaoX, jogador1.posicaoY, jogador1);
 		tabuleiro[jogador2.posicaoX][jogador2.posicaoY] =

@@ -28,14 +28,12 @@ public class VisaoJogo extends JPanel {
 
     public JLabel textoFimDeJogo;
 
-
     //Quando lançar o evento de fim de jogo, o jogo lá deve desabilitar os eventos, para que nada novo aconteça. Além disso
     //O escutador daqui deve fazer this.setComponentZOrder(this.textoFimDeJogo, 0);
 
     public JButton btnPassarRodada;
 
-    public VisaoJogo(GerenciadorDeTelas gerenciador){
-
+    public VisaoJogo(GerenciadorDeTelas gerenciador) {
         int dimensao = Configuracoes.dimensao;
         Configuracoes.tipo = "real";
         this.tabuleiro = new TabuleiroJogo(600);
@@ -82,7 +80,6 @@ public class VisaoJogo extends JPanel {
                     int idJogador = (int) ((HashMap<String, Object>)evt.getNewValue()).get("jogador");
                     List<JLabel> inventario = valoresInventario2;
 
-                    System.out.println("teste");
 
                     if(idJogador == 1) {
                         inventario = valoresInventario1;
@@ -137,6 +134,16 @@ public class VisaoJogo extends JPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 if(evt.getPropertyName().equals("avisoTrocaJogador")) {
                     trocarInventarios((Integer) evt.getNewValue());
+                }
+            }
+        });
+
+        Transmissor.adicionarEvento(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(evt.getPropertyName().equals("avisoFimDeJogo")) {
+                    EventoSonoroHandler.somVitoria();
+                    setComponentZOrder(textoFimDeJogo, 0);
                 }
             }
         });
