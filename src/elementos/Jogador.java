@@ -30,8 +30,6 @@ public class Jogador extends Elemento {
 
     /** Construtor padrão da classe Jogador. */
     public Jogador(Terreno local) {
-        GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
-
         this.local = local;
 
         mochila = new Mochila(this);
