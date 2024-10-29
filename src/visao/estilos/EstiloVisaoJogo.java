@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Classe responsável por aplicar estilos e configurações visuais à tela do jogo.
+ */
 public abstract class EstiloVisaoJogo {
     private static int TELA_LARGURA = 1280;
     private static int TELA_ALTURA = 720;
@@ -16,6 +19,11 @@ public abstract class EstiloVisaoJogo {
     private static ImageIcon imagemBotaoRodada = new ImageIcon("./assets/imgs/jogo/fundo/btnPularRodada.png");
     private static ImageIcon imagemTextoVitoria = new ImageIcon("./assets/imgs/jogo/fundo/fimJogo.png");
 
+    /**
+     * Aplica o estilo à tela do jogo.
+     *
+     * @param tela A instância de VisaoJogo a ser estilizada.
+     */
     public static void aplicarEstilo(VisaoJogo tela){
         tela.setBounds(0, 0, TELA_LARGURA, TELA_ALTURA);
         tela.setLayout(null);
@@ -45,10 +53,21 @@ public abstract class EstiloVisaoJogo {
     }
 
 
+    /**
+     * Aplica estilo ao tabuleiro do jogo.
+     *
+     * @param tabuleiro A instância de TabuleiroJogo a ser estilizada.
+     */
     public static void aplicarEstiloTabuleiro(TabuleiroJogo tabuleiro){
         tabuleiro.setLocation((TELA_LARGURA - tabuleiro.getTamanho()) / 2, (TELA_ALTURA - tabuleiro.getTamanho()) / 2);
     }
 
+    /**
+     * Configura o fundo da tela do jogo.
+     *
+     * @param tela A instância de VisaoJogo para a qual o fundo será configurado.
+     * @return O JLabel que representa a borda do fundo.
+     */
     private static JLabel configurarFundo(VisaoJogo tela){
         ImageIcon imagemBorda = new ImageIcon("./assets/imgs/geral/borda.png");
         Image imagemFundoAtras = new ImageIcon("./assets/imgs/jogo/fundo/fundo_atras.png").getImage();
@@ -74,6 +93,11 @@ public abstract class EstiloVisaoJogo {
         return borda;
     }
 
+    /**
+     * Cria e retorna uma borda para o tabuleiro do jogo.
+     *
+     * @return O JLabel que representa a borda do tabuleiro.
+     */
     private static JLabel bordaTabuleiro(){
         ImageIcon imagemBorda = new ImageIcon("./assets/imgs/jogo/fundo/borda_quadrado.png");
         JLabel borda = new JLabel(imagemBorda);
@@ -83,6 +107,12 @@ public abstract class EstiloVisaoJogo {
         return borda;
     }
 
+    /**
+     * Cria um indicador de rodadas na tela.
+     *
+     * @param val O JLabel que mostrará o número da rodada.
+     * @return O JLabel que indica o texto "Rodada: ".
+     */
     private static JLabel indicadorRodadas(JLabel val){
         JLabel textoRodada = new JLabel("Rodada: ");
         textoRodada.setBounds(TELA_LARGURA/4, 22, 200, 30);
@@ -96,6 +126,12 @@ public abstract class EstiloVisaoJogo {
         return textoRodada;
     }
 
+    /**
+     * Configura os inventários dos jogadores.
+     *
+     * @param inventario1 O JLabel do inventário do jogador 1.
+     * @param inventario2 O JLabel do inventário do jogador 2.
+     */
     public static void inventariosJogadores(JLabel inventario1, JLabel inventario2){
         inventario1.setIcon(imagemInventario1);
         inventario2.setIcon(imagemInventario2);
@@ -108,6 +144,14 @@ public abstract class EstiloVisaoJogo {
         inventario2.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
     }
 
+    /**
+     * Inverte a posição dos inventários dos jogadores.
+     *
+     * @param inventario1 O JLabel do inventário do jogador 1.
+     * @param valoresInventario1 Os valores do inventário do jogador 1.
+     * @param inventario2 O JLabel do inventário do jogador 2.
+     * @param valoresInventario2 Os valores do inventário do jogador 2.
+     */
     public static void inverterJogadores(JLabel inventario1, ArrayList<JLabel> valoresInventario1, JLabel inventario2, ArrayList<JLabel> valoresInventario2){
         inventario1.setBounds(TELA_LARGURA - imagemInventario2.getIconWidth()-40, (TELA_ALTURA - imagemInventario2.getIconHeight()) / 2, imagemInventario2.getIconWidth(), imagemInventario2.getIconHeight());
 
@@ -125,6 +169,13 @@ public abstract class EstiloVisaoJogo {
 
     }
 
+    /**
+     * Configura os valores dos inventários para exibição.
+     *
+     * @param inventario1 Os JLabels que representam os valores do inventário do jogador 1.
+     * @param inventario2 Os JLabels que representam os valores do inventário do jogador 2.
+     * @param fundo O JLabel de fundo onde os valores serão adicionados.
+     */
     private static void labelsValoresInventarios (ArrayList<JLabel> inventario1, ArrayList<JLabel> inventario2, JLabel fundo){
         for (int i = 0; i < inventario1.size(); i++){
             inventario1.get(i).setBounds(150, 130 + i*62, 50, 24);
@@ -139,6 +190,11 @@ public abstract class EstiloVisaoJogo {
         }
     }
 
+    /**
+     * Aplica o estilo ao botão que permite passar a rodada.
+     *
+     * @param botao O JButton que será estilizado.
+     */
     public static void estiloBotaoPassarRodada(JButton botao){
         botao.setBounds(TELA_LARGURA - imagemBotaoRodada.getIconWidth() - 125, TELA_ALTURA - imagemBotaoRodada.getIconHeight() - 50, imagemBotaoRodada.getIconWidth(), imagemBotaoRodada.getIconHeight());
         botao.setIcon(imagemBotaoRodada);
@@ -148,6 +204,11 @@ public abstract class EstiloVisaoJogo {
         Estilos.animacaoClicavel(botao);
     }
 
+    /**
+     * Configura o JLabel que exibe o texto de vitória no centro da tela.
+     *
+     * @param vitoria O JLabel que mostrará a mensagem de vitória.
+     */
     public static void textoVitoria(JLabel vitoria){
         vitoria.setBounds((TELA_LARGURA - imagemTextoVitoria.getIconWidth()) / 2, (TELA_ALTURA - imagemTextoVitoria.getIconHeight()) / 2, imagemTextoVitoria.getIconWidth(), imagemTextoVitoria.getIconHeight());
         vitoria.setIcon(imagemTextoVitoria);

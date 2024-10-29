@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Classe responsável por aplicar estilos e configurações visuais à interface de carregar jogos.
+ */
 public abstract class EstiloVisaoCarregarJogo {
 
     private static int TELA_LARGURA = 1280;
@@ -15,6 +18,11 @@ public abstract class EstiloVisaoCarregarJogo {
 
 
 
+    /**
+     * Aplica o estilo à tela de carregar jogo.
+     *
+     * @param tela A instância de VisaoCarregarJogo a ser estilizada.
+     */
     public static void aplicarEstilo(VisaoCarregarJogo tela){
         tela.setBounds(0, 0, TELA_LARGURA, TELA_ALTURA);
         tela.setLayout(null);
@@ -44,6 +52,12 @@ public abstract class EstiloVisaoCarregarJogo {
 
     }
 
+    /**
+     * Configura o fundo da tela de carregar jogo.
+     *
+     * @param tela A instância de VisaoCarregarJogo para a qual o fundo será configurado.
+     * @return O JLabel que representa a borda do fundo.
+     */
     private static JLabel configurarFundo(VisaoCarregarJogo tela){
         ImageIcon imagemBorda = new ImageIcon("./assets/imgs/geral/borda.png");
         Image imagemFundo = new ImageIcon("./assets/imgs/carregarJogo/fundoKunst.png").getImage();
@@ -62,6 +76,11 @@ public abstract class EstiloVisaoCarregarJogo {
         return borda;
     }
 
+    /**
+     * Estiliza o título da tela de carregar jogo.
+     *
+     * @return Um JLabel contendo o título estilizado.
+     */
     private static JLabel estiloTitulo(){
         ImageIcon imagem = new ImageIcon("./assets/imgs/carregarJogo/titulo.png");
         int TITULO_LARGURA = imagem.getIconWidth();
@@ -74,6 +93,11 @@ public abstract class EstiloVisaoCarregarJogo {
         return titulo;
     }
 
+    /**
+     * Estiliza o botão de voltar da tela de carregar jogo.
+     *
+     * @param botaoVoltar O botão de voltar a ser estilizado.
+     */
     private static void estiloBotoesSelecao(JButton botaoVoltar) {
         int botaoVoltarAltura = 34 + 10;
         int botaoVoltarLargura = 138 + 10;
@@ -84,6 +108,11 @@ public abstract class EstiloVisaoCarregarJogo {
         Estilos.animacaoClicavel(botaoVoltar);
     }
 
+    /**
+     * Estiliza o botão de voltar com ícone e propriedades visuais.
+     *
+     * @param botao O botão a ser estilizado.
+     */
     private static void estiloBtnVoltar(JButton botao){
 
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/voltar.png");

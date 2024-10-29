@@ -8,8 +8,7 @@ import jogoCataFrutas.Configuracoes;
 import utilitarios.*;
 
 /**
- * Esta classe representa um terreno/tabuleiro que contém elementos como
- * árvores, pedras, frutas e gramas
+ * Representa um terreno/tabuleiro que contém elementos como árvores, pedras, frutas e gramas.
  */
 
 public class Terreno {
@@ -25,11 +24,10 @@ public class Terreno {
 
 	protected ElementoEstatico[][] tabuleiro = new ElementoEstatico[dimensao][dimensao];
 
-	/**
-	 * Construtor da classe Terreno. Inicializa o terreno com as dimensões e
-	 * quantidades de elementos
-	 * a partir de um arquivo de configuração recebido.
-	 */
+	 /**
+     * Construtor da classe Terreno. Inicializa o terreno com dimensões e quantidades de elementos 
+     * a partir de um arquivo de configuração.
+     */
 
 	public Terreno() {
 		dimensao = Configuracoes.dimensao;
@@ -54,10 +52,20 @@ public class Terreno {
 		tabuleiro = new ElementoEstatico[dimensao][dimensao];
 	}
 
+	/**
+	 * Retorna o jogador 1 do jogo.
+	 *
+	 * @return O objeto Jogador que representa o jogador 1.
+	 */
 	public Jogador getJogador1() {
 		return jogador1;
 	}
 
+	/**
+	 * Retorna o jogador 2 do jogo.
+	 *
+	 * @return O objeto Jogador que representa o jogador 2.
+	 */
 	public Jogador getJogador2() {
 		return jogador2;
 	}
@@ -82,10 +90,20 @@ public class Terreno {
 		return tabuleiro;
 	}
 	
+	/**
+	 * Retorna o total de maracujás disponíveis no terreno.
+	 *
+	 * @return O total de maracujás.
+	 */
 	public int getTotalMaracujas() {
 		return totalMaracujas;
 	}
 
+	/**
+	 * Posiciona os jogadores em locais aleatórios no tabuleiro.
+	 * Garante que os jogadores não iniciem na mesma posição.
+	 */
+	
 	private void posicionarJogadores() {
 		Random gerador = new Random();
 
@@ -108,11 +126,12 @@ public class Terreno {
 	}
 
 	/**
-	 * Gera elementos aleatórios no tabuleiro, respeitando a quantidade máxima de
-	 * posições disponíveis.
+	 * Gera elementos estáticos no tabuleiro em posições aleatórias.
 	 *
-	 * @param classe     A classe dos elementos a serem gerados.
+	 * @param <T> A classe dos elementos a serem gerados, que deve estender ElementoEstatico.
+	 * @param classe A classe dos elementos a serem gerados.
 	 * @param quantidade A quantidade de elementos a serem gerados.
+	 * @throws ElementosDemaisException Se a quantidade de elementos exceder a capacidade do tabuleiro.
 	 */
 
 	private <T extends ElementoEstatico> void gerarElementosEstaticos(Class<T> classe, int quantidade)
@@ -161,6 +180,11 @@ public class Terreno {
 		}
 	}
 
+	/**
+	 * Distribui frutas aleatoriamente nas áreas de grama do tabuleiro.
+	 *
+	 * @throws FrutasDemaisException Se o número de frutas exceder o espaço disponível na grama.
+	 */
 	private void distribuirFrutasNaGrama() throws FrutasDemaisException {
 		ArrayList<Grama> gramas = new ArrayList<Grama>();
 
@@ -209,6 +233,11 @@ public class Terreno {
 		}
 	}
 
+	/**
+	 * Distribui frutas aleatoriamente nas árvores do tabuleiro.
+	 *
+	 * @throws FrutasDemaisException Se o número de frutas exceder o número de árvores disponíveis.
+	 */
 	private void distribuirFrutasNasArvores() throws FrutasDemaisException {
 		ArrayList<Arvore> arvores = new ArrayList<Arvore>();
 
@@ -243,10 +272,9 @@ public class Terreno {
 	}
 
 	/**
-	 * Gera o terreno, colocando árvores, pedras, frutas e gramas nas posições
-	 * disponíveis.
-	 * @return true se o terreno foi gerado com sucesso ou false caso contrário.
+	 * Gera o terreno do jogo, posicionando jogadores, árvores, pedras, gramas e distribuindo frutas.
 	 *
+	 * @return true se o terreno foi gerado com sucesso, false caso contrário.
 	 */
 
 	public boolean gerarTerreno() {
@@ -304,6 +332,12 @@ public class Terreno {
 		}
 	}
 
+	/**
+	 * Tenta spawnar um maracujá em uma grama adjacente a uma árvore. 
+	 * Se o limite de maracujás já foi atingido, lança uma exceção.
+	 *
+	 * @throws LimiteMaracujasAtingido se o limite de maracujás já foi atingido.
+	 */
 	public void spawnarMaracuja() throws LimiteMaracujasAtingido {
 		if(maracujasSpawnados == totalMaracujas - quantFrutasChao[0]) {
 			throw new LimiteMaracujasAtingido("");

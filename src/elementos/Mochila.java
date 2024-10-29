@@ -11,6 +11,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.lang.NullPointerException;
 
+/**
+ * Representa uma mochila que armazena frutas do jogador.
+ */
+
 public class Mochila {
     private final HashMap<Class<? extends Fruta>, Stack<Fruta>> bolso;
 
@@ -19,6 +23,11 @@ public class Mochila {
 
     private Jogador dono;
 
+    /**
+     * Constrói uma mochila para o jogador especificado.
+     * 
+     * @param dono O jogador que possui a mochila.
+     */
     public Mochila(Jogador dono) {
         GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
 
@@ -34,6 +43,12 @@ public class Mochila {
         this.dono = dono;
     }
 
+    /**
+     * Verifica se a mochila está cheia.
+     * 
+     * @return True se a mochila estiver cheia, caso contrário, false.
+     */
+    
     public Boolean taCheia() {
         return capacidade == quantFrutas;
     }
@@ -42,30 +57,67 @@ public class Mochila {
         return bolso;
     }
 
+    /**
+     * Retorna a quantidade total de frutas na mochila.
+     * 
+     * @return A quantidade de frutas.
+     */
+    
     public int getQuantFrutas() {
         return quantFrutas;
     }
 
+    /**
+     * Retorna a quantidade de maracujás na mochila.
+     * 
+     * @return A quantidade de maracujás.
+     */
     public int getQuantMaracujas() {
         return bolso.get(Maracuja.class).size();
     }
 
+    /**
+     * Retorna a quantidade de laranjas na mochila.
+     * 
+     * @return A quantidade de laranjas.
+     */
     public int getQuantLaranjas() {
         return bolso.get(Laranja.class).size();
     }
 
+    /**
+     * Retorna a quantidade de cocos na mochila.
+     * 
+     * @return A quantidade de cocos.
+     */
     public int getQuantCocos() {
         return bolso.get(Coco.class).size();
     }
 
+    /**
+     * Retorna a quantidade de frutas genéricas na mochila.
+     * 
+     * @return A quantidade de frutas genéricas.
+     */
     public int getQuantGenericas() {
         return bolso.get(Generica.class).size();
     }
 
+    /**
+     * Retorna a quantidade de abacates na mochila.
+     * 
+     * @return A quantidade de abacates.
+     */
     public int getQuantAbacates() {
         return bolso.get(Abacate.class).size();
     }
 
+    /**
+     * Armazena uma fruta na mochila.
+     * 
+     * @param fruta A fruta a ser armazenada.
+     * @throws MochilaCheiaException Se a mochila já estiver cheia.
+     */
     public void guardar(Fruta fruta) throws MochilaCheiaException {
         if(taCheia()) {
             throw new MochilaCheiaException("Mochila em sua capacidade máxima");
@@ -80,6 +132,15 @@ public class Mochila {
         );
     }
 
+    /**
+     * Remove e retorna uma fruta do tipo especificado da mochila.
+     * 
+     * @param classe A classe da fruta a ser removida.
+     * @return A fruta removida.
+     * @throws MochilaVaziaException Se a mochila estiver vazia.
+     * @throws BolsoFrutaVazioException Se não houver frutas do tipo especificado.
+     * @throws NullPointerException Se a classe for nula.
+     */
     public Fruta tirar(Class<? extends Fruta> classe)
             throws MochilaVaziaException, BolsoFrutaVazioException, NullPointerException {
         if(quantFrutas == 0) {

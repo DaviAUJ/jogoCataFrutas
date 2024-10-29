@@ -29,6 +29,9 @@ public class Jogo{
         floresta.gerarTerreno();
     }
     
+    /**
+     * Configura os listeners para eventos do jogo.
+     */
     public void configurarListeners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override
@@ -58,6 +61,11 @@ public class Jogo{
         });
     }
 
+    /**
+     * Movimenta o jogador baseado na entrada do usuário.
+     *
+     * @param entrada A entrada do jogador (tecla pressionada).
+     */
     public void movimentarJogador(String entrada) {
         try {
             switch (entrada) {
@@ -98,6 +106,9 @@ public class Jogo{
         }
     }
 
+    /**
+     * Passa o turno para o próximo jogador.
+     */
     public void passarTurno() {
         try {
             jogadorDaVez.pegarFrutaArvore();
@@ -149,6 +160,9 @@ public class Jogo{
         return this.floresta;
     }
 
+    /**
+     * Troca os jogadores da vez.
+     */
     private void trocarJogadores() {
         if (jogadorDaVez == floresta.getJogador1()) {
             jogadorDaVez = floresta.getJogador2();
@@ -161,6 +175,11 @@ public class Jogo{
         Transmissor.avisoTrocaJogador(outroJogador.getID(), jogadorDaVez.getID());
     }
 
+    /**
+     * Obtém o ID do jogador que está jogando atualmente.
+     *
+     * @return o ID do jogador da vez.
+     */
     public int getIDJogadorDaVez(){
         return jogadorDaVez.getID();
     }

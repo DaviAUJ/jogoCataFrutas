@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Classe que representa um quadradinho no tabuleiro do jogo.
+ * Esta classe estende JButton e é responsável por gerenciar a aparência e as interações de um quadrado no tabuleiro.
+ */
 public class QuadradinhoTabuleiro extends JButton {
     public HashMap<String, ArrayList<Image>> imagens;
     private int TAMANHO;
@@ -17,6 +21,14 @@ public class QuadradinhoTabuleiro extends JButton {
     private Image imagemFundo;
     private Image imagemJogador;
 
+    /**
+     * Construtor da classe QuadradinhoTabuleiro.
+     *
+     * @param tamanho O tamanho do quadradinho.
+     * @param tipo O tipo do quadradinho (ex: pedra, jogador1, jogador2).
+     * @param indicador Indicador para selecionar a imagem.
+     * @param imagens Mapa de imagens para diferentes tipos de quadrados.
+     */
     public QuadradinhoTabuleiro(int tamanho, String tipo, int indicador, HashMap<String, ArrayList<Image>> imagens) {
         this.TAMANHO = tamanho;
         this.tipo = tipo;
@@ -33,10 +45,18 @@ public class QuadradinhoTabuleiro extends JButton {
         configurarFundo();
     }
 
+    /**
+     * Obtém o tamanho do quadradinho.
+     *
+     * @return O tamanho do quadradinho.
+     */
     public int getTamanho() {
         return TAMANHO;
     }
 
+    /**
+     * Configura a imagem de fundo do quadradinho com base no seu tipo.
+     */
     public void configurarFundo(){
         if (this.tipo.equals("pedra")){
             imagemFundo = this.imagens.get("pedras").get(this.indiceAleatorio);
@@ -57,6 +77,12 @@ public class QuadradinhoTabuleiro extends JButton {
         }
     }
 
+    /**
+     * Gera um índice aleatório para a seleção de imagens de pedra.
+     *
+     * @param tipo O tipo de quadradinho.
+     * @return Um índice aleatório para a imagem de pedra.
+     */
     private int gerarIndiceAleatorio(String tipo) {
         Random random = new Random();
         int max = 0;
@@ -86,6 +112,12 @@ public class QuadradinhoTabuleiro extends JButton {
 
     }
 
+    /**
+     * Atualiza o quadradinho com base no tipo de ação e no indicador fornecido.
+     *
+     * @param tipo O tipo de atualização (ex: colocarJogador1, colocarFruta, etc.).
+     * @param indicador O indicador para selecionar a imagem, se aplicável.
+     */
     public void atualizarQuadradinho(String tipo, int indicador) {
         if (tipo.equals("colocarJogador1")){
             this.imagemJogador = this.imagens.get("jogadores").getFirst();

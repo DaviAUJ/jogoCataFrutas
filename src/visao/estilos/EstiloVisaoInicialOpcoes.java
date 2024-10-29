@@ -5,11 +5,19 @@ import visao.VisaoInicialOpcoes;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe responsável por aplicar estilos e configurações visuais à interface inicial de opções do jogo.
+ */
 public abstract class EstiloVisaoInicialOpcoes {
     private static int ALTURA = 720;
     private static int LARGURA = 1280;
 
 
+    /**
+     * Aplica o estilo à tela inicial de opções.
+     *
+     * @param tela A instância de VisaoInicialOpcoes a ser estilizada.
+     */
     public static void aplicarEstilo(VisaoInicialOpcoes tela){
         tela.setBounds(0, 0, LARGURA, ALTURA);
         tela.setLayout(null);
@@ -35,6 +43,12 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Configura o fundo da tela inicial de opções.
+     *
+     * @param tela A instância de VisaoInicialOpcoes para a qual o fundo será configurado.
+     * @return O JLabel que representa a borda do fundo.
+     */
     private static JLabel configurarFundo(VisaoInicialOpcoes tela){
         Image imagemFundo = new ImageIcon("./assets/imgs/opcoesIniciais/fundoMontanha.png").getImage();
 
@@ -56,6 +70,11 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Estiliza o botão de carregar jogo.
+     *
+     * @param botao O botão a ser estilizado.
+     */
     private static void estiloBotaoCarregar(JButton botao){
         int botaoAltura = (int)(167*1.6);
         int botaoLargura = (int)(242*1.6);
@@ -72,6 +91,12 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Estiliza os botões de seleção (Voltar e OK).
+     *
+     * @param botaoVoltar O botão de voltar a ser estilizado.
+     * @param botaoOk O botão OK a ser estilizado.
+     */
     private static void estiloBotoesSelecao(JButton botaoVoltar, JButton botaoOk){
         int botaoVoltarAltura = 34+10;
         int botaoVoltarLargura = 138+10;
@@ -95,6 +120,11 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Estiliza o botão de novo jogo.
+     *
+     * @param botao O botão a ser estilizado.
+     */
     private static void estiloBotaoNovoJogo(JButton botao){
         int botaoAltura = (int)(45*1.5);
         int botaoLargura = (int)(244*1.5);
@@ -112,6 +142,11 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Estiliza o botão de voltar.
+     *
+     * @param botao O botão a ser estilizado.
+     */
     private static void estiloBtnVoltar(JButton botao){
 
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/voltar.png");
@@ -122,6 +157,11 @@ public abstract class EstiloVisaoInicialOpcoes {
 
     }
 
+    /**
+     * Estiliza o botão OK.
+     *
+     * @param botao O botão a ser estilizado.
+     */
     private static void estiloBtnOk(JButton botao){
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/ok.png");
         botao.setIcon(spriteBotao);

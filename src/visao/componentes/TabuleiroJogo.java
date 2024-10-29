@@ -14,6 +14,11 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe que representa o tabuleiro do jogo Cata-Frutas.
+ * Esta classe estende JPanel e é responsável por gerenciar a disposição dos quadradinhos no tabuleiro,
+ * carregando as imagens correspondentes e respondendo a eventos de mudança no estado do jogo.
+ */
 public class TabuleiroJogo extends JPanel {
     private int TAMANHO;
     private int DIMENSAO;
@@ -21,6 +26,11 @@ public class TabuleiroJogo extends JPanel {
     public HashMap<String, ArrayList<Image>> imagens;
     int[] posJogador1, posJogador2;
 
+    /**
+     * Construtor da classe TabuleiroJogo.
+     *
+     * @param tamanho O tamanho total do tabuleiro.
+     */
     public TabuleiroJogo(int tamanho) {
         this.TAMANHO = tamanho;
         this.DIMENSAO = Configuracoes.dimensao;
@@ -106,15 +116,28 @@ public class TabuleiroJogo extends JPanel {
         configurarListeners();
     }
 
-
+    /**
+     * Obtém o tamanho total do tabuleiro.
+     *
+     * @return O tamanho do tabuleiro.
+     */
     public int getTamanho() {
         return TAMANHO;
     }
 
+    /**
+     * Obtém a dimensão do tabuleiro (número de quadrados).
+     *
+     * @return A dimensão do tabuleiro.
+     */
     public int getDimensao() {
         return DIMENSAO;
     }
 
+
+    /**
+     * Carrega as imagens para os diferentes tipos de elementos do tabuleiro.
+     */
     private void carregarImagens(){
         this.imagens = new HashMap<>();
         int QTD_ARVORES = 6;
@@ -156,6 +179,9 @@ public class TabuleiroJogo extends JPanel {
         this.imagens.put("jogadores", itensCarregados);
     }
 
+    /**
+     * Configura os listeners para responder a eventos do jogo.
+     */
     public void configurarListeners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override

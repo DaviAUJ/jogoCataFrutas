@@ -8,11 +8,19 @@ import java.awt.event.MouseEvent;
 
 import visao.*;
 
+/**
+ * Classe responsável por aplicar estilos e configurações visuais à tela inicial do jogo.
+ */
 public abstract class EstiloVisaoInicio {
     private static final int LARGURA_TELA = 1280;
     private static final int ALTURA_TELA = 720;
 
 
+    /**
+     * Aplica o estilo à tela inicial do jogo.
+     *
+     * @param visaoInicio A instância de VisaoInicio a ser estilizada.
+     */
     public static void aplicarEstilo(VisaoInicio visaoInicio){
 
         visaoInicio.setBounds(0, 0, LARGURA_TELA, ALTURA_TELA);
@@ -33,6 +41,12 @@ public abstract class EstiloVisaoInicio {
 
     }
 
+    /**
+     * Constrói o fundo da tela inicial do jogo.
+     *
+     * @param inicio A instância de VisaoInicio para a qual o fundo será configurado.
+     * @return O JLabel que representa a borda do fundo.
+     */
     private static JLabel construirFundo(VisaoInicio inicio){
         ImageIcon imagemDeFundoFloresta = new ImageIcon("./assets/imgs/inicio/fundoFloresta.png");
         Image imagemFundo = imagemDeFundoFloresta.getImage();
@@ -61,6 +75,11 @@ public abstract class EstiloVisaoInicio {
         return borda;
     }
 
+    /**
+     * Estiliza o título do jogo.
+     *
+     * @param titulo O JLabel que representa o título a ser estilizado.
+     */
     private static void estiloTitulo(JLabel titulo){
         ImageIcon spriteTitulo = new ImageIcon("./assets/imgs/inicio/cata-frutas.png");
         titulo.setIcon(spriteTitulo);
@@ -105,6 +124,11 @@ public abstract class EstiloVisaoInicio {
 
     }
 
+    /**
+     * Estiliza o botão de iniciar jogo.
+     *
+     * @param botao O JButton a ser estilizado.
+     */
     private static void estiloBotao(JButton botao){
         ImageIcon spriteTexto = new ImageIcon("./assets/imgs/inicio/btnIniciarJogo.png");
         int BOTAO_LARGURA = 228;

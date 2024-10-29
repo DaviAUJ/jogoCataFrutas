@@ -4,11 +4,19 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
+/**
+ * Classe responsável por gerenciar a reprodução de efeitos sonoros e música de fundo.
+ */
 
 public abstract class Tocador {
     private static final EfeitoSonoro[] canaisSFX = new EfeitoSonoro[3];
     private static EfeitoSonoro canalMusica;
 
+    /**
+     * Decide qual canal utilizar para tocar um efeito sonoro ou música.
+     *
+     * @param som O efeito sonoro a ser tocado.
+     */
     private static void decidirCanal(EfeitoSonoro som) {
         if(som.getCaminhoArquivo().charAt(7) == 'm') {
             try {
@@ -34,6 +42,9 @@ public abstract class Tocador {
         }
     }
 
+    /**
+     * Configura um listener para eventos sonoros, que decide qual som tocar.
+     */
     public static void configurarListener() {
         EventoSonoroHandler.adicionarEvento(new PropertyChangeListener() {
             @Override

@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Classe que representa a visão inicial de opções do jogo.
+ * Permite ao usuário escolher entre iniciar um novo jogo ou carregar um jogo salvo.
+ */
 public class VisaoInicialOpcoes extends JPanel {
 
     public JButton btnCarregarJogo;
@@ -15,6 +19,12 @@ public class VisaoInicialOpcoes extends JPanel {
     public JButton btnOk;
     public JButton btnVoltar;
 
+    /**
+     * Construtor da classe VisaoInicialOpcoes.
+     * Inicializa os componentes da visão e configura os listeners para os botões.
+     *
+     * @param gerenciadorDeTelas O gerenciador de telas que controla a navegação entre as diferentes visões.
+     */
 
     public VisaoInicialOpcoes(GerenciadorDeTelas gerenciadorDeTelas) {
 

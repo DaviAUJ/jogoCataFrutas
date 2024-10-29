@@ -14,6 +14,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe que representa a visão para configuração de um novo jogo.
+ * Permite aos jogadores ajustar as configurações e visualizar um preview do tabuleiro.
+ */
 public class VisaoNovoJogo extends JPanel {
 
     public JLabel tituloTela;
@@ -26,6 +30,12 @@ public class VisaoNovoJogo extends JPanel {
 
     public ArrayList <JFormattedTextField> camposDeEntrada;
 
+    /**
+     * Construtor da classe VisaoNovoJogo.
+     * Inicializa os componentes da visão e configura os listeners para os botões.
+     *
+     * @param gerenciador O gerenciador de telas que controla a navegação entre as diferentes visões.
+     */
     public VisaoNovoJogo(GerenciadorDeTelas gerenciador) {
         EstiloNovoJogo.aplicarEstilo(this);
 

@@ -134,40 +134,5 @@ public class Main {
         principal.setVisible(true);
 
 
-        /*
-        JFrame modScreen = new JFrame();
-        principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        modScreen.setBounds(0, 0, 200, 600);
-        modScreen.setVisible(true);
-
-        */
-
-
-
-
-
-
-
-        /*
-
-        boolean conseguiuGerar = novoJogo.getFloresta().gerarTerreno();
-        if (!conseguiuGerar) {
-            JOptionPane.showMessageDialog(null, "As especificações informadas no arquivo de configuração não permitem uma criação consistente do mapa.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-
-
-        VisaoPrincipal visaoPrincipal = new VisaoPrincipal(SIZE);
-        VisaoTerreno visaoTerreno = new VisaoTerreno(novoJogo.getFloresta(), SIZE);
-
-        visaoPrincipal.add(visaoTerreno);
-        visaoPrincipal.setVisible(true);
-        visaoPrincipal.setLocationRelativeTo(null);
-
-
-        */
-
-
     }
 }
