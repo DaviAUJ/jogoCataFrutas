@@ -3,6 +3,7 @@ package elementos;
 import excecoes.*;
 
 import frutas.*;
+import jogoCataFrutas.Configuracoes;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
 
@@ -29,9 +30,7 @@ public class Mochila {
      * @param dono O jogador que possui a mochila.
      */
     public Mochila(Jogador dono) {
-        GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
-
-        capacidade = arquivo.pegarEspacoMochila();
+        capacidade = Configuracoes.espacoMochila;
 
         bolso = new HashMap<>(5);
         bolso.put(Maracuja.class, new Stack<>());

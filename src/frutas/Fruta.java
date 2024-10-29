@@ -4,6 +4,7 @@ import java.util.Random;
 
 import elementos.Elemento;
 import elementos.Jogador;
+import jogoCataFrutas.Configuracoes;
 import sons.EventoSonoroHandler;
 import utilitarios.GerenciadorArquivo;
 import utilitarios.Transmissor;
@@ -17,11 +18,9 @@ public abstract class Fruta {
     protected String nome;
 
     public Fruta() {
-
-        GerenciadorArquivo arquivo = new GerenciadorArquivo(GerenciadorArquivo.caminhoPadrao);
         Random gerador = new Random();
 
-        if(gerador.nextInt(100) + 1 <= arquivo.pegarChanceBichadas()) {
+        if(gerador.nextInt(100) + 1 <= Configuracoes.chanceFrutaBichada) {
             bichada = true;
         }
     }
