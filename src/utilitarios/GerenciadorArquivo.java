@@ -331,7 +331,7 @@ public class GerenciadorArquivo {
             File arquivo = new File(caminhoPasta);
 
             if(!arquivo.exists()) {
-                throw new PastaInexistenteException("");
+                criarPastaNaRaiz("Saves" + File.separator);
             }
 
             ArrayList<GerenciadorArquivo> arquivos = new ArrayList<>();

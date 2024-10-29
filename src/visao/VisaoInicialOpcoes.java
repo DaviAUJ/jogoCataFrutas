@@ -1,5 +1,6 @@
 package visao;
 
+import utilitarios.GerenciadorArquivo;
 import visao.estilos.EstiloVisaoInicialOpcoes;
 
 import javax.swing.*;
