@@ -66,14 +66,17 @@ public class TabuleiroJogo extends JPanel {
                         else if (grama.getEspacoFruta() instanceof Laranja){
                             quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "fruta", 5, this.imagens);
                         }
-
                         else if (grama.getEspacoFruta() instanceof Maracuja){
                             quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "fruta", 6, this.imagens);
                         }
-                        else{
-                            //Mudar depois isso aqui pra incluir todas as outras frutas! ----------
-                            Generica fGenerica = (Generica) grama.getEspacoFruta();
+                        else if(grama.getEspacoFruta() instanceof Amora) {
                             quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "fruta", 2, this.imagens);
+                        }
+                        else if(grama.getEspacoFruta() instanceof Goiaba) {
+                            quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "fruta", 4, this.imagens);
+                        }
+                        else {
+                            quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "fruta", 1, this.imagens);
                         }
                     }
                 }
@@ -87,8 +90,14 @@ public class TabuleiroJogo extends JPanel {
                     else if (arvore.getTipo() == Laranja.class){
                         quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "arvore", 5, this.imagens);
                     }
-                    else{
+                    else if(arvore.getTipo() == Amora.class) {
                         quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "arvore", 2, this.imagens);
+                    }
+                    else if(arvore.getTipo() == Goiaba.class) {
+                        quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "arvore", 4, this.imagens);
+                    }
+                    else {
+                        quad = new QuadradinhoTabuleiro(tamanhoQuadradinho, "arvore", 1, this.imagens);
                     }
                 }
                 else{
@@ -188,11 +197,17 @@ public class TabuleiroJogo extends JPanel {
                     if(classe == Abacate.class) {
                         indicador = 0;
                     }
-                    else if(classe == Generica.class) {
+                    else if(classe == Acerola.class) {
                         indicador = 1;
+                    }
+                    else if(classe == Amora.class) {
+                        indicador = 2;
                     }
                     else if(classe == Coco.class) {
                         indicador = 3;
+                    }
+                    else if(classe == Goiaba.class) {
+                        indicador = 4;
                     }
                     else if(classe == Laranja.class) {
                         indicador = 5;

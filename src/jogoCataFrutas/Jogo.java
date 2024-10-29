@@ -83,7 +83,7 @@ public class Jogo{
                     jogadorDaVez.comerFruta(Laranja.class);
                     break;
                 case "2":
-                    jogadorDaVez.comerFruta(Generica.class);
+                    jogadorDaVez.comerFruta(Acerola.class);
                     break;
                 case "3":
                     jogadorDaVez.comerFruta(Coco.class);
@@ -91,6 +91,11 @@ public class Jogo{
                 case "4":
                     jogadorDaVez.comerFruta(Abacate.class);
                     break;
+                case "5":
+                    jogadorDaVez.comerFruta(Goiaba.class);
+                    break;
+                case "6":
+                    jogadorDaVez.comerFruta(Amora.class);
             }
         }
         catch (Exception _) {

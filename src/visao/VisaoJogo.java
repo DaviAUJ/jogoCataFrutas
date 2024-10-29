@@ -96,7 +96,7 @@ public class VisaoJogo extends JPanel {
                     else if(fruta == Laranja.class) {
                         inventario.get(2).setText("" + num);
                     }
-                    else if(fruta == Generica.class) {
+                    else if(fruta == Acerola.class) {
                         inventario.get(3).setText("" + num);
                     }
                     else if(fruta == Coco.class) {
@@ -104,6 +104,12 @@ public class VisaoJogo extends JPanel {
                     }
                     else if(fruta == Abacate.class) {
                         inventario.get(5).setText("" + num);
+                    }
+                    else if(fruta == Goiaba.class) {
+                        inventario.get(6).setText("" + num);
+                    }
+                    else if(fruta == Amora.class) {
+                        inventario.get(7).setText("" + num);
                     }
                 }
             }

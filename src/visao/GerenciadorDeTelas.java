@@ -1,15 +1,11 @@
 package visao;
 import jogoCataFrutas.Configuracoes;
-import jogoCataFrutas.Jogo;
 import utilitarios.GerenciadorArquivo;
-import utilitarios.ReagirMudanca;
 import utilitarios.Transmissor;
 import visao.estilos.Estilos;
 
 import javax.swing.*;
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;

@@ -183,7 +183,9 @@ public class Terreno {
 		tipoFaltando.put(Laranja.class, quantFrutasChao[1]);
 		tipoFaltando.put(Abacate.class, quantFrutasChao[2]);
 		tipoFaltando.put(Coco.class, quantFrutasChao[3]);
-		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantFrutasChao, 3, 6)));
+		tipoFaltando.put(Acerola.class, quantFrutasChao[4]);
+		tipoFaltando.put(Amora.class, quantFrutasChao[5]);
+		tipoFaltando.put(Goiaba.class, quantFrutasChao[6]);
 
 		if(!gramas.isEmpty()) {
 			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {
@@ -230,7 +232,9 @@ public class Terreno {
 		tipoFaltando.put(Laranja.class, quantTipoArvores[0]);
 		tipoFaltando.put(Abacate.class, quantTipoArvores[1]);
 		tipoFaltando.put(Coco.class, quantTipoArvores[2]);
-		tipoFaltando.put(Generica.class, Extras.somarVetor(Arrays.copyOfRange(quantTipoArvores, 3, 6)));
+		tipoFaltando.put(Acerola.class, quantTipoArvores[3]);
+		tipoFaltando.put(Amora.class, quantTipoArvores[4]);
+		tipoFaltando.put(Goiaba.class, quantTipoArvores[5]);
 
 		if(!arvores.isEmpty()) {
 			for(Class<? extends Fruta> classe : tipoFaltando.keySet()) {

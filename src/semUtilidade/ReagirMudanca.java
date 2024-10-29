@@ -1,4 +1,4 @@
-package utilitarios;
+package semUtilidade;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 

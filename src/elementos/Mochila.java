@@ -28,8 +28,10 @@ public class Mochila {
         bolso.put(Maracuja.class, new Stack<>());
         bolso.put(Abacate.class, new Stack<>());
         bolso.put(Coco.class, new Stack<>());
-        bolso.put(Generica.class, new Stack<>());
         bolso.put(Laranja.class, new Stack<>());
+        bolso.put(Amora.class, new Stack<>());
+        bolso.put(Acerola.class, new Stack<>());
+        bolso.put(Goiaba.class, new Stack<>());
 
         this.dono = dono;
     }

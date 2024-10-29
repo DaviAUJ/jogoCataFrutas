@@ -87,7 +87,7 @@ public class QuadradinhoTabuleiro extends JButton {
     }
 
     public void atualizarQuadradinho(String tipo, int indicador) {
-        if (tipo.equals("colocarJogador1")){
+        if(tipo.equals("colocarJogador1")){
             this.imagemJogador = this.imagens.get("jogadores").getFirst();
         }
         else if (tipo.equals("colocarJogador2")){
