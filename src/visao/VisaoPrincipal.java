@@ -20,6 +20,10 @@ public class VisaoPrincipal extends JFrame implements KeyListener {
     private GerenciadorDeTelas gerenciador;
     private boolean ativarControles;
 
+    /**
+     * Construtor da classe VisaoPrincipal.
+     * Inicializa a janela e configura os listeners de teclado.
+     */
     public VisaoPrincipal() {
         setLocationRelativeTo(null);
         this.gerenciador = null;
@@ -28,10 +32,20 @@ public class VisaoPrincipal extends JFrame implements KeyListener {
         configurarListeners();
     }
 
+    /**
+     * Define o gerenciador de telas para esta visão.
+     *
+     * @param gerenciador O gerenciador de telas a ser configurado.
+     */
     public void setGerenciador(GerenciadorDeTelas gerenciador) {
         this.gerenciador = gerenciador;
     }
 
+    /**
+     * Retorna o gerenciador de telas associado a esta visão.
+     *
+     * @return O gerenciador de telas.
+     */
     public GerenciadorDeTelas getGerenciador() {
         return gerenciador;
     }
@@ -54,6 +68,10 @@ public class VisaoPrincipal extends JFrame implements KeyListener {
 
     }
 
+    /**
+     * Configura os listeners para eventos do jogo.
+     * Ativa ou desativa os controles com base em eventos recebidos.
+     */
     public void configurarListeners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override

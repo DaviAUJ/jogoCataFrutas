@@ -9,10 +9,20 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Classe responsável por aplicar estilos à interface do novo jogo.
+ * Essa classe configura a aparência e o layout dos componentes na tela de criação de um novo jogo.
+ */
 public abstract class EstiloNovoJogo {
     private static int TELA_LARGURA = 1280;
     private static int TELA_ALTURA = 720;
 
+    
+    /**
+     * Aplica o estilo à tela de criação de um novo jogo.
+     *
+     * @param tela A instância de VisaoNovoJogo que será estilizada.
+     */
     public static void aplicarEstilo(VisaoNovoJogo tela){
 
         tela.setLayout(null);
@@ -44,6 +54,11 @@ public abstract class EstiloNovoJogo {
 
     }
 
+    /**
+     * Estiliza a barra de rolagem da tela.
+     *
+     * @param scroll O JScrollPane a ser estilizado.
+     */
     public static void estiloScroll(JScrollPane scroll){
         int LARGURA = 512;
         int ALTURA = 500;
@@ -59,6 +74,12 @@ public abstract class EstiloNovoJogo {
 
     }
 
+    /**
+     * Configura o fundo da tela de novo jogo.
+     *
+     * @param tela A instância de VisaoNovoJogo que contém a tela.
+     * @return O JLabel que representa a borda do fundo.
+     */
     private static JLabel configurarFundo(VisaoNovoJogo tela){
         ImageIcon imagemBorda = new ImageIcon("./assets/imgs/geral/borda.png");
         Image imagemFundo = new ImageIcon("./assets/imgs/novoJogo/fundoPinheiros.png").getImage();
@@ -77,6 +98,11 @@ public abstract class EstiloNovoJogo {
         return borda;
     }
 
+    /**
+     * Estiliza o título principal da tela de novo jogo.
+     *
+     * @param titulo O JLabel que representa o título.
+     */
     private static void estiloTituloPrincipal(JLabel titulo){
         int TITULO_LARGURA = 672;
         int TITULO_ALTURA = 57;
@@ -86,6 +112,13 @@ public abstract class EstiloNovoJogo {
 
     }
 
+    /**
+     * Estiliza os botões de seleção da tela.
+     *
+     * @param botaoVoltar O botão "Voltar".
+     * @param botaoOk O botão "Ok".
+     * @param botaoPreview O botão "Preview".
+     */
     private static void estiloBotoesSelecao(JButton botaoVoltar, JButton botaoOk, JButton botaoPreview){
         int botaoVoltarAltura = 34+10;
         int botaoVoltarLargura = 138+10;
@@ -114,6 +147,11 @@ public abstract class EstiloNovoJogo {
 
     }
 
+    /**
+     * Estiliza o botão "Voltar".
+     *
+     * @param botao O JButton a ser estilizado.
+     */
     private static void estiloBtnVoltar(JButton botao){
 
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/voltar.png");
@@ -124,6 +162,11 @@ public abstract class EstiloNovoJogo {
 
     }
 
+    /**
+     * Estiliza o botão "Ok".
+     *
+     * @param botao O JButton a ser estilizado.
+     */
     private static void estiloBtnOk(JButton botao){
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/opcoesIniciais/ok.png");
         botao.setIcon(spriteBotao);
@@ -132,6 +175,12 @@ public abstract class EstiloNovoJogo {
         botao.setBorderPainted(false);
     }
 
+
+    /**
+     * Estiliza o botão "Preview".
+     *
+     * @param botao O JButton a ser estilizado.
+     */
     private static void estiloBtnPreview(JButton botao){
         ImageIcon spriteBotao = new ImageIcon("./assets/imgs/novoJogo/preview2.png");
         botao.setIcon(spriteBotao);
@@ -140,6 +189,11 @@ public abstract class EstiloNovoJogo {
         botao.setBorderPainted(false);
     }
 
+    /**
+     * Cria e estiliza o painel de preview.
+     *
+     * @return O JPanel configurado como preview.
+     */
     private static JPanel estiloPreview(){
         int PREVIEW_LARGURA = 420;
         int PREVIEW_ALTURA = 420;
@@ -164,6 +218,12 @@ public abstract class EstiloNovoJogo {
         return preview;
     }
 
+    /**
+     * Estiliza as configurações do jogo.
+     *
+     * @param configuracoes O painel que contém as configurações.
+     * @param tela A instância de VisaoNovoJogo que contém a tela.
+     */
     private static void estiloConfiguracoes(JPanel configuracoes, VisaoNovoJogo tela){
         configuracoes.setLayout(new BoxLayout(configuracoes, BoxLayout.Y_AXIS));
         configuracoes.setOpaque(false);

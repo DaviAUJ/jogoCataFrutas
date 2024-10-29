@@ -35,6 +35,11 @@ public class Jogador extends Elemento {
         mochila = new Mochila(this);
     }
 
+    /**
+     * Retorna o ID do jogador baseado na sua posição no terreno.
+     *
+     * @return O ID do jogador (1 ou 2), ou 0 se não for encontrado.
+     */
     public int getID() {
         if(local.getJogador1() == this) {
             return 1;
@@ -47,14 +52,29 @@ public class Jogador extends Elemento {
         return 0;
     }
 
+    /**
+     * Abre a mochila do jogador.
+     *
+     * @return A mochila do jogador.
+     */
     public Mochila abrirMochila() {
         return mochila;
     }
 
+    /**
+     * Define se o jogador já foi empurrado.
+     *
+     * @param jaFoiEmpurrado O novo estado do empurrão.
+     */
     public void setJaFoiEmpurrado(boolean jaFoiEmpurrado) {
         this.jaFoiEmpurrado = jaFoiEmpurrado;
     }
 
+    /**
+     * Retorna a força do jogador, considerando o buff de força.
+     *
+     * @return A força do jogador.
+     */
     public int getForca() {
         if(buffForca) {
             return mochila.getQuantFrutas() * 2;
@@ -72,6 +92,7 @@ public class Jogador extends Elemento {
     public int getPontosMovimento() {
         return pontosMovimento;
     }
+
 
     /**
      * Define os pontos de movimento do jogador.
@@ -124,6 +145,11 @@ public class Jogador extends Elemento {
         this.nerfBichada = nerfBichada;
     }
 
+    /**
+     * Retorna a quantidade de ouro do jogador.
+     *
+     * @return A quantidade de maracujás (representando ouro).
+     */
     public int getPontosOuro() {
         return mochila.getQuantMaracujas();
     }
@@ -155,16 +181,23 @@ public class Jogador extends Elemento {
     public void resetarMovimento() {
         setJaSeMoveu(false);
     }
+    
     /**
-     * Tenta catar uma fruta.
+     * Verifica se o jogador não tem pontos de movimento.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @return True se o jogador não tem pontos de movimento, false caso contrário.
      */
 
     public boolean semPontosMovimento() {
         return pontosMovimento == 0;
     }
 
+    /**
+     * Tenta catar uma fruta.
+     *
+     * @throws JogadorSemPontosDeMovimentacaoException Se o jogador não tem pontos de movimento.
+     * @throws GramaSemFrutaException Se a grama onde o jogador está não tem fruta.
+     */
     public void catarFruta() throws JogadorSemPontosDeMovimentacaoException, GramaSemFrutaException{
         if(pontosMovimento <=  0) {
             throw new JogadorSemPontosDeMovimentacaoException("O jogador não tem pontos de movimento");
@@ -210,7 +243,7 @@ public class Jogador extends Elemento {
     /**
      * Tenta comer uma fruta.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @param fruta A classe da fruta a ser comida.
      */
 
     public void comerFruta(Class<? extends Fruta> fruta) {
@@ -224,6 +257,14 @@ public class Jogador extends Elemento {
         }
     }
     
+    /**
+     * Tenta pegar uma fruta de uma árvore.
+     *
+     * @throws JogadorJaSeMovimentouException Se o jogador já se moveu.
+     * @throws JogadorForaDeArvoreException Se o jogador não está em uma árvore.
+     * @throws ClasseNaoInstanciadaException Se a classe da fruta não pôde ser instanciada.
+     * @throws ArvoreEmCooldownException Se a árvore está em cooldown.
+     */
     public void pegarFrutaArvore() throws
             JogadorJaSeMovimentouException, JogadorForaDeArvoreException,
             ClasseNaoInstanciadaException, ArvoreEmCooldownException {
@@ -264,16 +305,25 @@ public class Jogador extends Elemento {
         EventoSonoroHandler.somCatar();
     }
 
+    /**
+     * Disconta os pontos de movimento do jogador.
+     *
+     * @param pontos Os pontos a serem descontados.
+     */
     private void discontarPontos(int tirar) {
         pontosMovimento -= tirar;
         Transmissor.avisoPontosAlterados(pontosMovimento, getID());
     }
 
     /**
-     * Tenta empurrar outro jogador.
+     * Empurra outro jogador, caso a força do jogador que está empurrando seja 
+     * superior à do jogador alvo. Se o alvo já foi empurrado, a ação não é permitida.
      *
-     * @param alvo O jogador a ser empurrado.
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @param alvo O jogador que será empurrado.
+     * @throws ForcaInsuficienteException Se a força do jogador que está empurrando 
+     *         for menor ou igual à força do jogador alvo.
+     * @throws jaEmpurraramNoJogadorException Se o jogador alvo já foi empurrado 
+     *         anteriormente, impedindo novas tentativas de empurrão.
      */
     public void empurrar(Jogador alvo) throws ForcaInsuficienteException, jaEmpurraramNoJogadorException {
         if(getForca() <= alvo.getForca()) {
@@ -295,6 +345,22 @@ public class Jogador extends Elemento {
         alvo.setJaFoiEmpurrado(true);
     }
 
+    
+    /**
+     * Move o jogador para uma nova posição no tabuleiro, caso essa posição seja 
+     * válida e não contenha obstáculos. Atualiza a posição do jogador e notifica 
+     * outros componentes do jogo sobre a movimentação.
+     *
+     * @param posX A nova coordenada X onde o jogador deseja se mover.
+     * @param posY A nova coordenada Y onde o jogador deseja se mover.
+     * @throws MovimentoParaEspacoComPlayerException Se a nova posição já estiver 
+     *         ocupada por outro jogador.
+     * @throws MovimentoParaEspacoComPedraException Se a nova posição contiver um 
+     *         obstáculo (pedra).
+     * @throws JogadorForaDoCampoException Se a nova posição estiver fora dos limites 
+     *         do tabuleiro.
+     */
+    
     public void moverLivre(int posX, int posY)
             throws MovimentoParaEspacoComPlayerException,
             MovimentoParaEspacoComPedraException,
@@ -327,9 +393,14 @@ public class Jogador extends Elemento {
     }
 
     /**
-     * Move o jogador para cima.
+     * Move o jogador uma posição para cima no tabuleiro. Se a posição superior 
+     * estiver ocupada por um obstáculo (pedra) e o jogador tiver pontos de 
+     * movimento suficientes, pode pular para a posição acima. Se a posição 
+     * estiver ocupada por outro jogador, tenta empurrá-lo, caso o jogador tenha 
+     * força suficiente.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @throws JogadorSemPontosDeMovimentacaoException Se o jogador não tiver 
+     *         pontos de movimento suficientes para realizar a ação.
      */
 
     public void moverCima() throws JogadorSemPontosDeMovimentacaoException {
@@ -364,9 +435,14 @@ public class Jogador extends Elemento {
     }
 
     /**
-     * Move o jogador para baixo.
+     * Move o jogador uma posição para baixo no tabuleiro. Se a posição inferior 
+     * estiver ocupada por um obstáculo (pedra) e o jogador tiver pontos de 
+     * movimento suficientes, pode pular para a posição abaixo. Se a posição 
+     * estiver ocupada por outro jogador, tenta empurrá-lo, caso o jogador tenha 
+     * força suficiente.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @throws JogadorSemPontosDeMovimentacaoException Se o jogador não tiver 
+     *         pontos de movimento suficientes para realizar a ação.
      */
 
     public void moverBaixo() throws JogadorSemPontosDeMovimentacaoException {
@@ -401,9 +477,14 @@ public class Jogador extends Elemento {
     }
 
     /**
-     * Move o jogador para a esquerda.
+     * Move o jogador uma posição para a esquerda no tabuleiro. Se a posição 
+     * esquerda estiver ocupada por um obstáculo (pedra) e o jogador tiver 
+     * pontos de movimento suficientes, pode pular para a posição à esquerda. 
+     * Se a posição estiver ocupada por outro jogador, tenta empurrá-lo, caso o 
+     * jogador tenha força suficiente.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @throws JogadorSemPontosDeMovimentacaoException Se o jogador não tiver 
+     *         pontos de movimento suficientes para realizar a ação.
      */
 
     public void moverEsquerda() throws JogadorSemPontosDeMovimentacaoException {
@@ -438,9 +519,14 @@ public class Jogador extends Elemento {
     }
 
     /**
-     * Move o jogador para a direita.
+     * Move o jogador uma posição para a direita no tabuleiro. Se a posição 
+     * direita estiver ocupada por um obstáculo (pedra) e o jogador tiver 
+     * pontos de movimento suficientes, pode pular para a posição à direita. 
+     * Se a posição estiver ocupada por outro jogador, tenta empurrá-lo, caso o 
+     * jogador tenha força suficiente.
      *
-     * @return True se a ação for bem-sucedida, false caso contrário.
+     * @throws JogadorSemPontosDeMovimentacaoException Se o jogador não tiver 
+     *         pontos de movimento suficientes para realizar a ação.
      */
 
     public void moverDireita() throws JogadorSemPontosDeMovimentacaoException {
@@ -474,7 +560,16 @@ public class Jogador extends Elemento {
         }
     }
 
-    /** Gera pontos para o jogador (a implementação ainda não existe). */
+    /**
+     * Gera uma quantidade aleatória de pontos de movimento para o jogador. 
+     * O número de pontos é calculado como a soma de dois lançamentos de 
+     * dados de seis lados (resultando em um valor entre 2 e 12). Se a 
+     * opção de trapaça for ativada, a quantidade de pontos é multiplicada 
+     * por 20.
+     *
+     * @param trapaca Indica se o jogador está utilizando uma trapaça para 
+     *                aumentar a quantidade de pontos gerados.
+     */
 
     public void gerarPontos(boolean trapaca) {
         Random gerador = new Random();
@@ -487,6 +582,12 @@ public class Jogador extends Elemento {
         Transmissor.avisoPontosAlterados(pontosMovimento, getID());
     }
 
+    /**
+     * Atualiza o cooldown de todas as árvores armazenadas no mapa 
+     * `arvoresEmCooldown`. Para cada árvore, reduz o tempo de cooldown 
+     * em 1. Se o cooldown de uma árvore chega a 0, a árvore é removida 
+     * do mapa.
+     */
     public void atualizarCooldowns() {
         for(Arvore arvore : arvoresEmCooldown.keySet()) {
             arvoresEmCooldown.put(arvore, arvoresEmCooldown.get(arvore) - 1);
@@ -497,6 +598,16 @@ public class Jogador extends Elemento {
         }
     }
 
+    /**
+     * Derruba uma quantidade especificada de frutas em espaços vazios ao redor 
+     * da posição atual do jogador. O método verifica um quadrado de 5x5 em 
+     * torno da posição (posicaoX, posicaoY) e adiciona espaços vazios à lista 
+     * `espacosVazios`. Se o espaço já contém uma fruta, ele não é adicionado 
+     * à lista.
+     * 
+     * @param quantidade A quantidade de frutas a serem derrubadas.
+     */
+    
     public void derrubarFrutas(int quantidade) {
         Random gerador = new Random();
         LinkedList<Grama> espacosVazios = new LinkedList<>();

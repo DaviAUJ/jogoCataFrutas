@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Classe que representa a visão do jogo.
+ * Gerencia a exibição do tabuleiro, rodadas, inventários dos jogadores e interações.
+ */
 public class VisaoJogo extends JPanel {
 
     public TabuleiroJogo tabuleiro;
@@ -33,6 +37,12 @@ public class VisaoJogo extends JPanel {
 
     public JButton btnPassarRodada;
 
+    /**
+     * Construtor da classe VisaoJogo.
+     * Inicializa os componentes da visão, configura estilos e listeners, e inicia a partida.
+     *
+     * @param gerenciador O gerenciador de telas que controla a navegação entre as diferentes visões.
+     */
     public VisaoJogo(GerenciadorDeTelas gerenciador) {
         int dimensao = Configuracoes.dimensao;
         Configuracoes.tipo = "real";
@@ -61,6 +71,11 @@ public class VisaoJogo extends JPanel {
         });
     }
 
+    /**
+     * Troca os inventários entre os jogadores.
+     *
+     * @param idJogador O ID do jogador cujos inventários devem ser trocados.
+     */
     public void trocarInventarios(int idJogador){
         if (idJogador == 2){
             EstiloVisaoJogo.inverterJogadores(inventario1, valoresInventario1, inventario2, valoresInventario2);
@@ -70,11 +85,19 @@ public class VisaoJogo extends JPanel {
         }
     }
 
+
+    /**
+     * Mostra a tela de vitória ao final do jogo.
+     */
     public void mostrarTelaVitoria(){
         this.add(textoFimDeJogo);
         this.setComponentZOrder(textoFimDeJogo, 0);
     }
 
+    /**
+     * Configura os listeners para os eventos do jogo.
+     */
+    
     private void configurarListerners() {
         Transmissor.adicionarEvento(new PropertyChangeListener() {
             @Override

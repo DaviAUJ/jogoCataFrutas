@@ -3,6 +3,9 @@ package utilitarios;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe responsável por validar as informações de configuração do jogo.
+ */
 public class Validador {
     private String nomeJogador1;
     private String nomeJogador2;
@@ -16,6 +19,10 @@ public class Validador {
     private int espacoMochila;
     private int qtdTotalMaracujas;
 
+    /**
+     * Construtor da classe Validador.
+     * Inicializa as listas e variáveis de controle com valores padrão.
+     */
     public Validador(){
         this.quantTipoArvores = new ArrayList<>(6);
         this.quantFrutasChao = new ArrayList<>(7);
@@ -25,6 +32,13 @@ public class Validador {
         this.espacoMochila = 0;
     }
 
+    /**
+     * Valida as informações fornecidas para a configuração do jogo.
+     *
+     * @param dados Um HashMap contendo os dados a serem validados.
+     * @return Uma string indicando o resultado da validação. Se tudo estiver correto, retorna "Validado". 
+     *         Caso contrário, retorna um código de erro e uma mensagem.
+     */
     public String validarInformacoes(HashMap<String, Object> dados){
         int passosValidados = 0;
         int totalMaracujas = (Integer) dados.get("totalMaracujas");

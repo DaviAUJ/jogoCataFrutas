@@ -4,6 +4,9 @@ import utilitarios.GerenciadorArquivo;
 
 import java.util.ArrayList;
 
+/**
+ * Esta classe contém as configurações globais do jogo.
+ */
 public abstract class Configuracoes {
     public static String nomeJogador1;
     public static String nomeJogador2;

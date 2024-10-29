@@ -222,6 +222,13 @@ public class GerenciadorArquivo {
         }
     }
 
+    /**
+     * Constrói um HashMap contendo informações válidas sobre o estado atual do jogo.
+     *
+     * @return Um HashMap com dados relevantes, como nomes dos jogadores, dimensões do terreno,
+     *         total de maracujás, espaço na mochila, chance de bichadas, quantidade de pedras,
+     *         quantidade de árvores e frutas no chão.
+     */
 
     public HashMap<String, Object> constroiHashValidavel() {
 
@@ -258,6 +265,11 @@ public class GerenciadorArquivo {
 
     }
 
+    /**
+     * Cria uma pasta na raiz do diretório atual do usuário.
+     *
+     * @param nome O nome da pasta a ser criada.
+     */
     public static void criarPastaNaRaiz(String nome) {
         try {
             File paschhhhta = new File(System.getProperty("user.dir") + File.separator + nome);
@@ -273,6 +285,11 @@ public class GerenciadorArquivo {
         }
     }
 
+    /**
+     * Deleta uma pasta na raiz do diretório atual do usuário.
+     *
+     * @param nome O nome da pasta a ser deletada.
+     */
     // eu to com medo disso aqui dar merda em algum lugar
     public static void deletarPastaNaRaiz(String nome) {
         try {
@@ -289,6 +306,12 @@ public class GerenciadorArquivo {
         }
     }
 
+    /**
+     * Resgata os arquivos de salvamento existentes na pasta "Saves".
+     *
+     * @return Uma lista de objetos GerenciadorArquivo representando os arquivos de salvamento encontrados.
+     * @throws PastaInexistenteException Se a pasta "Saves" não existir.
+     */
     public static ArrayList<GerenciadorArquivo> resgatarSaves() throws PastaInexistenteException {
         try {
             String caminhoPasta = System.getProperty("user.dir") + File.separator + "Saves" + File.separator;

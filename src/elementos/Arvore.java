@@ -11,8 +11,18 @@ import frutas.Fruta;
 public class Arvore extends ElementoEstaticoPisavel {
     private Class<? extends Fruta> tipo;
  
+    /**
+     * Construtor padrão da classe Arvore.
+     */
     public Arvore() {  }
     
+    /**
+     * Construtor da classe Arvore que define o nome, posição e tipo da árvore.
+     *
+     * @param nome O nome da árvore.
+     * @param posX A coordenada x da posição da árvore.
+     * @param posY A coordenada y da posição da árvore.
+     */
     public Arvore(String nome, int posX, int posY) {
     	this.nome = nome;
     	this.posicaoX = posX;
@@ -27,7 +37,6 @@ public class Arvore extends ElementoEstaticoPisavel {
      * @param posY A coordenada y da posição da árvore.
      * @param tipo A classe do tipo de fruta associada à árvore.
      */
-
     public Arvore(String nome, int posX, int posY, Class<? extends Fruta> tipo) {
     	this.nome = nome;
     	this.posicaoX = posX;

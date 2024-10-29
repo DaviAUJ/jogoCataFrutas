@@ -1,13 +1,12 @@
 package elementos;
 
 /**
- * Esta classe representa um elemento de pedra no terreno,
- * que é um tipo específico de ElementoEstatico.
+ * Representa um elemento de pedra no terreno, que é um tipo específico de ElementoEstatico.
  */
 
 public class Pedra extends ElementoEstatico {
 
-    /**
+	/**
      * Construtor padrão da classe Pedra.
      */
 

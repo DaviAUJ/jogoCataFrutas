@@ -12,7 +12,12 @@ import java.awt.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-
+/**
+ * Classe responsável por aplicar estilos aos componentes da interface do jogo.
+ * Essa classe fornece métodos estáticos que configuram a aparência e o layout
+ * de diferentes componentes, como barrinhas de configurações, tabuleiros e
+ * espaços de salvamento.
+ */
 public abstract class EstiloComponentes {
     private static int BARRINHA_LARGURA = 506;
     private static int BARRINHA_ALTURA = 33;
@@ -29,6 +34,13 @@ public abstract class EstiloComponentes {
     private static ImageIcon imagemLabelFrutasBichadas = new ImageIcon("./assets/imgs/carregarJogo/frutasBichadas.png");
     private static ImageIcon imagemCoverEspacoSalvamento = new ImageIcon("./assets/imgs/carregarJogo/cover.png");
 
+
+    /**
+     * Aplica o estilo a uma barrinha de configurações.
+     *
+     * @param barrinha      A barrinha a ser estilizada.
+     * @param textoBarrinha O ícone a ser exibido no texto da barrinha.
+     */
     public static void aplicarEstiloBarrinhaConfiguracoes(BarrinhaConfiguracoes barrinha, ImageIcon textoBarrinha){
         barrinha.setLayout(null);
         barrinha.setPreferredSize(new Dimension(BARRINHA_LARGURA, BARRINHA_ALTURA));
@@ -68,6 +80,12 @@ public abstract class EstiloComponentes {
 
     }
 
+    /**
+     * Aplica o estilo a uma barrinha de configurações com dois campos de valor.
+     *
+     * @param barrinha      A barrinha a ser estilizada.
+     * @param textoBarrinha O ícone a ser exibido no texto da barrinha.
+     */
     public static void aplicarEstiloBarrinhaConfiguracoes2(BarrinhaConfiguracoes barrinha, ImageIcon textoBarrinha){
         barrinha.setLayout(null);
 
@@ -115,6 +133,11 @@ public abstract class EstiloComponentes {
     }
 
 
+    /**
+     * Aplica o estilo ao tabuleiro do jogo.
+     *
+     * @param tabuleiro O tabuleiro a ser estilizado.
+     */
     public static void aplicarEstiloTabuleiro(TabuleiroJogo tabuleiro){
         tabuleiro.setSize(tabuleiro.getTamanho(), tabuleiro.getTamanho());
         tabuleiro.setLayout(new GridBagLayout());
@@ -138,6 +161,11 @@ public abstract class EstiloComponentes {
 
     }
 
+    /**
+     * Aplica o estilo a um quadradinho do tabuleiro.
+     *
+     * @param quadradinho O quadradinho a ser estilizado.
+     */
     public static void aplicarEstiloQuadradinhoTabuleiro(QuadradinhoTabuleiro quadradinho){
         quadradinho.setPreferredSize(new Dimension(quadradinho.getTamanho(), quadradinho.getTamanho()));
         quadradinho.setOpaque(false);
@@ -148,6 +176,11 @@ public abstract class EstiloComponentes {
         quadradinho.setFocusable(false);
     }
 
+    /**
+     * Aplica o estilo a um espaço de salvamento.
+     *
+     * @param espacoSalvamento O espaço de salvamento a ser estilizado.
+     */
     public static void aplicarEstiloEspacoSalvamento(EspacoSalvamento espacoSalvamento){
         int SAVE_LARGURA = imagemBordaSave.getIconWidth();
         int SAVE_ALTURA = imagemBordaSave.getIconHeight();

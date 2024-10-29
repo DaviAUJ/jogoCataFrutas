@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe que representa a visão de carregar jogos salvos.
+ * Permite ao usuário visualizar e carregar os jogos salvos disponíveis.
+ */
 public class VisaoCarregarJogo extends JPanel {
 
     private ArrayList<GerenciadorArquivo> listaDeArquivosSaves;
@@ -19,7 +23,12 @@ public class VisaoCarregarJogo extends JPanel {
     public JButton btnVoltar;
 
 
-
+    /**
+     * Construtor da classe VisaoCarregarJogo.
+     * Inicializa a visão com os arquivos de salvamento disponíveis.
+     *
+     * @param gerenciador O gerenciador de telas que controla a navegação.
+     */
 
     public VisaoCarregarJogo(GerenciadorDeTelas gerenciador) {
 
@@ -68,6 +77,11 @@ public class VisaoCarregarJogo extends JPanel {
         });
     }
 
+    /**
+     * Retorna a lista de arquivos de salvamento disponíveis.
+     *
+     * @return Um ArrayList com os arquivos de salvamento.
+     */
     public ArrayList<GerenciadorArquivo> getListaDeArquivos() {
         return this.listaDeArquivosSaves;
     }

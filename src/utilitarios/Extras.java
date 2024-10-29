@@ -72,6 +72,13 @@ public class Extras {
 		return saida;
 	}
 
+	/**
+     * Calcula o logaritmo de um número em uma base específica.
+     *
+     * @param base A base do logaritmo.
+     * @param x    O número do qual o logaritmo será calculado.
+     * @return O logaritmo de x na base especificada.
+     */
 	public static double logb(double base, double x) {
 		return Math.log(x) / Math.log(base);
 	}
